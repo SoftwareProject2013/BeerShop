@@ -6,9 +6,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BeerShop.Models
 {
+    public enum Status { pending, processing, dispached, delivered, canceled} 
+
+
     public class Order
     {
-        enum Status {pending, processing, dispached, delivered} //Any more?
+        public static readonly int pending = 1;
+        public static readonly int processing = 2;
+        public static readonly int dispached = 3;
+        public static readonly int delivered = 4;
+        public static readonly int canceled = 5;
 
         [Key]
         public int OrderID { set; get; }
@@ -20,11 +27,14 @@ namespace BeerShop.Models
         [DataType(DataType.Date)]
         public DateTime dispachedDate { get; set; }
 
-        [Required]
-        public virtual Dictionary<Item, Tuple<int, double>> items { set; get; } //Item + amountOfItems + priceOfItemInTheMomentOfTheOrder
+        [DataType(DataType.Date)]
+        public DateTime deliveredDate { get; set; }
 
         [Required]
-        public Status status { get; set; }
+        public virtual ICollection<OrderItem> orderItems { set; get; } //Item + amountOfItems + priceOfItemInTheMomentOfTheOrder
+
+        [Required]
+        public int status { get; set; }
 
         [Required]
         public virtual Customer customer { set; get; }

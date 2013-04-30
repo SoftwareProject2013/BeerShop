@@ -12,6 +12,6 @@ namespace BeerShop.Models
         public int BasketID { set; get; }
 
         [Required]
-        public virtual Dictionary<Item, int> items { set; get; } //Item + amountOfItems
+        public virtual ICollection<OrderItem> orderItems { set; get; } //Item + amountOfItems. we dont need to save the price parameter in the Basket
     }
 }

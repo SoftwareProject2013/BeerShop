@@ -1,0 +1,15 @@
+﻿@model BeerShop.Models.Basket
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Basket</legend>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.BasketID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

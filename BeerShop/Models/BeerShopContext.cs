@@ -9,11 +9,13 @@ namespace BeerShop.Models
 {
     public class BeerShopContext : DbContext
     {
-        public DbSet<Item> Items { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryItem> CategoryItems { get; set; }
-        public DbSet<Category> Categories { get; set; }       
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<User> Users { get; set; }   
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

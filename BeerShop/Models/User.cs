@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace BeerShop.Models
 {
-    public class User
+    public abstract class User
     {
         [Key]
         public int UserID { get; set; }

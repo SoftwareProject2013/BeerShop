@@ -13,5 +13,10 @@ namespace BeerShop.Models
 
         [Required]
         public string name { set; get; }
+
+        [Required]
+        public virtual Category category { set; get; }
+
+        public virtual ICollection<Item> items { set; get; }
     }
 }
