@@ -15,6 +15,6 @@ namespace BeerShop.Models
 
       public string SelectedCountry { set; get; }
       public string SelectedType { set; get; }
-
+      public Comment comment { set; get; }
     }
 }

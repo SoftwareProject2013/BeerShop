@@ -91,6 +91,8 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.PermissionLevel = 3; // TODO permission level from user
+            ViewBag.userLogged = true; // TODO check if user logged
             ItemCategoryHelper itemHelper = new ItemCategoryHelper();
             itemHelper.item = item;
             itemHelper.SelectedCountry = item.categories.FirstOrDefault(c => c.category.name.Equals("by Country")).name.ToString();
@@ -182,7 +184,7 @@ namespace BeerShop.Controllers
                 db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == countryID).items.Add(itemHelper.item);
                 db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == typeID).items.Add(itemHelper.item);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = itemHelper.item.ItemID });
             }
 
             return View(itemHelper.item);
@@ -217,6 +219,12 @@ namespace BeerShop.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        // GET: /Items/_Comments
+        public ActionResult Menu()
+        {
+            return PartialView(db.Categories.Include(x => x.categories));
         }
     }
 }

@@ -419,7 +419,16 @@
     <Content Include="Views\Baskets\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\_Comments.cshtml" />
+    <Content Include="Views\Items\_Comments.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Items\_CommentsCreate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Items\Menu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Items\_ItemsCategory.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,5 +1,5 @@
 ﻿@model BeerShop.Models.ItemCategoryHelper
-
+    
 @{
     ViewBag.Title = "Details";
 }
@@ -55,11 +55,20 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.SelectedType)
     </div>
-
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.item.ItemID }) |
+    @if(ViewBag.PermissionLevel >= 1)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id=Model.item.ItemID })           
+            @Html.ActionLink("Delete", "Delete", new { id=Model.item.ItemID })
+        }
     @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+    @{Html.RenderPartial("_Comments", Model.item.comments);}
+    @if (ViewBag.userLogged == true)
+    {
+        {Html.RenderPartial("_CommentsCreate", Model);}
+    }
+</fieldset>
+
 
 

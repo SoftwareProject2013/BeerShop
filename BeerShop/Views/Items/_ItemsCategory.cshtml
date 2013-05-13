@@ -1,0 +1,6 @@
+﻿@model IEnumerable<BeerShop.Models.CategoryItem>
+
+@foreach (var c in Model)
+{
+    @Html.DisplayFor(model => c.name)
+}

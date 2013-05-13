@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BeerShop.Models.Category>
+@{
+    ViewBag.Title = "Menu";
+}
+
+<h2>Menu</h2>
+@foreach(var c in Model)
+{
+    @Html.DisplayFor(Modelitem => c.name)
+    {Html.RenderPartial("_ItemsCategory",c.categories);}     
+}
