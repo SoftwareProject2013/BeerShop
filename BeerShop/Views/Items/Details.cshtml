@@ -1,4 +1,4 @@
-﻿@model BeerShop.Models.Item
+﻿@model BeerShop.Models.ItemCategoryHelper
 
 @{
     ViewBag.Title = "Details";
@@ -10,42 +10,56 @@
     <legend>Item</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.name)
+         @Html.DisplayNameFor(model => model.item.name)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.name)
+        @Html.DisplayFor(model => model.item.name)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.description)
+         @Html.DisplayNameFor(model => model.item.description)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.description)
+        @Html.DisplayFor(model => model.item.description)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.stockCount)
+         @Html.DisplayNameFor(model => model.item.stockCount)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.stockCount)
+        @Html.DisplayFor(model => model.item.stockCount)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Price)
+         @Html.DisplayNameFor(model => model.item.Price)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Price)
+        @Html.DisplayFor(model => model.item.Price)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.isStillOnSale)
+         @Html.DisplayNameFor(model => model.item.isStillOnSale)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.isStillOnSale)
+        @Html.DisplayFor(model => model.item.isStillOnSale)
     </div>
+        <div class="display-label">
+         @Html.DisplayNameFor(model => model.SelectedCountry)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SelectedCountry)
+    </div>
+        <div class="display-label">
+         @Html.DisplayNameFor(model => model.SelectedType)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SelectedType)
+    </div>
+
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ItemID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.item.ItemID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
 

@@ -91,7 +91,11 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
-            return View(item);
+            ItemCategoryHelper itemHelper = new ItemCategoryHelper();
+            itemHelper.item = item;
+            itemHelper.SelectedCountry = item.categories.FirstOrDefault(c => c.category.name.Equals("by Country")).name.ToString();
+            itemHelper.SelectedType = item.categories.FirstOrDefault(c => c.category.name.Equals("by Type")).name.ToString();
+            return View(itemHelper);
         }
 
         //
@@ -104,20 +108,11 @@ namespace BeerShop.Controllers
             
             var countryList = db.CategoryItems.Where(c => c.category.name.Equals("by Country"));
             SelectList SelectCategoryList = new SelectList(countryList, "CategoryItemID", "name");
-            //foreach (CategoryItem c in countryList)
-            //{
-            //    SelectCategoryList.Add(new SelectListItem { Text = c.name, Value = c.CategoryItemID.ToString() });
-            //}
 
             ViewBag.countriesList = SelectCategoryList;
 
             var typesList = db.CategoryItems.Where(c => c.category.name.Equals("by Type"));
             SelectList SelectTypeList = new SelectList(typesList, "CategoryItemID", "name");
-            //foreach (CategoryItem c in typesList)
-            //{
-            //    SelectTypeList.Add(new SelectListItem { Text = c.name, Value = c.CategoryItemID.ToString() });
-            //}
-
             ViewBag.typesList = SelectTypeList;
             return View();
         }
@@ -130,11 +125,12 @@ namespace BeerShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                itemHelper.item.isStillOnSale = true;
                 db.Items.Add(itemHelper.item);
-                int countryID = Integer.Parse(itemHelper.SelectedCountry);
-                    itemHelper.SelectedType;
-                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID.ToString().Equals(itemHelper.SelectedCountry)).items.Add(itemHelper.item);
-                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID.ToString().Equals(itemHelper.SelectedType)).items.Add(itemHelper.item);
+                int countryID = int.Parse(itemHelper.SelectedCountry);
+                int typeID = int.Parse(itemHelper.SelectedType);
+                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == countryID).items.Add(itemHelper.item);
+                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == typeID).items.Add(itemHelper.item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -152,22 +148,44 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
-            return View(item);
+            ItemCategoryHelper itemHelper = new ItemCategoryHelper();
+            itemHelper.item = item;
+            var selectedCountry = item.categories.FirstOrDefault(c => c.category.name.Equals("by Country"));
+            var selectedType = item.categories.FirstOrDefault(c => c.category.name.Equals("by Type"));
+
+            var countryList = db.CategoryItems.Where(c => c.category.name.Equals("by Country"));
+            SelectList SelectCategoryList = new SelectList(countryList, "CategoryItemID", "name",selectedCountry.CategoryItemID);
+            foreach (var i in SelectCategoryList)
+
+
+            ViewBag.countriesList = SelectCategoryList;
+
+            var typesList = db.CategoryItems.Where(c => c.category.name.Equals("by Type"));
+            SelectList SelectTypeList = new SelectList(typesList, "CategoryItemID", "name",selectedType.CategoryItemID.ToString());
+
+            ViewBag.typesList = SelectTypeList;
+
+            return View(itemHelper);
         }
 
         //
         // POST: /Items/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(Item item)
+        public ActionResult Edit(ItemCategoryHelper itemHelper)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(item).State = EntityState.Modified;
+                db.Entry(itemHelper.item).State = EntityState.Modified;
+                int countryID = int.Parse(itemHelper.SelectedCountry);
+                int typeID = int.Parse(itemHelper.SelectedType);
+                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == countryID).items.Add(itemHelper.item);
+                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == typeID).items.Add(itemHelper.item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(item);
+
+            return View(itemHelper.item);
         }
 
         //
