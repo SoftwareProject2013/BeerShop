@@ -1,31 +1,45 @@
-﻿@model IEnumerable<BeerShop.Models.Item>
+﻿@model PagedList.IPagedList<BeerShop.Models.Item>
 
 @{
     ViewBag.Title = "Index";
 }
-
+@using (Html.BeginForm())
+{
+    <p>
+    Find by name : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+    <input type="submit" value="Search" /></p>
+}
 <h2>Index</h2>
+
+<div id ="everything">
+<div id="CategoryMenu" style="float:left">
+
+<table>
+<tr> <td>@Html.ActionLink("Polish ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerCountry = "Polish", beerType=ViewBag.beerType })</td>
+<td>@Html.ActionLink("Spanish ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerCountry = "Spanish", beerType = ViewBag.beerType })</td>
+<td>@Html.ActionLink("All countries ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerType = ViewBag.beerType })</td></tr>
+
+
+<tr> <td>@Html.ActionLink("Lager ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerType = "Lager", beerCountry = ViewBag.beerCountry })</td>
+<td>@Html.ActionLink("Pilsner ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerType = "Pilsner", beerCountry = ViewBag.beerCountry })</td>
+<td>@Html.ActionLink("All types ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter,  beerCountry = ViewBag.beerCountry })</td></tr>
+
+</table>
+
+ </div>
+
+
+<div id="rest" style="float:left; padding-left:20px">
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("By name","Index", new {sortOrder=ViewBag.NameSortParm} )
+    @Html.ActionLink("By Price","Index", new {sortOrder=ViewBag.PriceSort} )
 </p>
 <table>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.stockCount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isStillOnSale)
-        </th>
+      
         <th></th>
     </tr>
 
@@ -43,15 +57,62 @@
         <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>
+        
         <td>
-            @Html.DisplayFor(modelItem => item.isStillOnSale)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ItemID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ItemID }) |
+        @Html.ActionLink("Details", "Details", new { id=item.ItemID }) 
+        @if(ViewBag.PermissionLevel >= 1)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id=item.ItemID })           
             @Html.ActionLink("Delete", "Delete", new { id=item.ItemID })
+        }
+       
+       @if(item.isStillOnSale == false)
+           
+       {
+           <p>Product unavaliable</p>
+       }
+       
+
         </td>
     </tr>
 }
 
 </table>
+
+
+
+
+
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+     
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.Raw(" ");
+        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:< Prev
+    }
+     
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+    }
+    else
+    {
+        @:Next >
+        @Html.Raw(" ")
+        @:>>
+    }
+</div>
+</div>
+
+</div>
