@@ -75,6 +75,12 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
+            if (item.item == null)
+            {
+                // probably will be never thrown, but it is neccessary to touch item.item
+                // as validation would else fails.
+                throw new Exception();
+            }
             item.amount++;
             db.SaveChanges();
 
@@ -92,6 +98,12 @@ namespace BeerShop.Controllers
                 return HttpNotFound();
             }
 
+            if (item.item == null)
+            {
+                // probably will be never thrown, but it is neccessary to touch item.item
+                // as validation would else fails.
+                throw new Exception();
+            }
             if (item.amount > 1)
             {
                 item.amount--;
