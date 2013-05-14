@@ -66,7 +66,6 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/IncrementItem?basketId=X&ordItemId=Y
-        // not working :(
         public ActionResult IncrementItem(int basketId, int ordItemId)
         {
             // find the item
@@ -88,7 +87,6 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/DecrementItem?basketId=X&ordItemId=Y
-        // not working :(
         public ActionResult DecrementItem(int basketId, int ordItemId)
         {
             // find the item
