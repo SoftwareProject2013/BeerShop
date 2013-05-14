@@ -1,4 +1,15 @@
 ﻿@model PagedList.IPagedList<BeerShop.Models.Item>
+@helper ShortDescription(string description)
+{
+    if (description.Length > 20){
+    @(description.Substring(0, 17) + " ... " ) ;
+                                  }
+    else
+    {
+        @description;
+    }
+                                 
+}
 
 @{
     ViewBag.Title = "Index";
@@ -14,12 +25,12 @@
 <div id ="everything">
 <div id="CategoryMenu" style="float:left">
 <table>
-@Html.ActionLink("Clear all", "Index", new { page = Model.PageNumber, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, clearDictionary=true })
+@Html.ActionLink("Clear all", "Index", new { page = Model.PageNumber, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, clearDictionary = true })
 @{Html.RenderAction("menu");}
 </table>
-@foreach (var i in Session["categoryFilter"] as Dictionary<string,List<string>>)
+@foreach (var i in Session["categoryFilter"] as Dictionary<string, List<string>>)
 {
-    foreach(var k in i.Value)
+    foreach (var k in i.Value)
     {
          @Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k })
     }
@@ -48,7 +59,8 @@
             @Html.ActionLink(item.name, "Details", new { id = item.ItemID }) 
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.description)
+            @ShortDescription(item.description)
+            
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.stockCount)

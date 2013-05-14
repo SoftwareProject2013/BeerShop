@@ -43,18 +43,16 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.item.isStillOnSale)
     </div>
+    @foreach(var i in Model.categoryTypeCategoryDictionary)
+    {
         <div class="display-label">
-         @Html.DisplayNameFor(model => model.SelectedCountry)
+     @Html.Label(i.Key)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.SelectedCountry)
+        @Html.Label(i.Value)
     </div>
-        <div class="display-label">
-         @Html.DisplayNameFor(model => model.SelectedType)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.SelectedType)
-    </div>
+        }
+       
     @if(ViewBag.PermissionLevel >= 1)
         {
             @Html.ActionLink("Edit", "Edit", new { id=Model.item.ItemID })           

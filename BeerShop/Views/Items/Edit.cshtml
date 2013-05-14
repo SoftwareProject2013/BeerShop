@@ -53,17 +53,14 @@
             @Html.EditorFor(model => model.item.isStillOnSale)
             @Html.ValidationMessageFor(model => model.item.isStillOnSale)
         </div>
-        <div class="editor-label">
-        Select Country        
+         @foreach (var i in ViewBag.categoriesDictionary as Dictionary<string, SelectList>)
+        {
+        <div class="editor-field">
+            @Html.Label(i.Key)
+            @Html.DropDownListFor(model => model.categoryTypeCategoryDictionary[i.Key], i.Value as SelectList)
+         
         </div>
-        <div class="editor-field"> 
-        @Html.DropDownListFor(model => model.SelectedCountry, ViewBag.countriesList as SelectList)   </div>
-                <div class="editor-label">
-        Select Type        
-        </div>    
-         <div class="editor-field"> 
-        @Html.DropDownListFor(model => model.SelectedType, ViewBag.typesList as SelectList)     
-        </div>
+        }
         <p>
             <input type="submit" value="Save" />
         </p>

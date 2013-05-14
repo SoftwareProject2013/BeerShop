@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using BeerShop.Models;
 using PagedList;
-using BeerShop.Models;
 
 namespace BeerShop.Controllers
 {
@@ -23,9 +22,7 @@ namespace BeerShop.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price" ;
-            //ViewBag.beerCountry = beerCountry;
-            //ViewBag.beerType = beerType;
-
+        
             if (Request.HttpMethod == "GET")
             {
                 searchString = currentFilter;
@@ -92,8 +89,7 @@ namespace BeerShop.Controllers
                     }
                     SQLQuerry = SQLQuerry.Substring(0,SQLQuerry.Length - 10) + ";";
                     var query = db.Items.SqlQuery(SQLQuerry).ToList();
-                    items = query.AsQueryable();
-                
+                    items = query.AsQueryable();        
             }
             
 
@@ -126,9 +122,6 @@ namespace BeerShop.Controllers
             ViewBag.PermissionLevel = Worker.masterPermission;
 
 
-            var categories = from c in db.Categories select c;
-
-            
             return View(items.ToPagedList(pagenumber,PageSize));
 
         }
@@ -147,8 +140,20 @@ namespace BeerShop.Controllers
             ViewBag.userLogged = true; // TODO check if user logged
             ItemCategoryHelper itemHelper = new ItemCategoryHelper();
             itemHelper.item = item;
-            itemHelper.SelectedCountry = item.categories.FirstOrDefault(c => c.category.name.Equals("by Country")).name.ToString();
-            itemHelper.SelectedType = item.categories.FirstOrDefault(c => c.category.name.Equals("by Type")).name.ToString();
+            foreach (var categoryType in db.Categories)
+            {
+                string itemCategory = "";
+                try
+                {
+                    itemCategory = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).name.ToString();
+                }
+                catch (Exception ex)
+                {
+                    itemCategory = "no selected";
+                }
+                itemHelper.categoryTypeCategoryDictionary.Add(categoryType.name, itemCategory);
+            }
+           
             return View(itemHelper);
         }
 
@@ -157,17 +162,14 @@ namespace BeerShop.Controllers
 
         public ActionResult Create()
         {
+            Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>(); 
+            foreach (var categoryType in db.Categories)
+            {
+                SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name");
+                categoriesDictionary.Add(categoryType.name,SelectCategoryList);
+            }
 
-           // Where(c => c.category.name.Equals("by Country")).
-            
-            var countryList = db.CategoryItems.Where(c => c.category.name.Equals("by Country"));
-            SelectList SelectCategoryList = new SelectList(countryList, "CategoryItemID", "name");
-
-            ViewBag.countriesList = SelectCategoryList;
-
-            var typesList = db.CategoryItems.Where(c => c.category.name.Equals("by Type"));
-            SelectList SelectTypeList = new SelectList(typesList, "CategoryItemID", "name");
-            ViewBag.typesList = SelectTypeList;
+            ViewBag.typesList = categoriesDictionary;
             return View();
         }
 
@@ -181,10 +183,14 @@ namespace BeerShop.Controllers
             {
                 itemHelper.item.isStillOnSale = true;
                 db.Items.Add(itemHelper.item);
-                int countryID = int.Parse(itemHelper.SelectedCountry);
-                int typeID = int.Parse(itemHelper.SelectedType);
-                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == countryID).items.Add(itemHelper.item);
-                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == typeID).items.Add(itemHelper.item);
+                foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                {
+
+                    if (selectedCategory.Value.Equals("-1"))
+                        break;
+                    int selectedCategoryID =  int.Parse(selectedCategory.Value);
+                    db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -204,20 +210,27 @@ namespace BeerShop.Controllers
             }
             ItemCategoryHelper itemHelper = new ItemCategoryHelper();
             itemHelper.item = item;
-            var selectedCountry = item.categories.FirstOrDefault(c => c.category.name.Equals("by Country"));
-            var selectedType = item.categories.FirstOrDefault(c => c.category.name.Equals("by Type"));
+            Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>();
+            foreach (var categoryType in db.Categories)
+            {
+                string selectedValue = "";
+                try
+                {
+                    selectedValue = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).name;
+                }
+                catch (Exception e)
+                {
+                    selectedValue = "no selected";
+                }
+                var catItemNoSelected = new CategoryItem();
+                catItemNoSelected.CategoryItemID = -1;
+                catItemNoSelected.name = "no selected";
+                categoryType.categories.Add(catItemNoSelected);
+                SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name",selectedValue );
+                categoriesDictionary.Add(categoryType.name, SelectCategoryList);
+            }
 
-            var countryList = db.CategoryItems.Where(c => c.category.name.Equals("by Country"));
-            SelectList SelectCategoryList = new SelectList(countryList, "CategoryItemID", "name",selectedCountry.CategoryItemID);
-            foreach (var i in SelectCategoryList)
-
-
-            ViewBag.countriesList = SelectCategoryList;
-
-            var typesList = db.CategoryItems.Where(c => c.category.name.Equals("by Type"));
-            SelectList SelectTypeList = new SelectList(typesList, "CategoryItemID", "name",selectedType.CategoryItemID.ToString());
-
-            ViewBag.typesList = SelectTypeList;
+            ViewBag.categoriesDictionary = categoriesDictionary;
 
             return View(itemHelper);
         }
@@ -231,10 +244,19 @@ namespace BeerShop.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(itemHelper.item).State = EntityState.Modified;
-                int countryID = int.Parse(itemHelper.SelectedCountry);
-                int typeID = int.Parse(itemHelper.SelectedType);
-                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == countryID).items.Add(itemHelper.item);
-                db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == typeID).items.Add(itemHelper.item);
+                
+                var itemTMP = db.Items.Find(itemHelper.item.ItemID);
+                db.Entry(itemTMP).Collection(i => i.categories).Load();
+
+                itemTMP.categories.ToList().ForEach(cat => itemTMP.categories.Remove(cat));             
+
+                foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                {
+                    if(selectedCategory.Value.Equals("-1"))
+                        continue;
+                    int selectedCategoryID = int.Parse(selectedCategory.Value);
+                    db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = itemHelper.item.ItemID });
             }
@@ -262,6 +284,14 @@ namespace BeerShop.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Item item = db.Items.Find(id);
+            db.Entry(item).Collection(i => i.categories).Load();
+
+            item.categories.ToList().ForEach(cat => item.categories.Remove(cat));   
+            var comments = db.Comments;
+            foreach(var c in item.comments)
+            {
+                comments.Remove(c);
+            }
             db.Items.Remove(item);
             db.SaveChanges();
             return RedirectToAction("Index");
