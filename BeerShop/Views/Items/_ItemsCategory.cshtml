@@ -2,5 +2,8 @@
 
 @foreach (var c in Model)
 {
-    @Html.DisplayFor(model => c.name)
+    <tr>
+    @Html.ActionLink(c.name, "Index", new { page = 1, categoryType = c.category.name, category = c.name })
+    </tr>
+    
 }

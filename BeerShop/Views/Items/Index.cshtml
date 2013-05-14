@@ -13,21 +13,17 @@
 
 <div id ="everything">
 <div id="CategoryMenu" style="float:left">
-
-@{Html.RenderAction("menu");}
-
 <table>
-<tr> <td>@Html.ActionLink("Polish ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerCountry = "Polish", beerType=ViewBag.beerType })</td>
-<td>@Html.ActionLink("Spanish ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerCountry = "Spanish", beerType = ViewBag.beerType })</td>
-<td>@Html.ActionLink("All countries ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerType = ViewBag.beerType })</td></tr>
-
-
-<tr> <td>@Html.ActionLink("Lager ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerType = "Lager", beerCountry = ViewBag.beerCountry })</td>
-<td>@Html.ActionLink("Pilsner ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, beerType = "Pilsner", beerCountry = ViewBag.beerCountry })</td>
-<td>@Html.ActionLink("All types ", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter,  beerCountry = ViewBag.beerCountry })</td></tr>
-
+@Html.ActionLink("Clear all", "Index", new { page = Model.PageNumber, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, clearDictionary=true })
+@{Html.RenderAction("menu");}
 </table>
-
+@foreach (var i in Session["categoryFilter"] as Dictionary<string,List<string>>)
+{
+    foreach(var k in i.Value)
+    {
+         @Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k })
+    }
+}
  </div>
 
 
@@ -36,8 +32,8 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("By name","Index", new {sortOrder=ViewBag.NameSortParm} )
-    @Html.ActionLink("By Price","Index", new {sortOrder=ViewBag.PriceSort} )
+    @Html.ActionLink("By name", "Index", new { sortOrder = ViewBag.NameSortParm })
+    @Html.ActionLink("By Price", "Index", new { sortOrder = ViewBag.PriceSort })
 </p>
 <table>
     <tr>
@@ -45,10 +41,11 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
-            @Html.ActionLink(item.name, "Details", new { id=item.ItemID }) 
+            @Html.ActionLink(item.name, "Details", new { id = item.ItemID }) 
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.description)
@@ -64,8 +61,7 @@
  
         
        
-       @if(item.isStillOnSale == false)
-           
+       @if (item.isStillOnSale == false)
        {
            <p>Product unavaliable</p>
        }
@@ -87,9 +83,9 @@
      
     @if (Model.HasPreviousPage)
     {
-        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
         @Html.Raw(" ");
-        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
     }
     else
     {
@@ -100,9 +96,9 @@
      
     @if (Model.HasNextPage)
     {
-        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
         @Html.Raw(" ");
-        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter  })
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
     }
     else
     {

@@ -18,13 +18,13 @@ namespace BeerShop.Controllers
         //
         // GET: /Items/
 
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page,string beerCountry,string beerType )
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page,string categoryType,string category ,bool? clearDictionary )
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price" ;
-            ViewBag.beerCountry = beerCountry;
-            ViewBag.beerType = beerType;
+            //ViewBag.beerCountry = beerCountry;
+            //ViewBag.beerType = beerType;
 
             if (Request.HttpMethod == "GET")
             {
@@ -35,15 +35,67 @@ namespace BeerShop.Controllers
                 page = 1;
             }
             ViewBag.CurrentFilter = searchString;
-            var items = from i in db.Items select i;
-            if (beerCountry != null)
+            var items = db.Items.ToList().AsQueryable();
+
+
+
+            Dictionary<string, List<string>> categoryDictionary;
+            categoryDictionary = Session["categoryFilter"] as Dictionary<string, List<string>>;
+            if (categoryDictionary == null || (clearDictionary?? false) == true)
             {
-                items = (items.Where(i => i.categories.Contains(db.CategoryItems.FirstOrDefault(c => c.name == beerCountry))));
+                categoryDictionary = new Dictionary<string, List<string>>();
             }
-            if (beerType != null)
+
+                if (categoryType != null)
+                {
+                    if (!categoryDictionary.ContainsKey(categoryType))
+                    {
+                        List<string> categoryList = new List<string>();
+                        categoryList.Add(category);
+                        categoryDictionary.Add(categoryType, categoryList);
+                    }
+                    else
+                    {
+                        if (!categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Contains(category))
+                        {
+                            categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Add(category);
+                        }
+                        else
+                        {
+                            categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Remove(category);
+                            if (categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Count == 0)
+                            {
+                                categoryDictionary.Remove(categoryType);
+                            }
+                        }
+                    }
+                    Session["categoryFilter"] = categoryDictionary;
+                }
+            Session["categoryFilter"] = categoryDictionary;
+            
+            
+            if (categoryDictionary.Count > 0)
             {
-                items = (items.Where(i => i.categories.Contains(db.CategoryItems.FirstOrDefault(c => c.name == beerType))));
+                String SQLQuerry = "";
+                
+                    foreach (var categoryList in categoryDictionary.Values)
+                    {
+                        SQLQuerry += "(Select * FROM dbo.item ";
+
+                        SQLQuerry += "Where itemID  in (Select Item_ItemID from dbo.CategoryItemItem where CategoryItem_CategoryItemID in (Select CategoryItemID from dbo.CategoryItem Where name in (";
+                        for (int i = 0; i < categoryList.Count - 1; i++)
+                        {
+                            SQLQuerry += "'" + categoryList[i] + "',";
+                        }
+                        SQLQuerry += "'" + categoryList[categoryList.Count - 1] + "')))) Intersect ";
+
+                    }
+                    SQLQuerry = SQLQuerry.Substring(0,SQLQuerry.Length - 10) + ";";
+                    var query = db.Items.SqlQuery(SQLQuerry).ToList();
+                    items = query.AsQueryable();
+                
             }
+            
 
            
             if (!String.IsNullOrEmpty(searchString))
