@@ -7,9 +7,66 @@
 <h2>Details</h2>
 
 <fieldset>
-    <legend>Basket</legend>
+    <legend>Basket @Model.BasketID</legend>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.BasketID }) |
     @Html.ActionLink("Back to List", "Index")
+</p>
+
+<p>
+Note: Incrementing and decrementing currently do not work :(
+</p>
+<table>
+    <tr>
+        <td>
+            Item
+        </td>
+        <td>
+             Stock count
+        </td>
+        <td>
+             Amount in basket
+        </td>
+        <td>
+            Price per one item
+        </td>
+        <td>
+            Price sum
+        </td>
+
+        <td>
+        </td>
+        
+    </tr>
+
+@foreach (var orderItem in Model.orderItems) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => orderItem.item.name)
+        </td>
+        <td>
+             @Html.DisplayFor(modelItem => orderItem.item.stockCount)
+        </td>
+        <td>
+             @Html.DisplayFor(modelItem => orderItem.amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => orderItem.item.Price)
+        </td>
+        <td>
+            @(orderItem.sum(true))
+        </td>
+        <td>
+            @Html.ActionLink("-1", "DecrementItem", new { basketId=Model.BasketID , ordItemId=orderItem.OrderItemID })
+            @Html.ActionLink("+1", "IncrementItem", new { basketId=Model.BasketID , ordItemId=orderItem.OrderItemID })
+            @Html.ActionLink("Remove", "RemoveItem", new { basketId=Model.BasketID , ordItemId=orderItem.OrderItemID })
+        </td>
+        
+    </tr>
+}
+
+</table>
+<p>
+Overal sum: @(Model.sum())
 </p>
