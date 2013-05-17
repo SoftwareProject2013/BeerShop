@@ -15,7 +15,7 @@ namespace BeerShop.Models
         [Required]
         public string name { set; get; }
 
-        // TODO add image field
+        public string imageURL { set; get; }
 
         [DataType(DataType.Text)]
         public string description { set; get; }
