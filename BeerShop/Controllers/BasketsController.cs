@@ -13,6 +13,7 @@ namespace BeerShop.Controllers
     {
         private BeerShopContext db = new BeerShopContext();
 
+
         // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
         public ActionResult Add(int basketId, int itemId, int amount = 1)
         {
@@ -233,5 +234,11 @@ namespace BeerShop.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
+        public ActionResult DetailsWidget()
+        {
+            return PartialView();
+        }
     }
+
 }
