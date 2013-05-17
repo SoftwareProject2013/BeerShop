@@ -1,0 +1,29 @@
+﻿@model BeerShop.Models.Comment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Comment</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.content)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.content)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.date)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.CommentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

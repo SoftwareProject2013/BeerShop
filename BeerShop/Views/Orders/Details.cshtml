@@ -1,0 +1,36 @@
+﻿@model BeerShop.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Order</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.createdDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.createdDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dispachedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dispachedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.deliveredDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.deliveredDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.OrderID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
