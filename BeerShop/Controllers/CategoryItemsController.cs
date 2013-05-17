@@ -41,9 +41,9 @@ namespace BeerShop.Controllers
         public ActionResult Create()
         {
             //Database.SetInitializer<BeerShopContext>(null);
-            var categoryList =db.Categories.ToList() ;
+            var categoryList = (from q in db.Categories select new { C= q.CategoryID , n = q.name }).ToList() ;
             
-            SelectList SelectCategoryList = new SelectList<SelectListItem>();
+            SelectList SelectCategoryList = new SelectList( categoryList, "C", "n");
 
             ViewBag.categoriesList = SelectCategoryList;
             return View();
