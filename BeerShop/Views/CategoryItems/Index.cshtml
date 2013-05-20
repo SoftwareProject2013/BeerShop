@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BeerShop.Models.CategoryItem>
+﻿@model IEnumerable<BeerShop.Models.Category>
 
 @{
     ViewBag.Title = "Index";
@@ -10,24 +10,25 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
+@foreach (var category in Model) {
+    <tr><td>
+    @Html.DisplayName(category.name)
+    </td>
+    </tr>
+    foreach (var categoryItem in category.categories)
+    {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.name)
+            @Html.DisplayFor(modelItem => categoryItem.name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CategoryItemID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CategoryItemID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CategoryItemID })
+            @Html.ActionLink("Edit", "Edit", new { id = categoryItem.CategoryItemID }) |
+            @Html.ActionLink("Details", "Details", new { id = categoryItem.CategoryItemID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = categoryItem.CategoryItemID })
         </td>
     </tr>
+    }
 }
 
 </table>

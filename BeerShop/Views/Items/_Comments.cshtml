@@ -9,21 +9,13 @@
 <table>
 @foreach (var item in Model)
 {
-    
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.author.firstName)
-        </td>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date)
-        </td>
-        
-    </tr>
-    
+    if (item.author == Session["User"])
+    {
+       {Html.RenderPartial("_CommentEdit", item); }
+    }else
+    {
+        { Html.RenderPartial("_CommentDisplay", item); }
+    }
 
          
 }

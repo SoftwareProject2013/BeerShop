@@ -6,14 +6,17 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "Comments"))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>Comment</legend>
 
         @Html.HiddenFor(model => model.CommentID)
+        @Html.HiddenFor(model => model.author)
 
+        <div>
         <div class="editor-label">
             @Html.LabelFor(model => model.content)
         </div>
@@ -22,9 +25,19 @@
             @Html.ValidationMessageFor(model => model.content)
         </div>
 
-
-            <input type="submit" value="Save" />
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.date)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.date)
+            @Html.ValidationMessageFor(model => model.date)
+        </div>
+        </div>
+        <div>
+        <p>
+            <input type="submit" value="Change" />
+        </p>
+        </div>
     </fieldset>
 }
 

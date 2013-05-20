@@ -171,6 +171,7 @@
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Models\ModelViewCategoryItem.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -429,6 +430,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Items\_ItemsCategory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Items\_CommentEdit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Items\_CommentDisplay.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

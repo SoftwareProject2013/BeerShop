@@ -18,7 +18,7 @@ namespace BeerShop.Controllers
 
         public ActionResult Index()
         {
-            return View(db.CategoryItems.ToList());
+            return View(db.Categories.ToList());
         }
 
         //
@@ -39,6 +39,9 @@ namespace BeerShop.Controllers
 
         public ActionResult Create()
         {
+            var categoriesList = db.Categories;
+            SelectList SelecteCategoryItemList = new SelectList(categoriesList, "CategoryId", "name");
+            ViewBag.selectCategoryItemList = SelecteCategoryItemList;
             return View();
         }
 
@@ -46,16 +49,21 @@ namespace BeerShop.Controllers
         // POST: /CategoryItems/Create
 
         [HttpPost]
-        public ActionResult Create(CategoryItem categoryitem)
+        public ActionResult Create(ModelViewCategoryItem MVcategoryItem)
         {
-            if (ModelState.IsValid)
+            int categoryID = int.Parse(MVcategoryItem.selectedCategoryItem);
+            Category category = db.Categories.FirstOrDefault(c => c.CategoryID == categoryID);
+            MVcategoryItem.categoryItem.category = category;
+  
+            if (category != null && MVcategoryItem.categoryItem != null)
             {
-                db.CategoryItems.Add(categoryitem);
+                db.CategoryItems.Add(MVcategoryItem.categoryItem);
+                category.categories.Add(MVcategoryItem.categoryItem);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(categoryitem);
+            return View(MVcategoryItem);
         }
 
         //
@@ -63,27 +71,40 @@ namespace BeerShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+
             CategoryItem categoryitem = db.CategoryItems.Find(id);
             if (categoryitem == null)
             {
                 return HttpNotFound();
             }
-            return View(categoryitem);
+            
+            ModelViewCategoryItem MVCategoryItem = new ModelViewCategoryItem();
+            MVCategoryItem.categoryItem = categoryitem;
+            var categoriesList = db.Categories.ToList();
+            SelectList SelecteCategoryItemList = new SelectList(categoriesList, "CategoryId", "name", categoryitem.category.CategoryID.ToString());
+            ViewBag.selectCategoryItemList = SelecteCategoryItemList;
+            return View(MVCategoryItem);
         }
 
         //
         // POST: /CategoryItems/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(CategoryItem categoryitem)
+        public ActionResult Edit(ModelViewCategoryItem MVcategoryItem)
         {
-            if (ModelState.IsValid)
+            int categoryID = int.Parse(MVcategoryItem.selectedCategoryItem);
+            Category category = db.Categories.FirstOrDefault(c => c.CategoryID == categoryID);
+            MVcategoryItem.categoryItem.category = category;
+
+            if (category != null && MVcategoryItem.categoryItem != null)
             {
-                db.Entry(categoryitem).State = EntityState.Modified;
+                db.CategoryItems.Add(MVcategoryItem.categoryItem);
+                category.categories.Add(MVcategoryItem.categoryItem);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(categoryitem);
+
+            return View(MVcategoryItem);
         }
 
         //

@@ -13,27 +13,7 @@ namespace BeerShop.Controllers
     {
         private BeerShopContext db = new BeerShopContext();
 
-        //
-        // GET: /Comments/
-
-        public ActionResult Index()
-        {
-            return View(db.Comments.ToList());
-        }
-
-        //
-        // GET: /Comments/Details/5
-
-        public ActionResult Details(int id = 0)
-        {
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(comment);
-        }
-
+        
         //
         // GET: /Comments/Create
 
@@ -63,32 +43,22 @@ namespace BeerShop.Controllers
             return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
         }
 
-        //
-        // GET: /Comments/Edit/5
-
-        public ActionResult Edit(int id = 0)
-        {
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(comment);
-        }
-
+        
         //
         // POST: /Comments/Edit/5
 
         [HttpPost]
         public ActionResult Edit(Comment comment)
         {
-            if (ModelState.IsValid)
+            comment.date = DateTime.UtcNow;
+            comment.item = db.Items.Where(i => i.comments.FirstOrDefault(c => c.CommentID == comment.CommentID) != null).ToList()[0];
+            if (comment.content.Length > 0 /* && comment.author != null*/ && comment.item != null)
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
             }
-            return View(comment);
+            return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
         }
 
         //

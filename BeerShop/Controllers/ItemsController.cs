@@ -205,7 +205,7 @@ namespace BeerShop.Controllers
 
         private static string GetItemPicture(String name)
         {
-            string url = "https://www.google.com/search?hl=pl&site=imghp&tbm=isch&source=hp&biw=1366&bih=614&q=" + name + "&gs_l=img.3..0j0i24l4.3057.4575.0.4609.10.6.0.4.4.0.174.760.0j6.6.0...0.0...1ac.1.12.img.R03isTqrCTk";
+            string url = "https://www.google.com/search?hl=pl&site=imghp&tbm=isch&source=hp&biw=1366&bih=614&q="+ "beer" + name + "&gs_l=img.3..0j0i24l4.3057.4575.0.4609.10.6.0.4.4.0.174.760.0j6.6.0...0.0...1ac.1.12.img.R03isTqrCTk";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             string imgUrl = "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg";
