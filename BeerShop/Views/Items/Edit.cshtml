@@ -1,4 +1,4 @@
-﻿@model BeerShop.Models.Item
+﻿@model BeerShop.Models.ItemCategoryHelper
 
 @{
     ViewBag.Title = "Edit";
@@ -12,48 +12,55 @@
     <fieldset>
         <legend>Item</legend>
 
-        @Html.HiddenFor(model => model.ItemID)
+        @Html.HiddenFor(model => model.item.ItemID)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.name)
+            @Html.LabelFor(model => model.item.name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.name)
-            @Html.ValidationMessageFor(model => model.name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.description)
-            @Html.ValidationMessageFor(model => model.description)
+            @Html.EditorFor(model => model.item.name)
+            @Html.ValidationMessageFor(model => model.item.name)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.stockCount)
+            @Html.LabelFor(model => model.item.description)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.stockCount)
-            @Html.ValidationMessageFor(model => model.stockCount)
+            @Html.EditorFor(model => model.item.description)
+            @Html.ValidationMessageFor(model => model.item.description)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Price)
+            @Html.LabelFor(model => model.item.stockCount)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Price)
-            @Html.ValidationMessageFor(model => model.Price)
+            @Html.EditorFor(model => model.item.stockCount)
+            @Html.ValidationMessageFor(model => model.item.stockCount)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.isStillOnSale)
+            @Html.LabelFor(model => model.item.Price)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.isStillOnSale)
-            @Html.ValidationMessageFor(model => model.isStillOnSale)
+            @Html.EditorFor(model => model.item.Price)
+            @Html.ValidationMessageFor(model => model.item.Price)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.item.isStillOnSale)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.item.isStillOnSale)
+            @Html.ValidationMessageFor(model => model.item.isStillOnSale)
+        </div>
+         @foreach (var i in ViewBag.categoriesDictionary as Dictionary<string, SelectList>)
+        {
+        <div class="editor-field">
+            @Html.Label(i.Key)
+            @Html.DropDownListFor(model => model.categoryTypeCategoryDictionary[i.Key], i.Value as SelectList)
+         
+        </div>
+        }
         <p>
             <input type="submit" value="Save" />
         </p>

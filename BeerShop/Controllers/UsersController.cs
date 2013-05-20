@@ -124,5 +124,48 @@ namespace BeerShop.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
+        //
+        // GET: /Users/EditOrder/5
+
+        public ActionResult EditOrder(int id = 0)
+        {
+            Customer user = (Customer)db.Users.Find(id);
+            return View(user);
+        }
+
+        //
+        // POST: /Users/EditOrder/5
+
+        [HttpPost]
+        public ActionResult EditOrder(Customer user)
+        {
+
+            user.basket = db.Baskets.Find(user.basket.BasketID);
+            var query = from o in db.Orders
+                        where o.customer.UserID == user.UserID
+                        select o;
+
+            foreach (var item in query)
+            {
+                user.orders.Add(item);
+            }
+            if (!ModelState.IsValid)
+            {
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
+                var query2 = from o in db.Orders
+                             where o.customer.UserID == user.UserID
+                             select o;
+                return RedirectToAction("DetailsOrderItems", "Orders", new { id = query2.OrderByDescending(item => item.OrderID).First().OrderID });
+            }
+            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
+                                                           .Select(v => v.ErrorMessage + " " + v.Exception));
+            return View(user);
+        }
+
     }
+
+
 }

@@ -13,6 +13,124 @@ namespace BeerShop.Controllers
     {
         private BeerShopContext db = new BeerShopContext();
 
+
+        // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
+        public ActionResult Add(int basketId, int itemId, int amount = 1)
+        {
+            // find basket
+            Basket basket = db.Baskets.Find(basketId);
+            if (basket == null)
+            {
+                return HttpNotFound();
+            }
+            // find item
+            Item item = db.Items.Find(itemId);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            // create orderItem
+            OrderItem oItem = new OrderItem(item, amount);
+            
+            // add to basket and save
+            basket.orderItems.Add(oItem);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = basketId });
+            //return View(basket);
+        }
+
+        // GET: /Baskets/RemoveItem?basketId=X&ordItemId=Y
+        public ActionResult RemoveItem(int basketId, int ordItemId)
+        {
+            // find the basket
+            Basket basket = db.Baskets.Find(basketId);
+            if (basket == null)
+            {
+                return HttpNotFound();
+            }
+            // find the item in the basket
+            OrderItem item = db.OrderItems.Find(ordItemId);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            if (!basket.orderItems.Contains(item))
+            {
+                return HttpNotFound();
+            }
+            basket.orderItems.Remove(item);
+            db.OrderItems.Remove(item);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = basketId });
+        }
+
+        // GET: /Baskets/IncrementItem?basketId=X&ordItemId=Y
+        public ActionResult IncrementItem(int basketId, int ordItemId)
+        {
+            // find the item
+            OrderItem item = GetOrderItem(basketId, ordItemId);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            if (item.item == null)
+            {
+                // probably will be never thrown, but it is neccessary to touch item.item
+                // as validation would else fails.
+                throw new Exception();
+            }
+            item.amount++;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = basketId });
+        }
+
+        // GET: /Baskets/DecrementItem?basketId=X&ordItemId=Y
+        public ActionResult DecrementItem(int basketId, int ordItemId)
+        {
+            // find the item
+            OrderItem item = GetOrderItem(basketId,ordItemId);
+            if ( item == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (item.item == null)
+            {
+                // probably will be never thrown, but it is neccessary to touch item.item
+                // as validation would else fails.
+                throw new Exception();
+            }
+            if (item.amount > 1)
+            {
+                item.amount--;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Details", new { id = basketId });
+        }
+
+        // find the order item or return null if item does not exists or is not in the basket
+        private OrderItem GetOrderItem(int basketId, int ordItemId){
+            Basket basket = db.Baskets.Find(basketId);
+            if (basket == null)
+            {
+                return null;
+            }
+            // find the item in basket
+            OrderItem item = db.OrderItems.Find(ordItemId);
+            if (item == null)
+            {
+                return null;
+            }
+            if (!basket.orderItems.Contains(item))
+            {
+                return null;
+            }
+            return item;
+        }
         //
         // GET: /Baskets/
 
@@ -116,5 +234,11 @@ namespace BeerShop.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
+        public ActionResult DetailsWidget()
+        {
+            return PartialView();
+        }
     }
+
 }

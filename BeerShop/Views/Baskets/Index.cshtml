@@ -11,11 +11,19 @@
 </p>
 <table>
     <tr>
+        <th>Id</th>
+        <th>Sum price</th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BasketID)
+        </td>
+        <td>
+            @(item.sum())
+        </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.BasketID }) |
             @Html.ActionLink("Details", "Details", new { id=item.BasketID }) |
@@ -24,4 +32,6 @@
     </tr>
 }
 
+
 </table>
+@Html.ActionLink("Add goods to basket example link", "Add", new { basketId=1, itemId=1,amount=2 })

@@ -1,53 +1,110 @@
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\BeerShop.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\BeerShop.pdb
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\Antlr3.Runtime.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.AspNet.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.Core.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.Consumer.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.RelyingParty.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\EntityFramework.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\Microsoft.Web.WebPages.OAuth.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\Newtonsoft.Json.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Net.Http.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Net.Http.Formatting.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Net.Http.WebRequest.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Helpers.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Http.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Http.WebHost.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Mvc.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Optimization.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Razor.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.WebPages.Deployment.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.WebPages.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.WebPages.Razor.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\WebGrease.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\WebMatrix.Data.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\WebMatrix.WebData.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\EntityFramework.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\Newtonsoft.Json.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Net.Http.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Net.Http.Formatting.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Net.Http.WebRequest.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Helpers.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Http.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Http.WebHost.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Mvc.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.Razor.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.WebPages.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.WebPages.Deployment.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\System.Web.WebPages.Razor.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\WebMatrix.Data.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\Microsoft.Web.WebPages.OAuth.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\WebMatrix.WebData.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.AspNet.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.Core.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.Consumer.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\obj\Debug\BeerShop.dll
-C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\BeerShop\obj\Debug\BeerShop.pdb
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\BeerShop.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\BeerShop.pdb
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\Antlr3.Runtime.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.AspNet.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.Core.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OAuth.Consumer.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OAuth.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OpenId.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OpenId.RelyingParty.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\EntityFramework.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\Microsoft.Web.WebPages.OAuth.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\Newtonsoft.Json.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\PagedList.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Net.Http.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Net.Http.Formatting.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Net.Http.WebRequest.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Helpers.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Http.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Http.WebHost.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Mvc.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Optimization.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Razor.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.WebPages.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.WebPages.Razor.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\WebGrease.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\WebMatrix.Data.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\WebMatrix.WebData.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\PagedList.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\EntityFramework.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\Newtonsoft.Json.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Net.Http.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Net.Http.Formatting.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Net.Http.WebRequest.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Helpers.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Http.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Http.WebHost.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Mvc.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.Razor.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.WebPages.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\System.Web.WebPages.Razor.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\WebMatrix.Data.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\Microsoft.Web.WebPages.OAuth.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\WebMatrix.WebData.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.AspNet.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.Core.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OAuth.Consumer.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OAuth.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OpenId.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\obj\Debug\BeerShop.dll
+C:\Users\Javier\Git\PSE 2\PSE2WEBGROUP\BeerShop\obj\Debug\BeerShop.pdb
+E:\Beeershop\BeerShop\BeerShop\bin\BeerShop.dll
+E:\Beeershop\BeerShop\BeerShop\bin\BeerShop.pdb
+E:\Beeershop\BeerShop\BeerShop\bin\Antlr3.Runtime.dll
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.AspNet.dll
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.Core.dll
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.Consumer.dll
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.dll
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.dll
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.RelyingParty.dll
+E:\Beeershop\BeerShop\BeerShop\bin\EntityFramework.dll
+E:\Beeershop\BeerShop\BeerShop\bin\Microsoft.Web.Infrastructure.dll
+E:\Beeershop\BeerShop\BeerShop\bin\Microsoft.Web.WebPages.OAuth.dll
+E:\Beeershop\BeerShop\BeerShop\bin\Newtonsoft.Json.dll
+E:\Beeershop\BeerShop\BeerShop\bin\PagedList.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Net.Http.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Net.Http.Formatting.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Net.Http.WebRequest.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Helpers.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Http.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Http.WebHost.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Mvc.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Optimization.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Razor.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.WebPages.Deployment.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.WebPages.dll
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.WebPages.Razor.dll
+E:\Beeershop\BeerShop\BeerShop\bin\WebGrease.dll
+E:\Beeershop\BeerShop\BeerShop\bin\WebMatrix.Data.dll
+E:\Beeershop\BeerShop\BeerShop\bin\WebMatrix.WebData.dll
+E:\Beeershop\BeerShop\BeerShop\bin\PagedList.xml
+E:\Beeershop\BeerShop\BeerShop\bin\EntityFramework.xml
+E:\Beeershop\BeerShop\BeerShop\bin\Newtonsoft.Json.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Net.Http.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Net.Http.Formatting.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Net.Http.WebRequest.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Helpers.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Http.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Http.WebHost.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Mvc.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.Razor.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.WebPages.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.WebPages.Deployment.xml
+E:\Beeershop\BeerShop\BeerShop\bin\System.Web.WebPages.Razor.xml
+E:\Beeershop\BeerShop\BeerShop\bin\WebMatrix.Data.xml
+E:\Beeershop\BeerShop\BeerShop\bin\Microsoft.Web.WebPages.OAuth.xml
+E:\Beeershop\BeerShop\BeerShop\bin\WebMatrix.WebData.xml
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.AspNet.xml
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.Core.xml
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.Consumer.xml
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OAuth.xml
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.xml
+E:\Beeershop\BeerShop\BeerShop\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
+E:\Beeershop\BeerShop\BeerShop\obj\Debug\ResolveAssemblyReference.cache
+E:\Beeershop\BeerShop\BeerShop\obj\Debug\BeerShop.dll
+E:\Beeershop\BeerShop\BeerShop\obj\Debug\BeerShop.pdb
