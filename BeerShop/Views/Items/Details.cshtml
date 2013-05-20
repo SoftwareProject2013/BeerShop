@@ -1,50 +1,88 @@
-﻿@model BeerShop.Models.Item
-
+﻿@model BeerShop.Models.ItemCategoryHelper
+    
 @{
     ViewBag.Title = "Details";
+}
+@helper helperURL(string myurl)
+{
+    if (myurl != null)
+    {
+        @myurl
+    }
+
 }
 
 <h2>Details</h2>
 
 <fieldset>
     <legend>Item</legend>
-
+               @if (Model.item.imageURL != null)
+            {
+            <img src=@helperURL(Model.item.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="300" height="300" />
+            }
+            else
+            {
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="300" height="300" />
+            }
+ 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.name)
+         @Html.DisplayNameFor(model => model.item.name)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.name)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.description)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.stockCount)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.stockCount)
+        @Html.DisplayFor(model => model.item.name)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Price)
+         @Html.DisplayNameFor(model => model.item.description)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Price)
+        @Html.DisplayFor(model => model.item.description)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.isStillOnSale)
+         @Html.DisplayNameFor(model => model.item.stockCount)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.isStillOnSale)
+        @Html.DisplayFor(model => model.item.stockCount)
     </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ItemID }) |
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.item.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.item.Price)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.item.isStillOnSale)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.item.isStillOnSale)
+    </div>
+    @foreach(var i in Model.categoryTypeCategoryDictionary)
+    {
+        <div class="display-label">
+     @Html.Label(i.Key)
+    </div>
+    <div class="display-field">
+        @Html.Label(i.Value)
+    </div>
+        }
+       
+    @if(ViewBag.PermissionLevel >= 1)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id=Model.item.ItemID })           
+            @Html.ActionLink("Delete", "Delete", new { id=Model.item.ItemID })
+        }
     @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+    @{Html.RenderPartial("_Comments", Model.item.comments);}
+    @if (ViewBag.userLogged == true)
+    {
+        {Html.RenderPartial("_CommentsCreate", Model);}
+    }
+</fieldset>
+
+
+

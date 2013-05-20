@@ -9,7 +9,7 @@ namespace BeerShop.Models
     public class Customer : User
     {
         //ID ?? CustomerID or UserID
-        [Required]
+        //[Required]
         public virtual Basket basket { get; set; }
 
         public virtual ICollection<Order> orders { get; set; }

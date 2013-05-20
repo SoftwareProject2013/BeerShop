@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BeerShop.Models;
+using PagedList;
+using System.Net;
+using System.IO;
 
 namespace BeerShop.Controllers
 {
@@ -16,9 +19,112 @@ namespace BeerShop.Controllers
         //
         // GET: /Items/
 
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary)
         {
-            return View(db.Items.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
+            ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price";
+
+            if (Request.HttpMethod == "GET")
+            {
+                searchString = currentFilter;
+            }
+            else
+            {
+                page = 1;
+            }
+            ViewBag.CurrentFilter = searchString;
+            var items = db.Items.ToList().AsQueryable();
+
+
+
+            Dictionary<string, List<string>> categoryDictionary;
+            categoryDictionary = Session["categoryFilter"] as Dictionary<string, List<string>>;
+            if (categoryDictionary == null || (clearDictionary ?? false) == true)
+            {
+                categoryDictionary = new Dictionary<string, List<string>>();
+            }
+
+            if (categoryType != null)
+            {
+                if (!categoryDictionary.ContainsKey(categoryType))
+                {
+                    List<string> categoryList = new List<string>();
+                    categoryList.Add(category);
+                    categoryDictionary.Add(categoryType, categoryList);
+                }
+                else
+                {
+                    if (!categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Contains(category))
+                    {
+                        categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Add(category);
+                    }
+                    else
+                    {
+                        categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Remove(category);
+                        if (categoryDictionary.FirstOrDefault(c => c.Key == categoryType).Value.Count == 0)
+                        {
+                            categoryDictionary.Remove(categoryType);
+                        }
+                    }
+                }
+                Session["categoryFilter"] = categoryDictionary;
+            }
+            Session["categoryFilter"] = categoryDictionary;
+
+
+            if (categoryDictionary.Count > 0)
+            {
+                String SQLQuerry = "";
+
+                foreach (var categoryList in categoryDictionary.Values)
+                {
+                    SQLQuerry += "(Select * FROM dbo.item ";
+
+                    SQLQuerry += "Where itemID  in (Select Item_ItemID from dbo.CategoryItemItem where CategoryItem_CategoryItemID in (Select CategoryItemID from dbo.CategoryItem Where name in (";
+                    for (int i = 0; i < categoryList.Count - 1; i++)
+                    {
+                        SQLQuerry += "'" + categoryList[i] + "',";
+                    }
+                    SQLQuerry += "'" + categoryList[categoryList.Count - 1] + "')))) Intersect ";
+
+                }
+                SQLQuerry = SQLQuerry.Substring(0, SQLQuerry.Length - 10) + ";";
+                var query = db.Items.SqlQuery(SQLQuerry).ToList();
+                items = query.AsQueryable();
+            }
+
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                items = items.Where(s => s.name.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "Name desc":
+                    items = items.OrderByDescending(i => i.name);
+                    break;
+                case "Price":
+                    items = items.OrderByDescending(i => i.Price);
+                    break;
+                case "Price desc":
+                    items = items.OrderBy(i => i.Price);
+                    break;
+                default:
+                    items = items.OrderBy(i => i.name);
+                    break;
+            }
+
+
+            int PageSize = 5;
+            int pagenumber = (page ?? 1);
+
+            ViewBag.PermissionLevel = Worker.masterPermission;
+            
+            return View(items.ToPagedList(pagenumber, PageSize));
+
         }
 
         //
@@ -31,7 +137,25 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
-            return View(item);
+            ViewBag.PermissionLevel = 3; // TODO permission level from user
+            ViewBag.userLogged = true; // TODO check if user logged
+            ItemCategoryHelper itemHelper = new ItemCategoryHelper();
+            itemHelper.item = item;
+            foreach (var categoryType in db.Categories)
+            {
+                string itemCategory = "";
+                try
+                {
+                    itemCategory = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).name.ToString();
+                }
+                catch (Exception ex)
+                {
+                    itemCategory = "no selected";
+                }
+                itemHelper.categoryTypeCategoryDictionary.Add(categoryType.name, itemCategory);
+            }
+
+            return View(itemHelper);
         }
 
         //
@@ -39,6 +163,14 @@ namespace BeerShop.Controllers
 
         public ActionResult Create()
         {
+            Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>();
+            foreach (var categoryType in db.Categories)
+            {
+                SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name");
+                categoriesDictionary.Add(categoryType.name, SelectCategoryList);
+            }
+
+            ViewBag.typesList = categoriesDictionary;
             return View();
         }
 
@@ -46,16 +178,55 @@ namespace BeerShop.Controllers
         // POST: /Items/Create
 
         [HttpPost]
-        public ActionResult Create(Item item)
+        public ActionResult Create(ItemCategoryHelper itemHelper)
         {
+            
+
+
             if (ModelState.IsValid)
             {
-                db.Items.Add(item);
+                itemHelper.item.imageURL = GetItemPicture(itemHelper.item.name);
+                itemHelper.item.isStillOnSale = true;
+                db.Items.Add(itemHelper.item);
+                foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                {
+
+                    if (selectedCategory.Value.Equals("-1"))
+                        break;
+                    int selectedCategoryID = int.Parse(selectedCategory.Value);
+                    db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(item);
+            return View(itemHelper.item);
+        }
+
+        private static string GetItemPicture(String name)
+        {
+            string url = "https://www.google.com/search?hl=pl&site=imghp&tbm=isch&source=hp&biw=1366&bih=614&q=" + name + "&gs_l=img.3..0j0i24l4.3057.4575.0.4609.10.6.0.4.4.0.174.760.0j6.6.0...0.0...1ac.1.12.img.R03isTqrCTk";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            string imgUrl = "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg";
+            using (HttpWebResponse httpWebResponse = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream responseStream = httpWebResponse.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(responseStream))
+                    {
+                        string html = reader.ReadToEnd(); // here we go, we sent a request  using the steps above and saved the response in our StreamReader
+                        String[] s = html.Split(new String[] { "&amp" }, StringSplitOptions.RemoveEmptyEntries)
+                                                                             .Where(data => data.Contains("imgres?imgurl="))
+                                                                             .Select(data => data.Substring(3)).ToArray();
+                        for (int i = 0; i < s.Count(); i++) // loop the string array 
+                        {
+                            imgUrl = s[i].Remove(0, s[i].IndexOf("imgurl=") + 7);
+                        }
+                    }
+                }
+            }
+            return imgUrl;
         }
 
         //
@@ -68,22 +239,60 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
-            return View(item);
+            ItemCategoryHelper itemHelper = new ItemCategoryHelper();
+            itemHelper.item = item;
+            Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>();
+            foreach (var categoryType in db.Categories)
+            {
+                string selectedValue = "";
+                try
+                {
+                    selectedValue = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).name;
+                }
+                catch (Exception e)
+                {
+                    selectedValue = "no selected";
+                }
+                var catItemNoSelected = new CategoryItem();
+                catItemNoSelected.CategoryItemID = -1;
+                catItemNoSelected.name = "no selected";
+                categoryType.categories.Add(catItemNoSelected);
+                SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name", selectedValue);
+                categoriesDictionary.Add(categoryType.name, SelectCategoryList);
+            }
+
+            ViewBag.categoriesDictionary = categoriesDictionary;
+
+            return View(itemHelper);
         }
 
         //
         // POST: /Items/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(Item item)
+        public ActionResult Edit(ItemCategoryHelper itemHelper)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(item).State = EntityState.Modified;
+                db.Entry(itemHelper.item).State = EntityState.Modified;
+
+                var itemTMP = db.Items.Find(itemHelper.item.ItemID);
+                db.Entry(itemTMP).Collection(i => i.categories).Load();
+
+                itemTMP.categories.ToList().ForEach(cat => itemTMP.categories.Remove(cat));
+
+                foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                {
+                    if (selectedCategory.Value.Equals("-1"))
+                        continue;
+                    int selectedCategoryID = int.Parse(selectedCategory.Value);
+                    db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = itemHelper.item.ItemID });
             }
-            return View(item);
+
+            return View(itemHelper.item);
         }
 
         //
@@ -106,6 +315,14 @@ namespace BeerShop.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Item item = db.Items.Find(id);
+            db.Entry(item).Collection(i => i.categories).Load();
+
+            item.categories.ToList().ForEach(cat => item.categories.Remove(cat));
+            var comments = db.Comments;
+            foreach (var c in item.comments)
+            {
+                comments.Remove(c);
+            }
             db.Items.Remove(item);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -116,5 +333,12 @@ namespace BeerShop.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
+        // GET: /Items/_Comments
+        public ActionResult Menu()
+        {
+            return PartialView(db.Categories.Include(x => x.categories));
+        }
+       
     }
 }

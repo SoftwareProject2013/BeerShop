@@ -39,7 +39,13 @@ namespace BeerShop.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            Order order = new Order();
+            order.createdDate = DateTime.UtcNow;
+
+            //modify later, right now are set like a null (maxValue for DateTime type)
+            order.dispachedDate = DateTime.MaxValue;
+            order.deliveredDate = DateTime.MaxValue;
+            return Create(order);
         }
 
         //
@@ -48,14 +54,33 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult Create(Order order)
         {
+            //Change status, createDate and adding the current price of the item to the OrderItem list 
+            order.status = Order.pending;
+               
+
+            //modify orderItem list
+            order.orderItems = new List<OrderItem>();
+            order.orderItems.Add(db.OrderItems.Find(1));//order.orderItems.Add(db.Baskets.Find(2).orderItems.ElementAt<OrderItem>(2));
+
+            //modify user
+            order.customer = (Customer)db.Users.Find(1);
+
+            //Add prices
+            foreach (OrderItem oI in order.orderItems)
+            {
+                oI.price = oI.item.Price;
+            }
+            
             if (ModelState.IsValid)
             {
                 db.Orders.Add(order);
+                //db.Entry(order.orderItems.First<OrderItem>()).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("EditOrder", "Users", new { id = order.customer.UserID });
             }
 
-            return View(order);
+            //modify basket
+            return RedirectToAction("Edit", "Baskets", new { id = db.Baskets.Find(2).BasketID });
         }
 
         //
@@ -63,7 +88,18 @@ namespace BeerShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            //get current order
             Order order = db.Orders.Find(id);
+            //calculate total price
+            //double totalPrice = 0;
+            //foreach (OrderItem oI in order.orderItems)
+            //{
+            //    totalPrice += oI.price;
+            //}
+            //ViewBag.totalPrice = totalPrice;
+            //get order basket --> modify basket
+            //ViewBag.Basket = db.Baskets.Find(2);
+            //ViewBag.OrderItems = order.orderItems;
             if (order == null)
             {
                 return HttpNotFound();
@@ -77,7 +113,7 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult Edit(Order order)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
@@ -105,6 +141,7 @@ namespace BeerShop.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            //delete orderitem and basket?
             Order order = db.Orders.Find(id);
             db.Orders.Remove(order);
             db.SaveChanges();
@@ -116,5 +153,68 @@ namespace BeerShop.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
+
+        //
+        // GET: /Orders/DetailsOrderItems/5
+
+        public ActionResult DetailsOrderItems(int id = 0)
+        {
+            //get current order
+            Order order = db.Orders.Find(id);
+            //calculate total price
+            double totalPrice = 0;
+            foreach (OrderItem oI in order.orderItems)
+            {
+                totalPrice += oI.price;
+            }
+            ViewBag.totalPrice = totalPrice;
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            return View(order);
+        }
+
+        //
+        // GET: /Orders/Confirmation/5
+
+        public ActionResult Confirmation(int id = 0)
+        {
+            //get current order
+            Order order = db.Orders.Find(id);
+            //calculate total price
+            double totalPrice = 0;
+            foreach (OrderItem oI in order.orderItems)
+            {
+                totalPrice += oI.price;
+            }
+            ViewBag.totalPrice = totalPrice;
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            return View(order);
+        }
+
+        public ActionResult Finish(int id = 0)
+        {
+            //get current order
+            Order order = db.Orders.Find(id);
+            //calculate total price
+            double totalPrice = 0;
+            foreach (OrderItem oI in order.orderItems)
+            {
+                totalPrice += oI.price;
+            }
+            //basket empty
+            //modify status
+            //item.amount--;
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            return Index();
+        }
+
     }
 }

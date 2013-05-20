@@ -1,0 +1,58 @@
+﻿@model BeerShop.Models.Order
+@{
+    ViewBag.Title = "Order items";
+}
+<fieldset>
+    <legend>Item</legend>
+    <div>
+        <h4>
+            Those are the items you are buying. If you want to add or delete some items or modify
+            their quantity, push 'Modify Basket' button below</h4>
+        <table>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var oI in Model.orderItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => oI.item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.price)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <b>@ViewBag.totalPrice</b>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        @Html.ActionLink("Modify basket", "Edit", "Baskets", new { id = Model.customer.basket.BasketID }, null)
+        @Html.ActionLink("Continue", "Payment", new { id = Model.OrderID }) @*do the payment*@
+        @*        back (modify adress data)   *@
+    </div>
+</fieldset>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

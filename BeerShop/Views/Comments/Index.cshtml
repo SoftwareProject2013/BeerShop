@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<BeerShop.Models.Comment>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = ViewBag.PermissionLevel;
+    
 }
 
 <h2>Index</h2>
@@ -9,18 +10,13 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date)
-        </th>
-        <th></th>
-    </tr>
+<div id = "ItemIndex">
+   
 
-@foreach (var item in Model) {
+<table>
+@foreach (var item in Model)
+{
+    
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.content)
@@ -29,11 +25,21 @@
             @Html.DisplayFor(modelItem => item.date)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CommentID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CommentID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CommentID })
+
+    @if (@ViewBag.PermissionLevel == 1)
+    {
+            @Html.ActionLink("Edit", "Edit", new { id = item.CommentID }) 
+            @Html.ActionLink("Details", "Details", new { id = item.CommentID }) 
+            @Html.ActionLink("Delete", "Delete", new { id = item.CommentID })
+    }
+    else
+    {
+        @Html.ActionLink("Delete", "Delete", new { id = item.CommentID })
+    }
+            
         </td>
     </tr>
 }
-
 </table>
+
+ </div>
