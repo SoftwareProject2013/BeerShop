@@ -3,12 +3,28 @@
 @{
     ViewBag.Title = "Details";
 }
+@helper helperURL(string myurl)
+{
+    if (myurl != null)
+    {
+        @myurl
+    }
+
+}
 
 <h2>Details</h2>
 
 <fieldset>
     <legend>Item</legend>
-
+               @if (Model.item.imageURL != null)
+            {
+            <img src=@helperURL(Model.item.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="300" height="300" />
+            }
+            else
+            {
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="300" height="300" />
+            }
+ 
     <div class="display-label">
          @Html.DisplayNameFor(model => model.item.name)
     </div>
