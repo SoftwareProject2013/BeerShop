@@ -35,35 +35,40 @@ namespace BeerShop.Controllers
         }
 
         //
-        // GET: /Users/Create
+        // GET: /Users/CreateCustomer
 
-        public ActionResult Create()
+        public ActionResult CreateCustomer()
         {
-            return View();
+            Customer c = new Customer();
+            //add session basket
+            return View(c);
         }
 
         //
-        // POST: /Users/Create
-
+        // POST: /Users/CreateCustomer
+        //user na customera, user jest abstrakcyjna klasą 
         [HttpPost]
-        public ActionResult Create(User user)
+        public ActionResult CreateCustomer(Customer customer)
         {
-            if (ModelState.IsValid)
+            //asign session basket
+            customer.basket = db.Baskets.Find(1);
+            if (!ModelState.IsValid)
             {
-                db.Users.Add(user);
+                db.Users.Add((Customer)customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(user);
+            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
+.Select(v => v.ErrorMessage + " " + v.Exception));
+            return View(customer);
         }
 
         //
-        // GET: /Users/Edit/5
+        // GET: /Users/EditCustomer/5
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult EditCustomer(int id = 0)
         {
-            User user = db.Users.Find(id);
+            Customer user = (Customer) db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -72,17 +77,20 @@ namespace BeerShop.Controllers
         }
 
         //
-        // POST: /Users/Edit/5
+        // POST: /Users/EditCustomer/5
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult EditCustomer(Customer user)
         {
+            user.basket = db.Baskets.Find(user.basket.BasketID);
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry((Customer)user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
+.Select(v => v.ErrorMessage + " " + v.Exception));
             return View(user);
         }
 

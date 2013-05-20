@@ -18,6 +18,9 @@ namespace BeerShop.Migrations
 
         protected override void Seed(BeerShop.Models.BeerShopContext context)
         {
+            //Basket b1 = new Basket { orderItems = new List<OrderItem>() { } };
+            //context.Baskets.Add(b1);
+            //context.SaveChanges();
 
             if (context.Categories.Find(1) == null)
             {
@@ -38,12 +41,20 @@ namespace BeerShop.Migrations
                 CategoryItems.ForEach(s => context.CategoryItems.Add(s));
                 context.SaveChanges();
 
-                var Items = new List<Item>
-                {
-                    new Item { name = "Albani Odense", description = "blabla", stockCount = 5, Price = 2, isStillOnSale = true, categories = new List<CategoryItem>(){cI1, cI5}},
-                    new Item { name = "Albani Odense Classic", description = "blabla", stockCount = 5, Price = 2, isStillOnSale = true, categories = new List<CategoryItem>(){cI2, cI4}}
-                };
+                Item i1 = new Item { name = "Albani Odense", description = "blabla", stockCount = 5, Price = 2, isStillOnSale = true, categories = new List<CategoryItem>() { cI1, cI5 } };
+                Item i2 = new Item { name = "Albani Odense Classic", description = "blabla", stockCount = 5, Price = 2, isStillOnSale = true, categories = new List<CategoryItem>() { cI2, cI4 } };
+                var Items = new List<Item> { i1, i2 };
                 Items.ForEach(s => context.Items.Add(s));
+                context.SaveChanges();
+
+                OrderItem oI1 = new OrderItem { item = i1, amount = 3 };
+                var OrderItems = new List<OrderItem> { oI1 };
+                OrderItems.ForEach(s => context.OrderItems.Add(s));
+                context.SaveChanges();
+                Basket b1 = new Basket { orderItems = new List<OrderItem>() { } };
+                b1.orderItems.Add(oI1);
+                var Baskets = new List<Basket> { b1 };
+                Baskets.ForEach(s => context.Baskets.Add(s));
                 context.SaveChanges();
             }
 
