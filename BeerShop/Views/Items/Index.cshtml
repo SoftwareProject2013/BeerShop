@@ -23,47 +23,78 @@
     }
 
 }
-
+<div id="everything" runat="server" style="float:left; width:800px;height:700px; padding-left:10px">
 @{
-    ViewBag.Title = "Index";
+   @* ViewBag.Title = "Index"; *@
 }
 @using (Html.BeginForm())
 {
+    //wyszukiwarka 
     <p>
-    Find by name : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+    
+    Find by name : @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { style = "width: 100px" }) 
     <input type="submit" value="Search" /></p>
 }
 <h2>Index</h2>
 
-<div id ="everything">
-<div id="CategoryMenu" style="float:left">
+
+
+
+<div id="CategoryMenu" runat="server" style="float:left; width:200px; height:400px; padding-left:10px">
 <table>
+
 @Html.ActionLink("Clear all", "Index", new { page = Model.PageNumber, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, clearDictionary = true })
 @{Html.RenderAction("menu");}
 </table>
+
+@*
 @foreach (var i in Session["categoryFilter"] as Dictionary<string, List<string>>)
 {
     foreach (var k in i.Value)
     {
-         @Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k })
+       
+         @Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k }) 
     }
 }
+*@
  </div>
 
 
-<div id="rest" style="float:left; padding-left:20px">
-
-
+<div id="rest" runat="server" style="float:left; width:550px; padding-left:20px; height:400px" >
 <p>
-    @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("By name", "Index", new { sortOrder = ViewBag.NameSortParm })
-    @Html.ActionLink("By Price", "Index", new { sortOrder = ViewBag.PriceSort })
+    @foreach (var i in Session["categoryFilter"] as Dictionary<string, List<string>>)
+{
+    foreach (var k in i.Value)
+    {
+       
+         @Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k }) 
+    }
+}
+
 </p>
+<p>
+   @* @Html.ActionLink("Create New", "Create") *@
+    <input type="button" id="Createnew" value="Create" runat="server" onclick="location.href='@Url.Action("Create")'"/>
+      <input type="button"  value="By name" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })'"/>
+      <input type="button"  value="By Price" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.PriceSort })'"/>
+  @*  @Html.ActionLink("By name", "Index", new { sortOrder = ViewBag.NameSortParm })
+    @Html.ActionLink("By Price", "Index", new { sortOrder = ViewBag.PriceSort }) *@
+
+
+
+</p>
+
+
 <table>
     <tr>
       
         <th></th>
     </tr>
+
+
+
+
+
 
 @foreach (var item in Model)
 {
@@ -71,11 +102,11 @@
         <td>
             @if (item.imageURL != null)
             {
-            <img src=@helperURL(item.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="128" height="96" />
+            <img src=@helperURL(item.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
             }
             else
             {
-                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="128" height="96" />
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
             }
         </td>
         <td>
@@ -94,13 +125,10 @@
         
         <td>
  
-        
-       
        @if (item.isStillOnSale == false)
        {
            <p>Product unavaliable</p>
        }
-       
 
         </td>
     </tr>
@@ -145,3 +173,4 @@
 </div>
 
 </div>
+

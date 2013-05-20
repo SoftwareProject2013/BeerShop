@@ -118,7 +118,7 @@ namespace BeerShop.Controllers
             }
 
 
-            int PageSize = 3;
+            int PageSize = 5;
             int pagenumber = (page ?? 1);
 
             ViewBag.PermissionLevel = Worker.masterPermission;
@@ -339,5 +339,6 @@ namespace BeerShop.Controllers
         {
             return PartialView(db.Categories.Include(x => x.categories));
         }
+       
     }
 }
