@@ -1,53 +1,105 @@
 ﻿@model BeerShop.Models.Order
-
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+@*                
+<div>
+    <h3>
+        Item list</h3>
+    <table>
+        <tr>
+            <th>
+                Item
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+            </th>
+        </tr>
+        @foreach (var oI in ViewBag.OrderItems)
+        {
+            <tr>
+                <td>
+                    @oI.item.name
+                </td>
+                <td>
+                    @oI.amount
+                </td>
+                <td>
+                    @oI.price
+                </td>
+            </tr>
+                }
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+                <b>@ViewBag.totalPrice</b>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Modify basket", "Edit", "Baskets", new { id = 2 }, null)
+</div
+*@
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Order</legend>
+        <legend>Item</legend>
+        <h2>
+            Edit order details</h2>
+        <br />
 
-        @Html.HiddenFor(model => model.OrderID)
+        @Html.LabelFor(model => model.OrderID)
+        @Html.EditorFor(model => model.OrderID)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.createdDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.createdDate)
-            @Html.ValidationMessageFor(model => model.createdDate)
-        </div>
+@*        @Html.LabelFor(model => model.customer.firstName)
+        @Html.EditorFor(model => model.customer.firstName)
+        @Html.ValidationMessageFor(model => model.customer.firstName)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.dispachedDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.dispachedDate)
-            @Html.ValidationMessageFor(model => model.dispachedDate)
-        </div>
+        @Html.LabelFor(model => model.customer.lastName)
+        @Html.EditorFor(model => model.customer.lastName)
+        @Html.ValidationMessageFor(model => model.customer.lastName)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.deliveredDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.deliveredDate)
-            @Html.ValidationMessageFor(model => model.deliveredDate)
-        </div>
+        @Html.LabelFor(model => model.customer.email)
+        @Html.EditorFor(model => model.customer.email)
+        @Html.ValidationMessageFor(model => model.customer.email)
 
+        @Html.LabelFor(model => model.customer.phone)
+        @Html.EditorFor(model => model.customer.phone)
+        @Html.ValidationMessageFor(model => model.customer.phone)
+
+        @Html.LabelFor(model => model.customer.address)
+        @Html.EditorFor(model => model.customer.address)
+        @Html.ValidationMessageFor(model => model.customer.address)
+
+        @Html.HiddenFor(model => model.customer.birth)
+        @Html.HiddenFor(model => model.customer.locked)
+        @Html.HiddenFor(model => model.customer.password)
+        @Html.HiddenFor(model => model.customer.UserID)
+        @Html.HiddenFor(model => model.customer.basket)
+        *@
+        @Html.HiddenFor(model => model.createdDate)
+        @Html.HiddenFor(model => model.deliveredDate)
+        @Html.HiddenFor(model => model.dispachedDate)   
+
+        <br />
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Continue" />
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

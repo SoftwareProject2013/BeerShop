@@ -13,5 +13,6 @@ namespace BeerShop.Models
 
         [Required]
         public virtual ICollection<OrderItem> orderItems { set; get; } //Item + amountOfItems. we dont need to save the price parameter in the Basket
+
     }
 }
