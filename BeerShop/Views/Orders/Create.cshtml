@@ -4,7 +4,8 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Testing order creation</h2>
+
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -12,39 +13,20 @@
     <fieldset>
         <legend>Order</legend>
 
-        <div class="editor-label">
+@*        <div class="editor-label">
             @Html.LabelFor(model => model.createdDate)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.createdDate)
             @Html.ValidationMessageFor(model => model.createdDate)
         </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.dispachedDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.dispachedDate)
-            @Html.ValidationMessageFor(model => model.dispachedDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.deliveredDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.deliveredDate)
-            @Html.ValidationMessageFor(model => model.deliveredDate)
-        </div>
-
+*@
         <p>
             <input type="submit" value="Create" />
         </p>
     </fieldset>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

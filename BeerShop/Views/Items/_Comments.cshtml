@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BeerShop.Models.Comment>
+
+@{
+    ViewBag.Title = ViewBag.PermissionLevel;
+    
+}
+
+<h2>Comments</h2>
+<table>
+@foreach (var item in Model)
+{
+    
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.author.firstName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        
+    </tr>
+    
+
+         
+}
+</table>
+
+
