@@ -46,16 +46,21 @@ namespace BeerShop.Controllers
         // POST: /Comments/Create
 
         [HttpPost]
-        public ActionResult Create(Comment comment)
+        public ActionResult Create(ItemCategoryHelper itemHelper)
         {
-            if (ModelState.IsValid)
+            
+            Comment comment = itemHelper.comment;
+            comment.item = db.Items.FirstOrDefault(i => i.ItemID == itemHelper.item.ItemID );
+            comment.date = DateTime.UtcNow;
+            comment.author = null;
+            if (comment.content.Length >0 /* && comment.author != null*/ &&  comment.item != null)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
             }
 
-            return View(comment);
+            return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
         }
 
         //

@@ -15,7 +15,7 @@ namespace BeerShop.Models
         [DataType(DataType.Text)]
         public string content { set; get; }
 
-        [Required]
+        //[Required]
         public virtual User author { set; get; }
 
         [Required]
