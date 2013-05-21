@@ -20,11 +20,15 @@ namespace BeerShop.Models
 
         [Required]
         [RegularExpression(".+@.+")]
+        [Display(Name="Email address: ")]
         public string email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Password: ")]
         public string password { get; set; }
+
+        public string passwordSalt { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         public string phone { get; set; }

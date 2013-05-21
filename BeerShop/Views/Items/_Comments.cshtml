@@ -9,7 +9,7 @@
 <table>
 @foreach (var item in Model)
 {
-    if (item.author == Session["User"])
+    if (item.author.email == User.Identity.Name)
     {
        {Html.RenderPartial("_CommentEdit", item); }
     }else

@@ -39,6 +39,9 @@
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.15.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleCrypto">
+      <HintPath>..\packages\SimpleCrypto.0.3.28.24\lib\SimpleCrypto.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -345,21 +348,6 @@
     <Content Include="Views\Users\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Comments\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Comments\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Comments\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Comments\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Comments\Delete.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\CategoryItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +424,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Items\_CommentDisplay.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Users\LogIn.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

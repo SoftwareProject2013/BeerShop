@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BeerShop.Models;
+using System.Web.Security;
 
 namespace BeerShop.Controllers
 {
@@ -55,6 +56,10 @@ namespace BeerShop.Controllers
             //c.basket = db.Baskets.Find(1004);
             if (ModelState.IsValid)
             {
+                var crypto = new SimpleCrypto.PBKDF2();
+                var encryptPass = crypto.Compute(c.password);
+                c.password = encryptPass;
+                c.passwordSalt = crypto.Salt;
                 db.Users.Add(c);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -165,6 +170,59 @@ namespace BeerShop.Controllers
             String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
                                                            .Select(v => v.ErrorMessage + " " + v.Exception));
             return View(user);
+        }
+
+        [HttpGet]
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LogIn(BeerShop.Models.Customer customer)
+        {
+            if((db.Users.FirstOrDefault(c => c.email == customer.email)) != null)
+            {
+                ModelState.AddModelError("", "use another email");
+            }
+            if (customer.email != null && customer.password != null)
+            {
+                if (isValid(customer.email, customer.password))
+                {
+                    FormsAuthentication.SetAuthCookie(customer.email, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Login data is incorrect");
+                }
+            }
+            return View();
+        }
+
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            if (Response.Cookies.Get("facookie") != null)
+            {
+                Response.Cookies.Remove("faCookie");
+            }
+            return RedirectToAction("Index","Home");
+        }
+        
+        private bool isValid(string email, string password)
+        {
+            var crypto = new SimpleCrypto.PBKDF2();
+            bool isValid = false;
+            var user = db.Users.FirstOrDefault(u => u.email == email);
+            if (user != null)
+            {
+                if (user.password == crypto.Compute(password, user.passwordSalt))
+                {
+                    isValid = true;
+                }
+            }
+            return isValid;
         }
 
     }

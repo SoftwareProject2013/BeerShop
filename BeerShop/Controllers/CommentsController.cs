@@ -32,8 +32,8 @@ namespace BeerShop.Controllers
             Comment comment = itemHelper.comment;
             comment.item = db.Items.FirstOrDefault(i => i.ItemID == itemHelper.item.ItemID );
             comment.date = DateTime.UtcNow;
-            comment.author = null;
-            if (comment.content.Length >0 /* && comment.author != null*/ &&  comment.item != null)
+            comment.author = db.Users.FirstOrDefault(u => u.email == User.Identity.Name);
+            if (comment.content.Length >0 && comment.author != null &&  comment.item != null)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
@@ -52,7 +52,7 @@ namespace BeerShop.Controllers
         {
             comment.date = DateTime.UtcNow;
             comment.item = db.Items.Where(i => i.comments.FirstOrDefault(c => c.CommentID == comment.CommentID) != null).ToList()[0];
-            if (comment.content.Length > 0 /* && comment.author != null*/ && comment.item != null)
+            if (comment.content.Length > 0  && comment.author != null && comment.item != null)
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();

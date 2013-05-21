@@ -78,7 +78,7 @@
 
 
     @{Html.RenderPartial("_Comments", Model.item.comments);}
-    @if (ViewBag.userLogged == true)
+    @if (Request.IsAuthenticated)
     {
         {Html.RenderPartial("_CommentsCreate", Model);}
     }

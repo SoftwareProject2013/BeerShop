@@ -138,7 +138,6 @@ namespace BeerShop.Controllers
                 return HttpNotFound();
             }
             ViewBag.PermissionLevel = 3; // TODO permission level from user
-            ViewBag.userLogged = true; // TODO check if user logged
             ItemCategoryHelper itemHelper = new ItemCategoryHelper();
             itemHelper.item = item;
             foreach (var categoryType in db.Categories)
