@@ -14,9 +14,9 @@ namespace BeerShop.Models
         public DbSet<CategoryItem> CategoryItems { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }  
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BeerShop.Models;
+using System.Web.Security;
 
 namespace BeerShop.Controllers
 {
@@ -35,26 +36,34 @@ namespace BeerShop.Controllers
         }
 
         //
-        // GET: /Users/Create
+        // GET: /Users/CreateCustomer
 
-        public ActionResult Create()
+        public ActionResult CreateCustomer()
         {
-            Customer customer = new Customer();
-            return View(customer);
-
-
+            Customer c = new Customer();
+            //add session basket
+            return View(c);
         }
 
         //
-        // POST: /Users/Create
-
+        // POST: /Users/CreateCustomer
+        //user na customera, user jest abstrakcyjna klasą 
         [HttpPost]
-        public ActionResult Create(Customer c)
+        public ActionResult CreateCustomer(Customer c)
         {
-
-            //c.basket = db.Baskets.Find(1004);
+            //asign session basket
+            if( db.Users.FirstOrDefault(u => u.email == c.email) != null )
+            {
+                return View(c);
+            }
+            Session["Basket"] = new Basket();
+            c.basket = Session["Basket"] as Basket;
             if (ModelState.IsValid)
             {
+                var crypto = new SimpleCrypto.PBKDF2();
+                var encryptPass = crypto.Compute(c.password);
+                c.password = encryptPass;
+                c.passwordSalt = crypto.Salt;
                 db.Users.Add(c);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -68,9 +77,9 @@ namespace BeerShop.Controllers
         }
 
         //
-        // GET: /Users/Edit/5
+        // GET: /Users/EditCustomer/5
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult EditCustomer(int id = 0)
         {
             User user = db.Users.Find(id);
             if (user == null)
@@ -81,17 +90,22 @@ namespace BeerShop.Controllers
         }
 
         //
-        // POST: /Users/Edit/5
+        // POST: /Users/EditCustomer/5
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult EditCustomer(Customer user)
         {
+            user.basket = Session["Basket"] as Basket;
+            //TODO : change basket do Session!!!
+
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry((Customer)user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
+.Select(v => v.ErrorMessage + " " + v.Exception));
             return View(user);
         }
 
@@ -158,8 +172,8 @@ namespace BeerShop.Controllers
                 db.SaveChanges();
 
                 var query2 = from o in db.Orders
-                            where o.customer.UserID == user.UserID
-                            select o; 
+                             where o.customer.UserID == user.UserID
+                             select o;
                 return RedirectToAction("DetailsOrderItems", "Orders", new { id = query2.OrderByDescending(item => item.OrderID).First().OrderID });
             }
             String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
@@ -167,5 +181,60 @@ namespace BeerShop.Controllers
             return View(user);
         }
 
+        [HttpGet]
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LogIn(BeerShop.Models.Customer customer)
+        {
+            if((db.Users.FirstOrDefault(c => c.email == customer.email)) != null)
+            {
+                ModelState.AddModelError("", "use another email");
+            }
+            if (customer.email != null && customer.password != null)
+            {
+                if (isValid(customer.email, customer.password))
+                {
+                    FormsAuthentication.SetAuthCookie(customer.email, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Login data is incorrect");
+                }
+            }
+            return View();
+        }
+
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            if (Response.Cookies.Get("facookie") != null)
+            {
+                Response.Cookies.Remove("faCookie");
+            }
+            return RedirectToAction("Index","Home");
+        }
+        
+        private bool isValid(string email, string password)
+        {
+            var crypto = new SimpleCrypto.PBKDF2();
+            bool isValid = false;
+            var user = db.Users.FirstOrDefault(u => u.email == email);
+            if (user != null)
+            {
+                if (user.password == crypto.Compute(password, user.passwordSalt))
+                {
+                    isValid = true;
+                }
+            }
+            return isValid;
+        }
+
     }
+
+
 }

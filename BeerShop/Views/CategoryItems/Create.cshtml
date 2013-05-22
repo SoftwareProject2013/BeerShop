@@ -1,4 +1,4 @@
-﻿@model BeerShop.Models.CategoryItem
+﻿@model BeerShop.Models.ModelViewCategoryItem
 
 @{
     ViewBag.Title = "Create";
@@ -13,13 +13,18 @@
         <legend>CategoryItem</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.name)
+            @Html.LabelFor(model => model.categoryItem.name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.name)
-            @Html.ValidationMessageFor(model => model.name)
+            @Html.EditorFor(model => model.categoryItem.name)
+            @Html.ValidationMessageFor(model => model.categoryItem.name)
         </div>
-
+        <div class="editor-label">
+            Select type:
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.selectedCategoryItem, ViewBag.selectCategoryItemList as SelectList)
+        </div>
         <p>
             <input type="submit" value="Create" />
         </p>

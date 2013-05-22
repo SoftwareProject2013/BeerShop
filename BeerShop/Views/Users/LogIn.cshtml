@@ -1,0 +1,30 @@
+﻿@model BeerShop.Models.User
+@{
+    ViewBag.Title = "LogIn";
+}
+
+@using( Html.BeginForm("LogIn"))
+{
+    @Html.ValidationSummary();
+    <div>
+        <fieldset>
+
+            <legend>Login Form</legend>
+            <div>@Html.LabelFor(u => u.email)</div>
+            <div>@Html.TextBoxFor(u => u.email) 
+                @Html.ValidationMessageFor(u=> u.email)
+            </div>
+
+            <div>@Html.LabelFor(u => u.password)</div>
+            <div>@Html.PasswordFor(u => u.password) 
+                @Html.ValidationMessageFor(u=> u.password)
+            </div>
+            <div class="editor-label">
+            @Html.LabelFor(model => model.birth)
+        </div>
+
+
+        </fieldset>
+        <input type="submit" , value="Log In" />
+    </div>
+}
