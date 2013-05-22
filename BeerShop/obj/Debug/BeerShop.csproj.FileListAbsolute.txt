@@ -109,3 +109,4 @@ D:\Beer\BeerShop\BeerShop\obj\Debug\ResolveAssemblyReference.cache
 D:\Beer\BeerShop\BeerShop\obj\Debug\BeerShop.dll
 D:\Beer\BeerShop\BeerShop\obj\Debug\BeerShop.pdb
 D:\Beer\BeerShop\BeerShop\bin\SimpleCrypto.dll
+D:\Beer\BeerShop\BeerShop\bin\WebActivatorEx.dll

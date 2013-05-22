@@ -4,6 +4,10 @@
     ViewBag.Title = ViewBag.PermissionLevel;
     
 }
+@if (Model.Count() < 1)
+{
+    <p>Waiting for your comment </p>
+}
 
 <h2>Comments</h2>
 <table>
