@@ -7,67 +7,67 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateCustomer")
 </p>
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.firstName)
+          |  @Html.DisplayNameFor(model => model.firstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.lastName)
+          |  @Html.DisplayNameFor(model => model.lastName)                
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.email)
+          |  @Html.DisplayNameFor(model => model.email)                  
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.password)
+          |  @Html.DisplayNameFor(model => model.password)                 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.phone)
+          |  @Html.DisplayNameFor(model => model.phone)                
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.address)
+          |  @Html.DisplayNameFor(model => model.address)             
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.birth)
+          |  @Html.DisplayNameFor(model => model.birth)                 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.locked)
+          |  @Html.DisplayNameFor(model => model.locked) |               
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var user in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.firstName)
+            @Html.DisplayFor(modelItem => user.firstName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.lastName)
+            @Html.DisplayFor(modelItem => user.lastName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.email)
+            @Html.DisplayFor(modelItem => user.email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.password)
+            @Html.DisplayFor(modelItem => user.password)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.phone)
+            @Html.DisplayFor(modelItem => user.phone)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.address)
+            @Html.DisplayFor(modelItem => user.address)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.birth)
+            @Html.DisplayFor(modelItem => user.birth)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.locked)
+            @Html.DisplayFor(modelItem => user.locked)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserID })
+            @Html.ActionLink("Edit", "EditCustomer", new { id = user.UserID }) |
+            @Html.ActionLink("Details", "Details", new { id = user.UserID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = user.UserID })
         </td>
     </tr>
 }

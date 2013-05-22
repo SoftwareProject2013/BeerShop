@@ -36,25 +36,24 @@ namespace BeerShop.Controllers
         }
 
         //
-        // GET: /Users/Create
+        // GET: /Users/CreateCustomer
 
-        public ActionResult Create()
+        public ActionResult CreateCustomer()
         {
-            Customer customer = new Customer();
-            return View(customer);
-
-
+            Customer c = new Customer();
+            //add session basket
+            return View(c);
         }
 
         //
-        // POST: /Users/Create
-
+        // POST: /Users/CreateCustomer
+        //user na customera, user jest abstrakcyjna klasą 
         [HttpPost]
-        public ActionResult Create(Customer c)
+        public ActionResult CreateCustomer(Customer customer)
         {
-
-            //c.basket = db.Baskets.Find(1004);
-            if (ModelState.IsValid)
+            //asign session basket
+            customer.basket = db.Baskets.Find(1);
+            if (!ModelState.IsValid)
             {
                 var crypto = new SimpleCrypto.PBKDF2();
                 var encryptPass = crypto.Compute(c.password);
@@ -73,9 +72,9 @@ namespace BeerShop.Controllers
         }
 
         //
-        // GET: /Users/Edit/5
+        // GET: /Users/EditCustomer/5
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult EditCustomer(int id = 0)
         {
             User user = db.Users.Find(id);
             if (user == null)
@@ -86,17 +85,20 @@ namespace BeerShop.Controllers
         }
 
         //
-        // POST: /Users/Edit/5
+        // POST: /Users/EditCustomer/5
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult EditCustomer(Customer user)
         {
+            user.basket = db.Baskets.Find(user.basket.BasketID);
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry((Customer)user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
+.Select(v => v.ErrorMessage + " " + v.Exception));
             return View(user);
         }
 
@@ -163,8 +165,8 @@ namespace BeerShop.Controllers
                 db.SaveChanges();
 
                 var query2 = from o in db.Orders
-                            where o.customer.UserID == user.UserID
-                            select o; 
+                             where o.customer.UserID == user.UserID
+                             select o;
                 return RedirectToAction("DetailsOrderItems", "Orders", new { id = query2.OrderByDescending(item => item.OrderID).First().OrderID });
             }
             String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
@@ -226,4 +228,6 @@ namespace BeerShop.Controllers
         }
 
     }
+
+
 }
