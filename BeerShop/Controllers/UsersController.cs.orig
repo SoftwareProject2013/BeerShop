@@ -49,31 +49,27 @@ namespace BeerShop.Controllers
         // POST: /Users/CreateCustomer
         //user na customera, user jest abstrakcyjna klasą 
         [HttpPost]
-        public ActionResult CreateCustomer(Customer c)
+        public ActionResult CreateCustomer(Customer customer)
         {
             //asign session basket
-            if( db.Users.FirstOrDefault(u => u.email == c.email) != null )
+            customer.basket = db.Baskets.Find(1);
+            if (!ModelState.IsValid)
             {
-                return View(c);
-            }
-            Session["Basket"] = new Basket();
-            c.basket = Session["Basket"] as Basket;
-            if (ModelState.IsValid)
-            {
+<<<<<<< HEAD
                 var crypto = new SimpleCrypto.PBKDF2();
                 var encryptPass = crypto.Compute(c.password);
                 c.password = encryptPass;
                 c.passwordSalt = crypto.Salt;
                 db.Users.Add(c);
+=======
+                db.Users.Add((Customer)customer);
+>>>>>>> origin/master
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //var errors = ModelState.Values.SelectMany(v => v.Errors);
             String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
-                                                           .Select(v => v.ErrorMessage + " " + v.Exception));
-            Console.WriteLine(messages);
-
-            return View(c);
+.Select(v => v.ErrorMessage + " " + v.Exception));
+            return View(customer);
         }
 
         //
@@ -81,7 +77,7 @@ namespace BeerShop.Controllers
 
         public ActionResult EditCustomer(int id = 0)
         {
-            User user = db.Users.Find(id);
+            Customer user = (Customer) db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -95,9 +91,7 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult EditCustomer(Customer user)
         {
-            user.basket = Session["Basket"] as Basket;
-            //TODO : change basket do Session!!!
-
+            user.basket = db.Baskets.Find(user.basket.BasketID);
             if (ModelState.IsValid)
             {
                 db.Entry((Customer)user).State = EntityState.Modified;
@@ -139,7 +133,6 @@ namespace BeerShop.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
-
 
         //
         // GET: /Users/EditOrder/5

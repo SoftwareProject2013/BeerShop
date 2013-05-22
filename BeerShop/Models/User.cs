@@ -40,6 +40,8 @@ namespace BeerShop.Models
         public DateTime birth { get; set; }
 
         public bool locked { get; set; }
+
+        public Basket basket { get; set; }
     }
 
 }
