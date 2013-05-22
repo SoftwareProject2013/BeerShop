@@ -2,54 +2,31 @@
 @{
     ViewBag.Title = "Edit";
 }
-
-@*                
-<div>
-    <h3>
-        Item list</h3>
-    <table>
-        <tr>
-            <th>
-                Item
-            </th>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-            </th>
-        </tr>
-        @foreach (var oI in ViewBag.OrderItems)
-        {
-            <tr>
-                <td>
-                    @oI.item.name
-                </td>
-                <td>
-                    @oI.amount
-                </td>
-                <td>
-                    @oI.price
-                </td>
-            </tr>
-                }
-        <tr>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-                <b>@ViewBag.totalPrice</b>
-            </td>
-        </tr>
-    </table>
-</div>
-<div>
-    @Html.ActionLink("Modify basket", "Edit", "Baskets", new { id = 2 }, null)
-</div
-*@
+<table>
+    <tr>
+        <th>
+            Order ID
+        </th>
+        <th>
+            Full name
+        </th>
+        <th>
+            Created Date
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.OrderID)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.customer.firstName)
+            @Html.DisplayFor(model => model.customer.lastName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.createdDate)
+        </td>
+    </tr>
+</table>
 
 @using (Html.BeginForm())
 {
@@ -60,41 +37,52 @@
         <h2>
             Edit order details</h2>
         <br />
-
-        @Html.LabelFor(model => model.OrderID)
-        @Html.EditorFor(model => model.OrderID)
-
-@*        @Html.LabelFor(model => model.customer.firstName)
-        @Html.EditorFor(model => model.customer.firstName)
-        @Html.ValidationMessageFor(model => model.customer.firstName)
-
-        @Html.LabelFor(model => model.customer.lastName)
-        @Html.EditorFor(model => model.customer.lastName)
-        @Html.ValidationMessageFor(model => model.customer.lastName)
-
-        @Html.LabelFor(model => model.customer.email)
-        @Html.EditorFor(model => model.customer.email)
-        @Html.ValidationMessageFor(model => model.customer.email)
-
-        @Html.LabelFor(model => model.customer.phone)
-        @Html.EditorFor(model => model.customer.phone)
-        @Html.ValidationMessageFor(model => model.customer.phone)
-
-        @Html.LabelFor(model => model.customer.address)
-        @Html.EditorFor(model => model.customer.address)
-        @Html.ValidationMessageFor(model => model.customer.address)
-
-        @Html.HiddenFor(model => model.customer.birth)
-        @Html.HiddenFor(model => model.customer.locked)
-        @Html.HiddenFor(model => model.customer.password)
+        @Html.HiddenFor(model => model.OrderID)
         @Html.HiddenFor(model => model.customer.UserID)
-        @Html.HiddenFor(model => model.customer.basket)
-        *@
         @Html.HiddenFor(model => model.createdDate)
-        @Html.HiddenFor(model => model.deliveredDate)
-        @Html.HiddenFor(model => model.dispachedDate)   
+        @Html.HiddenFor(model => model.orderItems)
 
-        <br />
+        <div class="editor-label">
+            @Html.LabelFor(model => model.status)
+            <h4>Add '1' for "pending", '2' for "processing",'3' for "dispached",'4' for "delivered", or '5' for "canceled"</h4>
+        </div>
+        <div class="editor-field">
+@*            @{string st = "pending";}
+            @Html.DropDownList(st, ViewBag.SelectList as SelectList)
+            @{switch (st)
+              {
+                  case "pending": Model.status = 1;
+                        break;
+                  case "processing": Model.status = 2;
+                           break;
+                  case "dispached": Model.status = 3;
+                          break;
+                  case "delivered": Model.status = 4;
+                          break;
+                  case "canceled": Model.status = 5;
+                         break;
+                  default: Model.status = -1;
+                             break;
+              }
+            }*@
+            @Html.EditorFor(model => model.status)
+            @Html.ValidationMessageFor(model => model.status)
+            @*@Html.HiddenFor(model => model.orderItems)*@
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.dispachedDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.dispachedDate)
+            @Html.ValidationMessageFor(model => model.dispachedDate)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.deliveredDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.deliveredDate)
+            @Html.ValidationMessageFor(model => model.deliveredDate)
+        </div>
         <p>
             <input type="submit" value="Continue" />
         </p>

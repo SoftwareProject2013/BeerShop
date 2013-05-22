@@ -165,15 +165,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BasketsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CategoryItemsController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -429,6 +430,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Items\_ItemsCategory.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Orders\DetailsOrderItems.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Orders\Confirmation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Users\EditOrder.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Administration\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
