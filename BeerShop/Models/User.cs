@@ -41,7 +41,6 @@ namespace BeerShop.Models
 
         public bool locked { get; set; }
 
-        public Basket basket { get; set; }
     }
 
 }
