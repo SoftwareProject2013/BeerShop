@@ -1,5 +1,4 @@
 *.suo
-*.dll
 BeerShop/bin/BeerShop.dll
 BeerShop.suo
 BeerShop/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
