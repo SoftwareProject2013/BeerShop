@@ -13,13 +13,14 @@
 <table>
 @foreach (var item in Model)
 {
-    if (item.author.email == User.Identity.Name)
-    {
-       {Html.RenderPartial("_CommentEdit", item); }
-    }else
-    {
+    
+    //if (item.author!= null && item.author.email == User.Identity.Name)
+    //{
+    //   {Html.RenderPartial("_CommentEdit", item); }
+    //}else
+    //{
         { Html.RenderPartial("_CommentDisplay", item); }
-    }
+    //}
 
          
 }

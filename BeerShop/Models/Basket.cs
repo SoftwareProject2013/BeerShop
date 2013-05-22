@@ -13,6 +13,10 @@ namespace BeerShop.Models
 
         public ICollection<OrderItem> orderItems { set; get; }
 
+        public Basket() {
+            this.orderItems =  new List<OrderItem>() { };
+        }
+
         public double sum()
         {
             double s = 0;

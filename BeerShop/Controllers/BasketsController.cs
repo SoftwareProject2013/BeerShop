@@ -31,7 +31,7 @@ namespace BeerShop.Controllers
             }
             // create orderItem
             OrderItem oItem = new OrderItem(item, amount);
-            
+
             // add to basket and save
             basket.orderItems.Add(oItem);
             db.SaveChanges();
@@ -91,8 +91,8 @@ namespace BeerShop.Controllers
         public ActionResult DecrementItem(int basketId, int ordItemId)
         {
             // find the item
-            OrderItem item = GetOrderItem(basketId,ordItemId);
-            if ( item == null)
+            OrderItem item = GetOrderItem(basketId, ordItemId);
+            if (item == null)
             {
                 return HttpNotFound();
             }
@@ -113,7 +113,8 @@ namespace BeerShop.Controllers
         }
 
         // find the order item or return null if item does not exists or is not in the basket
-        private OrderItem GetOrderItem(int basketId, int ordItemId){
+        private OrderItem GetOrderItem(int basketId, int ordItemId)
+        {
             Basket basket = db.Baskets.Find(basketId);
             if (basket == null)
             {
@@ -144,7 +145,16 @@ namespace BeerShop.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Basket basket = db.Baskets.Find(id);
+            Customer user;
+            if (User.Identity.Name != null)
+                user = (Customer) (from u in db.Users
+                        where u.email == User.Identity.Name
+                        select u).First();
+            else
+            {
+                return HttpNotFound();
+            }
+            Basket basket = user.basket;
             if (basket == null)
             {
                 return HttpNotFound();
@@ -155,26 +165,26 @@ namespace BeerShop.Controllers
         //
         // GET: /Baskets/Create
 
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
         //
         // POST: /Baskets/Create
 
-        [HttpPost]
-        public ActionResult Create(Basket basket)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Baskets.Add(basket);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //public ActionResult Create(Basket basket)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Baskets.Add(basket);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
 
-            return View(basket);
-        }
+        //    return View(basket);
+        //}
 
         //
         // GET: /Baskets/Edit/5
@@ -207,26 +217,36 @@ namespace BeerShop.Controllers
         //
         // GET: /Baskets/Delete/5
 
-        public ActionResult Delete(int id = 0)
-        {
-            Basket basket = db.Baskets.Find(id);
-            if (basket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(basket);
-        }
+        //public ActionResult Delete(int id = 0)
+        //{
+        //    Basket basket = db.Baskets.Find(id);
+        //    if (basket == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(basket);
+        //}
 
         //
         // POST: /Baskets/Delete/5
 
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        //[HttpPost, ActionName("Delete")]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Basket basket = db.Baskets.Find(id);
+        //    db.Baskets.Remove(basket);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+
+        // POST: /Baskets/Create
+
+       // [HttpPost]
+        public ActionResult CreateOrder(Basket basket)
         {
-            Basket basket = db.Baskets.Find(id);
-            db.Baskets.Remove(basket);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            
+            return RedirectToAction("Create", "Orders");
         }
 
         protected override void Dispose(bool disposing)

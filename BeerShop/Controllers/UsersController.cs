@@ -52,12 +52,14 @@ namespace BeerShop.Controllers
         public ActionResult CreateCustomer(Customer c)
         {
             //asign session basket
+            Basket b = new Basket();
+            c.basket = b;
+            db.Baskets.Add(b);
+            db.SaveChanges();
             if( db.Users.FirstOrDefault(u => u.email == c.email) != null )
             {
                 return View(c);
             }
-            Session["Basket"] = new Basket();
-            c.basket = Session["Basket"] as Basket;
             if (ModelState.IsValid)
             {
                 var crypto = new SimpleCrypto.PBKDF2();
@@ -68,6 +70,11 @@ namespace BeerShop.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            else
+            {
+                db.Baskets.Remove(b);
+                db.SaveChanges();
+            }
             //var errors = ModelState.Values.SelectMany(v => v.Errors);
             String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
                                                            .Select(v => v.ErrorMessage + " " + v.Exception));
@@ -76,12 +83,19 @@ namespace BeerShop.Controllers
             return View(c);
         }
 
+
         //
         // GET: /Users/EditCustomer/5
 
         public ActionResult EditCustomer(int id = 0)
         {
-            User user = db.Users.Find(id);
+            Customer user;
+            if(User.Identity.Name != null)
+                         user = (Customer) (from u in db.Users
+                        where u.email == User.Identity.Name
+                        select u).First();
+            else
+                 user = (Customer) db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -95,14 +109,13 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult EditCustomer(Customer user)
         {
-            user.basket = Session["Basket"] as Basket;
-            //TODO : change basket do Session!!!
-
+            user.basket = db.Baskets.Find(user.basket.BasketID);
+            //is orderlist null?¿?¿?¿?
             if (ModelState.IsValid)
             {
                 db.Entry((Customer)user).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
 .Select(v => v.ErrorMessage + " " + v.Exception));
@@ -110,26 +123,25 @@ namespace BeerShop.Controllers
         }
 
         //
-        // GET: /Users/Delete/5
-
-        public ActionResult Delete(int id = 0)
+        // GET: /Users/Lock/5
+        
+        public ActionResult Lock(int id = 0)
         {
             User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
-        }
+            if (user.locked == true)
+            {
+                user.locked = false;
+            }
+            else
+            {
+                user.locked = true;
+            }
 
-        //
-        // POST: /Users/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            db.Entry((Customer)user).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -189,10 +201,6 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult LogIn(BeerShop.Models.Customer customer)
         {
-            if((db.Users.FirstOrDefault(c => c.email == customer.email)) != null)
-            {
-                ModelState.AddModelError("", "use another email");
-            }
             if (customer.email != null && customer.password != null)
             {
                 if (isValid(customer.email, customer.password))

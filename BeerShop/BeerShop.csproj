@@ -505,6 +505,7 @@
     <Content Include="Views\Users\LogIn.cshtml" />
     <Content Include="Views\Users\EditCustomer.cshtml" />
     <Content Include="Views\Users\CreateCustomer.cshtml" />
+    <Content Include="Views\Shared\_BootstrapLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
