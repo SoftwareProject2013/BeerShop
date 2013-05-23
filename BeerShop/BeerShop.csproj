@@ -192,6 +192,7 @@
     <Compile Include="Models\HomeInputModel.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemCategoryHelper.cs" />
+    <Compile Include="Models\MailSender.cs" />
     <Compile Include="Models\ModelViewCategoryItem.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
@@ -507,8 +508,8 @@
     <Content Include="Views\Users\EditCustomer.cshtml" />
     <Content Include="Views\Users\CreateCustomer.cshtml" />
     <Content Include="Views\Shared\_BootstrapLayout.cshtml" />
-    <Content Include="Views\Items\_AddToBasket.cshtml" />
     <Content Include="Views\Items\_DisplayItem.cshtml" />
+    <Content Include="Views\Items\_AddToBasket.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

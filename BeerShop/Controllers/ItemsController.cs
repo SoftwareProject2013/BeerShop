@@ -21,7 +21,6 @@ namespace BeerShop.Controllers
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary)
         {
-            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price";
 
