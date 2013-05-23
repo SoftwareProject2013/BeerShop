@@ -21,6 +21,7 @@ namespace BeerShop.Controllers
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary)
         {
+            var ksksi =  User.IsInRole("Admin");
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price";
 
@@ -120,7 +121,10 @@ namespace BeerShop.Controllers
             int PageSize = 7;
             int pagenumber = (page ?? 1);
 
-            ViewBag.PermissionLevel = Worker.masterPermission;
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.PermissionLevel = Worker.masterPermission;
+            }
             
             return View(items.ToPagedList(pagenumber, PageSize));
 
@@ -128,7 +132,6 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Items/Details/5
-
         public ActionResult Details(int id = 0, string message ="")
         {
             Item item = db.Items.Find(id);
@@ -136,7 +139,10 @@ namespace BeerShop.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PermissionLevel = 3; // TODO permission level from user
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.PermissionLevel = Worker.masterPermission;
+            }
             ItemCategoryHelper itemHelper = new ItemCategoryHelper();
             itemHelper.item = item;
             foreach (var categoryType in db.Categories)
@@ -161,7 +167,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Items/Create
-
+        [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
             if (User is Worker || isWOrker == true) //TODO change when worker will come
@@ -182,8 +188,9 @@ namespace BeerShop.Controllers
 
         //
         // POST: /Items/Create
-
+        
         [HttpPost]
+        [Authorize(Roles="Admin")]
         public ActionResult Create(ItemCategoryHelper itemHelper)
         {
             if (User is Worker || isWOrker == true)
@@ -239,7 +246,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Items/Edit/5
-
+        [Authorize(Roles="Admin")]
         public ActionResult Edit(int id = 0)
         {
             if(User is Worker || isWOrker == true)
@@ -283,6 +290,7 @@ namespace BeerShop.Controllers
         // POST: /Items/Edit/5
 
         [HttpPost]
+        [Authorize(Roles="Admin")]
         public ActionResult Edit(ItemCategoryHelper itemHelper)
         {
             if (User is Worker || isWOrker)
@@ -315,7 +323,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Items/Delete/5
-
+        [Authorize(Roles="Admin")]
         public ActionResult Delete(int id = 0)
         {
             if (User is Worker || isWOrker == true)
@@ -355,7 +363,7 @@ namespace BeerShop.Controllers
             else
                 return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
         }
-
+        [HttpPost, ActionName("Delete")]
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

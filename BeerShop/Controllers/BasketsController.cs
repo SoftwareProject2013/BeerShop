@@ -12,7 +12,7 @@ namespace BeerShop.Controllers
     public class BasketsController : Controller
     {
         private BeerShopContext db = new BeerShopContext();
-
+        [Authorize(Roles="Customer")]
         public ActionResult AddOrderItem(ViewModelItemIDAmount mvIitemAmount)
         {
             Item item = db.Items.FirstOrDefault(i => i.ItemID == mvIitemAmount.itemID);
@@ -56,6 +56,7 @@ namespace BeerShop.Controllers
               
         }
          // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
+        [Authorize(Roles = "Customer")]
         public ActionResult Add(int? basketId, int itemId, int amount = 1)
         {
             Basket basket = null;
@@ -92,6 +93,7 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/RemoveItem?basketId=X&ordItemId=Y
+        [Authorize(Roles = "Customer")]
         public ActionResult RemoveItem(int basketId, int ordItemId)
         {
             // find the basket
@@ -118,6 +120,7 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/IncrementItem?basketId=X&ordItemId=Y
+        [Authorize(Roles = "Customer")]
         public ActionResult IncrementItem(int basketId, int ordItemId)
         {
             // find the item
@@ -139,6 +142,7 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/DecrementItem?basketId=X&ordItemId=Y
+        [Authorize(Roles = "Customer")]
         public ActionResult DecrementItem(int basketId, int ordItemId)
         {
             // find the item
@@ -164,6 +168,7 @@ namespace BeerShop.Controllers
         }
 
         // find the order item or return null if item does not exists or is not in the basket
+        [Authorize(Roles = "Customer")]
         private OrderItem GetOrderItem(int basketId, int ordItemId)
         {
             Basket basket = db.Baskets.Find(basketId);
@@ -193,10 +198,11 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Baskets/Details/5
-
+        [Authorize(Roles = "Customer")]
         public ActionResult Details(int id = 0)
         {
             Customer user;
+            var z = User.Identity.Name;
             if (User.Identity.Name != null)
                 user = (Customer) (from u in db.Users
                         where u.email == User.Identity.Name

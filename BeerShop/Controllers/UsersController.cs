@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using BeerShop.Models;
 using System.Web.Security;
+using System.Security.Principal;
 
 namespace BeerShop.Controllers
 {
@@ -203,10 +204,31 @@ namespace BeerShop.Controllers
         {
             if (customer.email != null && customer.password != null)
             {
-                if (isValid(customer.email, customer.password))
+                User user= isValid(customer.email, customer.password);
+                if (user != null)
                 {
                     FormsAuthentication.SetAuthCookie(customer.email, false);
-
+                    string roles = "";
+                    if (user is Customer)
+                    {
+                        roles = "Customer";
+                    }
+                    else
+                    {
+                        roles = "Admin";
+                    }
+                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                      1,
+                      customer.email,
+                      DateTime.Now,
+                      DateTime.Now.AddMinutes(20),  
+                      false,
+                      roles,
+                      "/");
+                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
+                                                       FormsAuthentication.Encrypt(authTicket));
+                    Response.Cookies.Add(cookie);
+                   
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -220,27 +242,34 @@ namespace BeerShop.Controllers
 
         public ActionResult LogOut()
         {
-            FormsAuthentication.SignOut();
-            if (Response.Cookies.Get("facookie") != null)
+
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                Response.Cookies.Remove("faCookie");
+                FormsAuthenticationTicket authTicket =
+                                      FormsAuthentication.Decrypt(authCookie.Value);
+                authCookie.Value = null;
+                authCookie.Expires = DateTime.Now;
+                GenericPrincipal userPrincipl;
             }
+            FormsAuthentication.SignOut();
+            
             return RedirectToAction("Index","Home");
         }
         
-        private bool isValid(string email, string password)
+        private User isValid(string email, string password)
         {
             var crypto = new SimpleCrypto.PBKDF2();
-            bool isValid = false;
+            
             var user = db.Users.FirstOrDefault(u => u.email == email);
             if (user != null)
             {
                 if (user.password == crypto.Compute(password, user.passwordSalt))
                 {
-                    isValid = true;
+                    return user;
                 }
             }
-            return isValid;
+            return null;
         }
 
     }

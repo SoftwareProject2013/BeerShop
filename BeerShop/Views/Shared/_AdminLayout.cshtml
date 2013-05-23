@@ -47,7 +47,7 @@
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
               
-                            @if (Request.IsAuthenticated)
+                            @if(User.IsInRole("Customer") )
                             {
                                 <li>@Html.ActionLink("Log Out", "LogOut", "Users")</li>
                                 <li>@Html.ActionLink("Edit Account", "EditCustomer", "Users")</li>

@@ -195,6 +195,7 @@
     <Compile Include="Models\ItemCategoryHelper.cs" />
     <Compile Include="Models\MailSender.cs" />
     <Compile Include="Models\ModelViewCategoryItem.cs" />
+    <Compile Include="Models\MVLogin.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
     <Compile Include="Models\User.cs" />
@@ -374,6 +375,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -512,6 +514,10 @@
     <Content Include="Views\Items\_DisplayItem.cshtml" />
     <Content Include="Views\Items\_AddToBasket.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Items\_CommentDisplay.cshtml" />
+    <Content Include="Views\Items\_CommentEdit.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
