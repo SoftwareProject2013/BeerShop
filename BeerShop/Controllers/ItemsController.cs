@@ -118,7 +118,7 @@ namespace BeerShop.Controllers
             }
 
 
-            int PageSize = 5;
+            int PageSize = 7;
             int pagenumber = (page ?? 1);
 
             ViewBag.PermissionLevel = Worker.masterPermission;
@@ -130,7 +130,7 @@ namespace BeerShop.Controllers
         //
         // GET: /Items/Details/5
 
-        public ActionResult Details(int id = 0)
+        public ActionResult Details(int id = 0, string message ="")
         {
             Item item = db.Items.Find(id);
             if (item == null)
@@ -153,7 +153,10 @@ namespace BeerShop.Controllers
                 }
                 itemHelper.categoryTypeCategoryDictionary.Add(categoryType.name, itemCategory);
             }
-
+            if ( message != null && message.Length > 0)
+            {
+                ViewBag.Message = message;
+            }
             return View(itemHelper);
         }
 

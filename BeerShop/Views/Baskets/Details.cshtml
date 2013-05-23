@@ -12,6 +12,7 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.BasketID }) |
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Continue Shopping", "Index", "Items");
 </p>
 
 @{Html.RenderPartial("DetailsWidget",@Model);}

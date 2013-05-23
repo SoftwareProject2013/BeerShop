@@ -13,12 +13,63 @@ namespace BeerShop.Controllers
     {
         private BeerShopContext db = new BeerShopContext();
 
-
-        // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
-        public ActionResult Add(int basketId, int itemId, int amount = 1)
+        public ActionResult AddOrderItem(ViewModelItemIDAmount mvIitemAmount)
         {
-            // find basket
-            Basket basket = db.Baskets.Find(basketId);
+            Item item = db.Items.FirstOrDefault(i => i.ItemID == mvIitemAmount.itemID);
+            String feedback = "";
+            if (item == null )
+            {
+                return HttpNotFound();             
+            }
+            else
+            {
+                Basket basket = null;
+                Customer user = (Customer)db.Users.FirstOrDefault(u => u.email == User.Identity.Name);
+                if (user != null && user.basket!= null)
+                {
+
+                    basket = user.basket;
+                    if (basket != null)
+                    {
+                        try
+                        {
+                            basket.AddOrderItem(new OrderItem(item, mvIitemAmount.amount));
+                            db.SaveChanges();
+                            return RedirectToAction("Details");
+                        }
+                        catch (Exception e)
+                        {
+                            feedback = e.Message;
+                        }
+                    }
+                    else
+                    {
+                        feedback = "You have no basket";
+                    }
+                }
+                else
+                {
+                    feedback = "You are not logged in";
+                }
+            }
+            return RedirectToAction("Details", "Items", new { id = item.ItemID, message = feedback });
+              
+        }
+         // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
+        public ActionResult Add(int? basketId, int itemId, int amount = 1)
+        {
+            Basket basket = null;
+
+            if (basketId != null)
+                basket = db.Baskets.Find(basketId);
+            else
+            {
+                Customer user = (Customer)db.Users.FirstOrDefault(u => u.email == User.Identity.Name);
+                if (user != null)
+                {
+                    basket = user.basket;
+                }
+            }
             if (basket == null)
             {
                 return HttpNotFound();

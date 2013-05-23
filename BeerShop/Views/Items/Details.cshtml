@@ -1,5 +1,5 @@
 ﻿@model BeerShop.Models.ItemCategoryHelper
-    
+
 @{
     ViewBag.Title = "Details";
 }
@@ -58,6 +58,15 @@
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.item.isStillOnSale)
+    </div>
+    <div>
+        
+    <div>        
+    <div>
+        @{ Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.item.ItemID));}
+        
+        @Html.Raw(ViewBag.message)
+    
     </div>
     @foreach(var i in Model.categoryTypeCategoryDictionary)
     {
