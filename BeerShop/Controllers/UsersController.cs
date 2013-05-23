@@ -206,6 +206,7 @@ namespace BeerShop.Controllers
                 if (isValid(customer.email, customer.password))
                 {
                     FormsAuthentication.SetAuthCookie(customer.email, false);
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
