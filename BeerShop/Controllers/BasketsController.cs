@@ -299,12 +299,6 @@ namespace BeerShop.Controllers
 
         // POST: /Baskets/Create
 
-       // [HttpPost]
-        public ActionResult CreateOrder(Basket basket)
-        {
-            
-            return RedirectToAction("Create", "Orders");
-        }
 
         protected override void Dispose(bool disposing)
         {
