@@ -73,11 +73,7 @@ namespace BeerShop.Controllers
                 db.Baskets.Remove(b);
                 db.SaveChanges();
             }
-            //var errors = ModelState.Values.SelectMany(v => v.Errors);
-            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
-                                                           .Select(v => v.ErrorMessage + " " + v.Exception));
-            Console.WriteLine(messages);
-
+            
             return View(c);
         }
 
@@ -228,6 +224,7 @@ namespace BeerShop.Controllers
                 }
                 else
                 {
+                    ModelState.Clear();
                     ModelState.AddModelError("", "Login data is incorrect");
                 }
             }
@@ -245,7 +242,7 @@ namespace BeerShop.Controllers
                                       FormsAuthentication.Decrypt(authCookie.Value);
                 authCookie.Value = null;
                 authCookie.Expires = DateTime.Now;
-                GenericPrincipal userPrincipl;
+                
             }
             FormsAuthentication.SignOut();
             
@@ -266,7 +263,66 @@ namespace BeerShop.Controllers
             }
             return null;
         }
+        [Authorize(Roles="Admin")]
+        public ActionResult CreateWorker()
+        {
 
+            Worker w = new Worker();
+            return View(w);
+        }
+
+        // POST: /Users/CreateCustomer
+        [HttpPost]
+        [Authorize(Roles="Admin")]
+        public ActionResult CreateWorker(Worker w)
+        {
+            w.permissions = Worker.workerPermission;
+            w.locked = false;
+            if (ModelState.IsValid)
+            {
+                var crypto = new SimpleCrypto.PBKDF2();
+                var encryptPass = crypto.Compute(w.password);
+                w.password = encryptPass;
+                w.passwordSalt = crypto.Salt;
+                db.Users.Add(w);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            
+            return View(w);
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword(string message ="")
+        {
+            ViewBag.message = message;
+            return View(new ChangePasswordModel());
+        }
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel passwordModel)
+        {
+            User user = isValid(User.Identity.Name, passwordModel.oldPassword);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "You are not logged in or typed wrong password");
+            }
+            if (passwordModel.password != passwordModel.passwordRetype)
+            {
+                ModelState.AddModelError("", "password and confirm password are not the same");
+            }
+            if(ModelState.IsValid)
+            {
+                var crypto = new SimpleCrypto.PBKDF2();
+                var encryptPass = crypto.Compute(passwordModel.password);
+                user.password = encryptPass;
+                user.passwordSalt = crypto.Salt;
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home", new { message = "Password changed sucessfully" });
+            }
+            return View(passwordModel);
+            
+        }
     }
 
 

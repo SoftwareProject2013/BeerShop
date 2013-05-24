@@ -51,14 +51,19 @@
  </div>
         <td>
  
-       @if (Model.isStillOnSale == false)
+       @if (Model.isStillOnSale == false )
        {
            <p>Product unavaliable</p>
+       }
+       @if (User.IsInRole("Admin"))
+       {
+           @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID })           
        }
        else
        {
             {Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.ItemID, 0));}
        }
+       
 
         </td>
     </tr>

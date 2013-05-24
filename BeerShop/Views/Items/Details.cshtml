@@ -63,8 +63,10 @@
         
     <div>        
     <div>
-        @{ Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.item.ItemID));}
-        
+    @if(!User.IsInRole("Admin"))
+        {
+        { Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.item.ItemID));}
+        }
         @Html.Raw(ViewBag.message)
     
     </div>
@@ -78,7 +80,7 @@
     </div>
         }
        
-    @if(ViewBag.PermissionLevel >= 1)
+    @if(User.IsInRole("Admin"))
         {
             @Html.ActionLink("Edit", "Edit", new { id=Model.item.ItemID })           
             @Html.ActionLink("Delete", "Delete", new { id=Model.item.ItemID })
@@ -86,8 +88,8 @@
     @Html.ActionLink("Back to List", "Index")
 
 
-    @{Html.RenderPartial("_Comments", Model.item.comments);}
-    @if (Request.IsAuthenticated)
+    @{Html.RenderPartial("_Comments", new BeerShop.Models.MVCommentHelper(Model.item.comments, Model.selectedCommentID ));}
+    @if (Request.IsAuthenticated && Model.selectedCommentID == 0)
     {
         {Html.RenderPartial("_CommentsCreate", Model);}
     }

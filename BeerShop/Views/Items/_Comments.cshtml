@@ -1,28 +1,38 @@
-﻿@model IEnumerable<BeerShop.Models.Comment>
+﻿@model BeerShop.Models.MVCommentHelper
 
 @{
     ViewBag.Title = ViewBag.PermissionLevel;
     
 }
-@if (Model.Count() < 1)
+@if (Model.commentsList.Count() < 1)
 {
     <p>Waiting for your comment </p>
 }
 
 <h2>Comments</h2>
 <table>
-@foreach (var item in Model)
-{
-    
-    //if (item.author!= null && item.author.email == User.Identity.Name)
-    //{
-    //   {Html.RenderPartial("_CommentEdit", item); }
-    //}else
-    //{
-        { Html.RenderPartial("_CommentDisplay", item); }
-    //}
 
-         
+@foreach (var item in Model.commentsList)
+{
+<tr>
+    @if (Model.selectedComment == item.CommentID)
+    {
+    <td>
+       @{Html.RenderPartial("_CommentEdit", item); }
+       </td>
+    }else
+    {
+        <td>
+        @{ Html.RenderPartial("_CommentDisplay", item); }
+        </td>
+        if (User.IsInRole("Admin") || User.Identity.Name == item.author.email)
+        {
+            <td>
+            @Html.ActionLink("Edit Comment", "Details", new { id = item.item.ItemID , editableCommentID = item.CommentID })               
+            </td>
+        }
+    }         
+    </tr>
 }
 </table>
 

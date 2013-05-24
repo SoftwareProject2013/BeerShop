@@ -196,6 +196,7 @@
     <Compile Include="Models\BeerShopContext.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryItem.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\HomeInputModel.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Models\ItemCategoryHelper.cs" />
     <Compile Include="Models\MailSender.cs" />
     <Compile Include="Models\ModelViewCategoryItem.cs" />
+    <Compile Include="Models\MVCommentHelper.cs" />
     <Compile Include="Models\MVLogin.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
@@ -531,6 +533,8 @@
     <Content Include="Views\Items\_CommentEdit.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Users\CreateWorker.cshtml" />
+    <Content Include="Views\Users\ChangePassword.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

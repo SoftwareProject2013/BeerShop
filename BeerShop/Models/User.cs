@@ -41,6 +41,11 @@ namespace BeerShop.Models
 
         public bool locked { get; set; }
 
+        public string fullName()
+        {
+            return firstName + lastName;
+        }
+
     }
 
 }
