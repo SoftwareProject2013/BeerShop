@@ -12,13 +12,65 @@ namespace BeerShop.Controllers
     public class BasketsController : Controller
     {
         private BeerShopContext db = new BeerShopContext();
-
-
-        // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
-        public ActionResult Add(int basketId, int itemId, int amount = 1)
+        [Authorize(Roles="Customer")]
+        public ActionResult AddOrderItem(ViewModelItemIDAmount mvIitemAmount)
         {
-            // find basket
-            Basket basket = db.Baskets.Find(basketId);
+            Item item = db.Items.FirstOrDefault(i => i.ItemID == mvIitemAmount.itemID);
+            String feedback = "";
+            if (item == null )
+            {
+                return HttpNotFound();             
+            }
+            else
+            {
+                Basket basket = null;
+                Customer user = (Customer)db.Users.FirstOrDefault(u => u.email == User.Identity.Name);
+                if (user != null && user.basket!= null)
+                {
+
+                    basket = user.basket;
+                    if (basket != null)
+                    {
+                        try
+                        {
+                            basket.AddOrderItem(new OrderItem(item, mvIitemAmount.amount));
+                            db.SaveChanges();
+                            return RedirectToAction("Details");
+                        }
+                        catch (Exception e)
+                        {
+                            feedback = e.Message;
+                        }
+                    }
+                    else
+                    {
+                        feedback = "You have no basket";
+                    }
+                }
+                else
+                {
+                    feedback = "You are not logged in";
+                }
+            }
+            return RedirectToAction("Details", "Items", new { id = item.ItemID, message = feedback });
+              
+        }
+         // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
+        [Authorize(Roles = "Customer")]
+        public ActionResult Add(int? basketId, int itemId, int amount = 1)
+        {
+            Basket basket = null;
+
+            if (basketId != null)
+                basket = db.Baskets.Find(basketId);
+            else
+            {
+                Customer user = (Customer)db.Users.FirstOrDefault(u => u.email == User.Identity.Name);
+                if (user != null)
+                {
+                    basket = user.basket;
+                }
+            }
             if (basket == null)
             {
                 return HttpNotFound();
@@ -41,6 +93,7 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/RemoveItem?basketId=X&ordItemId=Y
+        [Authorize(Roles = "Customer")]
         public ActionResult RemoveItem(int basketId, int ordItemId)
         {
             // find the basket
@@ -67,6 +120,7 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/IncrementItem?basketId=X&ordItemId=Y
+        [Authorize(Roles = "Customer")]
         public ActionResult IncrementItem(int basketId, int ordItemId)
         {
             // find the item
@@ -88,6 +142,7 @@ namespace BeerShop.Controllers
         }
 
         // GET: /Baskets/DecrementItem?basketId=X&ordItemId=Y
+        [Authorize(Roles = "Customer")]
         public ActionResult DecrementItem(int basketId, int ordItemId)
         {
             // find the item
@@ -113,6 +168,7 @@ namespace BeerShop.Controllers
         }
 
         // find the order item or return null if item does not exists or is not in the basket
+        [Authorize(Roles = "Customer")]
         private OrderItem GetOrderItem(int basketId, int ordItemId)
         {
             Basket basket = db.Baskets.Find(basketId);
@@ -142,10 +198,11 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Baskets/Details/5
-
+        [Authorize(Roles = "Customer")]
         public ActionResult Details(int id = 0)
         {
             Customer user;
+            var z = User.Identity.Name;
             if (User.Identity.Name != null)
                 user = (Customer) (from u in db.Users
                         where u.email == User.Identity.Name
@@ -242,12 +299,6 @@ namespace BeerShop.Controllers
 
         // POST: /Baskets/Create
 
-       // [HttpPost]
-        public ActionResult CreateOrder(Basket basket)
-        {
-            
-            return RedirectToAction("Create", "Orders");
-        }
 
         protected override void Dispose(bool disposing)
         {

@@ -12,6 +12,12 @@ namespace BeerShop
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
+            routes.MapRoute(
+            name: null,
+            url: "items/Page{page}",
+            defaults: new { Controller = "Items", action = "Index" });
+
 
             routes.MapRoute(
                 name: "Default",

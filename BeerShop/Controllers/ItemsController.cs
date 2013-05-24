@@ -15,13 +15,18 @@ namespace BeerShop.Controllers
     public class ItemsController : Controller
     {
         private BeerShopContext db = new BeerShopContext();
+        private bool isWOrker = false;
 
+        public ActionResult BootstrapIndex()
+        {
+            return RedirectToAction("Index", "Items");
+        }
         //
         // GET: /Items/
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary)
         {
-            ViewBag.CurrentSort = sortOrder;
+            var ksksi =  User.IsInRole("Admin");
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price";
 
@@ -118,10 +123,13 @@ namespace BeerShop.Controllers
             }
 
 
-            int PageSize = 5;
+            int PageSize = 7;
             int pagenumber = (page ?? 1);
 
-            ViewBag.PermissionLevel = Worker.masterPermission;
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.PermissionLevel = Worker.masterPermission;
+            }
             
             return View(items.ToPagedList(pagenumber, PageSize));
 
@@ -129,15 +137,17 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Items/Details/5
-
-        public ActionResult Details(int id = 0)
+        public ActionResult Details(int id = 0, string message ="")
         {
             Item item = db.Items.Find(id);
             if (item == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.PermissionLevel = 3; // TODO permission level from user
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.PermissionLevel = Worker.masterPermission;
+            }
             ItemCategoryHelper itemHelper = new ItemCategoryHelper();
             itemHelper.item = item;
             foreach (var categoryType in db.Categories)
@@ -153,53 +163,64 @@ namespace BeerShop.Controllers
                 }
                 itemHelper.categoryTypeCategoryDictionary.Add(categoryType.name, itemCategory);
             }
-
+            if ( message != null && message.Length > 0)
+            {
+                ViewBag.Message = message;
+            }
             return View(itemHelper);
         }
 
         //
         // GET: /Items/Create
-
+        [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
-            Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>();
-            foreach (var categoryType in db.Categories)
+            if (User is Worker || isWOrker == true) //TODO change when worker will come
             {
-                SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name");
-                categoriesDictionary.Add(categoryType.name, SelectCategoryList);
-            }
+                Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>();
+                foreach (var categoryType in db.Categories)
+                {
+                    SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name");
+                    categoriesDictionary.Add(categoryType.name, SelectCategoryList);
+                }
 
-            ViewBag.typesList = categoriesDictionary;
-            return View();
+                ViewBag.typesList = categoriesDictionary;
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
         }
 
         //
         // POST: /Items/Create
-
+        
         [HttpPost]
+        [Authorize(Roles="Admin")]
         public ActionResult Create(ItemCategoryHelper itemHelper)
         {
-            
-
-
-            if (ModelState.IsValid)
+            if (User is Worker || isWOrker == true)
             {
-                itemHelper.item.imageURL = GetItemPicture(itemHelper.item.name);
-                itemHelper.item.isStillOnSale = true;
-                db.Items.Add(itemHelper.item);
-                foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                if (ModelState.IsValid)
                 {
+                    itemHelper.item.imageURL = GetItemPicture(itemHelper.item.name);
+                    itemHelper.item.isStillOnSale = true;
+                    db.Items.Add(itemHelper.item);
+                    foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                    {
 
-                    if (selectedCategory.Value.Equals("-1"))
-                        break;
-                    int selectedCategoryID = int.Parse(selectedCategory.Value);
-                    db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                        if (selectedCategory.Value.Equals("-1"))
+                            break;
+                        int selectedCategoryID = int.Parse(selectedCategory.Value);
+                        db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(itemHelper.item);
+                return View(itemHelper.item);
+            }
+            else
+                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
         }
 
         private static string GetItemPicture(String name)
@@ -230,9 +251,11 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Items/Edit/5
-
+        [Authorize(Roles="Admin")]
         public ActionResult Edit(int id = 0)
         {
+            if(User is Worker || isWOrker == true)
+            {
             Item item = db.Items.Find(id);
             if (item == null)
             {
@@ -264,47 +287,61 @@ namespace BeerShop.Controllers
 
             return View(itemHelper);
         }
+            else
+                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
+        }
 
         //
         // POST: /Items/Edit/5
 
         [HttpPost]
+        [Authorize(Roles="Admin")]
         public ActionResult Edit(ItemCategoryHelper itemHelper)
         {
-            if (ModelState.IsValid)
+            if (User is Worker || isWOrker)
             {
-                db.Entry(itemHelper.item).State = EntityState.Modified;
-
-                var itemTMP = db.Items.Find(itemHelper.item.ItemID);
-                db.Entry(itemTMP).Collection(i => i.categories).Load();
-
-                itemTMP.categories.ToList().ForEach(cat => itemTMP.categories.Remove(cat));
-
-                foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                if (ModelState.IsValid)
                 {
-                    if (selectedCategory.Value.Equals("-1"))
-                        continue;
-                    int selectedCategoryID = int.Parse(selectedCategory.Value);
-                    db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
-                }
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = itemHelper.item.ItemID });
-            }
+                    db.Entry(itemHelper.item).State = EntityState.Modified;
 
-            return View(itemHelper.item);
+                    var itemTMP = db.Items.Find(itemHelper.item.ItemID);
+                    db.Entry(itemTMP).Collection(i => i.categories).Load();
+
+                    itemTMP.categories.ToList().ForEach(cat => itemTMP.categories.Remove(cat));
+
+                    foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
+                    {
+                        if (selectedCategory.Value.Equals("-1"))
+                            continue;
+                        int selectedCategoryID = int.Parse(selectedCategory.Value);
+                        db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = itemHelper.item.ItemID });
+                }
+
+                return View(itemHelper.item);
+            }
+            else
+                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
         }
 
         //
         // GET: /Items/Delete/5
-
+        [Authorize(Roles="Admin")]
         public ActionResult Delete(int id = 0)
         {
-            Item item = db.Items.Find(id);
-            if (item == null)
+            if (User is Worker || isWOrker == true)
             {
-                return HttpNotFound();
+                Item item = db.Items.Find(id);
+                if (item == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(item);
             }
-            return View(item);
+            else
+                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
         }
 
         //
@@ -313,20 +350,25 @@ namespace BeerShop.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Item item = db.Items.Find(id);
-            db.Entry(item).Collection(i => i.categories).Load();
-
-            item.categories.ToList().ForEach(cat => item.categories.Remove(cat));
-            var comments = db.Comments;
-            foreach (var c in item.comments)
+            if (User is Worker || isWOrker == true)
             {
-                comments.Remove(c);
-            }
-            db.Items.Remove(item);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+                Item item = db.Items.Find(id);
+                db.Entry(item).Collection(i => i.categories).Load();
 
+                item.categories.ToList().ForEach(cat => item.categories.Remove(cat));
+                var comments = db.Comments;
+                foreach (var c in item.comments)
+                {
+                    comments.Remove(c);
+                }
+                db.Items.Remove(item);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
+        }
+        [HttpPost, ActionName("Delete")]
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

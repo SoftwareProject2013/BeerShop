@@ -12,11 +12,12 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.BasketID }) |
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Continue Shopping", "Index", "Items");
 </p>
 
 @{Html.RenderPartial("DetailsWidget",@Model);}
 
 <p>
 Overal sum: @(Model.sum())
-    @Html.ActionLink("Proceed to order", "CreateOrder")
+    @Html.ActionLink("Proceed to order", "Create", "Orders", null, new { @class = "btn" })
 </p>

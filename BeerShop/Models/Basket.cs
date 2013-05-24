@@ -17,6 +17,30 @@ namespace BeerShop.Models
             this.orderItems =  new List<OrderItem>() { };
         }
 
+        public void AddOrderItem(OrderItem orderItem)
+        {
+            if (orderItem.item.isStillOnSale == false)
+            {
+                throw (new Exception("item is not for sale"));
+
+            }
+            if (orderItem.amount < 0)
+            {
+                throw (new Exception("canno't realise order with amount lower than 1"));
+            }
+            if (orderItem.amount > orderItem.item.stockCount)
+            {
+                throw (new Exception("not enought product on stock"));
+            }
+            
+            orderItems.Add(orderItem);
+        }
+
+        public void clearBasket()
+        {
+            orderItems = new List<OrderItem>();
+        }
+
         public double sum()
         {
             double s = 0;

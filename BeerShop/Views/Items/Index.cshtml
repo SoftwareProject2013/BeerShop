@@ -1,32 +1,11 @@
 ﻿@model PagedList.IPagedList<BeerShop.Models.Item>
 
-@helper ShortDescription(string description)
-{
-    if(description == null)
-    {
-    
-    }
-    else if (description.Length > 20){
-    @(description.Substring(0, 17) + " ... " ) ;
-                                  }
-    else
-    {
-        @description;
-    }
-                                 
-}
-@helper helperURL(string myurl)
-{
-    if (myurl != null)
-    {
-        @myurl
-    }
 
-}
 <div id="everything" runat="server" style="float:left; width:800px;height:700px; padding-left:10px">
 @{
    @* ViewBag.Title = "Index"; *@
 }
+
 @using (Html.BeginForm())
 {
     //wyszukiwarka 
@@ -86,11 +65,7 @@
 
 
 <table>
-    <tr>
-      
-        <th></th>
-    </tr>
-
+    
 
 
 
@@ -98,40 +73,7 @@
 
 @foreach (var item in Model)
 {
-    <tr>
-        <td>
-            @if (item.imageURL != null)
-            {
-            <img src=@helperURL(item.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
-            }
-            else
-            {
-                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
-            }
-        </td>
-        <td>
-            @Html.ActionLink(item.name, "Details", new { id = item.ItemID }) 
-        </td>
-        <td>
-            @ShortDescription(item.description)
-            
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.stockCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        
-        <td>
- 
-       @if (item.isStillOnSale == false)
-       {
-           <p>Product unavaliable</p>
-       }
-
-        </td>
-    </tr>
+    {Html.RenderPartial("_DisplayItem", item); }
 }
 
 </table>
