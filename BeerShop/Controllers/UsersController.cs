@@ -79,7 +79,7 @@ namespace BeerShop.Controllers
                     db.Baskets.Remove(b);
                     db.SaveChanges();
                 }
-            
+            }
             return View(c);
         }
 

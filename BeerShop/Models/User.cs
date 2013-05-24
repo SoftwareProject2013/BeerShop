@@ -45,6 +45,10 @@ namespace BeerShop.Models
         {
             return firstName + lastName;
         }
+        public bool isAdult()
+        {
+            return (DateTime.Now.Year - birth.Year) > 18;
+        }
 
     }
 
