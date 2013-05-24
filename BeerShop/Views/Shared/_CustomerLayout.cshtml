@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization
+@using BootstrapSupport
+@using NavigationRoutes
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -43,10 +46,15 @@
           <a class="brand" href="#">Project name</a>
           <div class="nav-collapse">
             <ul class="nav">
+                
+                    {
+
+                @Html.Navigation()
+                }
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
-              
+                    
                             @if (Request.IsAuthenticated)
                             {
                                 <li>@Html.ActionLink("Log Out", "LogOut", "Users")</li>
@@ -59,7 +67,9 @@
                                 <li>@Html.ActionLink("Log in", "Login", "Users")</li>
                                 <li>@Html.ActionLink("Register", "CreateCustomer", "Users")</li>
                             }
+                            <li></li>
             </ul>
+            
           </div><!--/.nav-collapse -->
         </div>
       </div>

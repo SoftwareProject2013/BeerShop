@@ -25,6 +25,8 @@ namespace BeerShop
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            BootstrapMvcSample.ExampleLayoutsRouteConfig.RegisterRoutes(RouteTable.Routes);
+            
         }
 
         protected void Application_AuthenticateRequest(Object sender, EventArgs e)
