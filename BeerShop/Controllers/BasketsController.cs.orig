@@ -306,13 +306,15 @@ namespace BeerShop.Controllers
 
         // POST: /Baskets/Create
 
+<<<<<<< Updated upstream
+=======
        // [HttpPost]
         [Authorize(Roles="Customer")]
         public ActionResult CreateOrder(Basket basket)
         {   
-            
             return RedirectToAction("Create", "Orders");
         }
+>>>>>>> Stashed changes
 
         protected override void Dispose(bool disposing)
         {

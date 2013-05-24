@@ -499,10 +499,10 @@
     <Content Include="Views\Items\_CommentsCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Items\Menu.cshtml" />
+    <Content Include="Views\Shared\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Items\_ItemsCategory.cshtml" />
+    <Content Include="Views\Shared\_ItemsCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Orders\DetailsOrderItems.cshtml">

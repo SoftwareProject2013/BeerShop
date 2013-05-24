@@ -26,7 +26,8 @@ namespace BeerShop.Controllers
 
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary)
         {
-            var ksksi =  User.IsInRole("Admin");
+
+            
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Name desc" : "";
             ViewBag.PriceSort = sortOrder == "Price" ? "Price desc" : "Price";
 
@@ -175,8 +176,7 @@ namespace BeerShop.Controllers
         [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
-            if (User is Worker || isWOrker == true) //TODO change when worker will come
-            {
+ 
                 Dictionary<string, SelectList> categoriesDictionary = new Dictionary<string, SelectList>();
                 foreach (var categoryType in db.Categories)
                 {
@@ -186,9 +186,6 @@ namespace BeerShop.Controllers
 
                 ViewBag.typesList = categoriesDictionary;
                 return View();
-            }
-            else
-                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
         }
 
         //
@@ -198,8 +195,6 @@ namespace BeerShop.Controllers
         [Authorize(Roles="Admin")]
         public ActionResult Create(ItemCategoryHelper itemHelper)
         {
-            if (User is Worker || isWOrker == true)
-            {
                 if (ModelState.IsValid)
                 {
                     itemHelper.item.imageURL = GetItemPicture(itemHelper.item.name);
@@ -218,9 +213,7 @@ namespace BeerShop.Controllers
                 }
 
                 return View(itemHelper.item);
-            }
-            else
-                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
+ 
         }
 
         private static string GetItemPicture(String name)
@@ -254,8 +247,6 @@ namespace BeerShop.Controllers
         [Authorize(Roles="Admin")]
         public ActionResult Edit(int id = 0)
         {
-            if(User is Worker || isWOrker == true)
-            {
             Item item = db.Items.Find(id);
             if (item == null)
             {
@@ -286,10 +277,9 @@ namespace BeerShop.Controllers
             ViewBag.categoriesDictionary = categoriesDictionary;
 
             return View(itemHelper);
+    
         }
-            else
-                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
-        }
+
 
         //
         // POST: /Items/Edit/5
@@ -298,8 +288,6 @@ namespace BeerShop.Controllers
         [Authorize(Roles="Admin")]
         public ActionResult Edit(ItemCategoryHelper itemHelper)
         {
-            if (User is Worker || isWOrker)
-            {
                 if (ModelState.IsValid)
                 {
                     db.Entry(itemHelper.item).State = EntityState.Modified;
@@ -321,9 +309,7 @@ namespace BeerShop.Controllers
                 }
 
                 return View(itemHelper.item);
-            }
-            else
-                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
+            
         }
 
         //
@@ -331,27 +317,21 @@ namespace BeerShop.Controllers
         [Authorize(Roles="Admin")]
         public ActionResult Delete(int id = 0)
         {
-            if (User is Worker || isWOrker == true)
-            {
                 Item item = db.Items.Find(id);
                 if (item == null)
                 {
                     return HttpNotFound();
                 }
                 return View(item);
-            }
-            else
-                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
+            
         }
 
         //
         // POST: /Items/Delete/5
-
+        [Authorize(Roles="Admin")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (User is Worker || isWOrker == true)
-            {
                 Item item = db.Items.Find(id);
                 db.Entry(item).Collection(i => i.categories).Load();
 
@@ -364,10 +344,9 @@ namespace BeerShop.Controllers
                 db.Items.Remove(item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
-            else
-                return RedirectToAction("Index", "Home", new { message = "only worker can do this" });
+            
         }
+        [Authorize(Roles="Admin")]
         [HttpPost, ActionName("Delete")]
         protected override void Dispose(bool disposing)
         {

@@ -15,7 +15,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Orders/
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             //return View(db.Orders.ToList().Where (item => item.status  == Order.processing));
@@ -223,6 +223,11 @@ namespace BeerShop.Controllers
                 return HttpNotFound();
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult bootstrap()
+        {
+            return RedirectToAction("Index", "Home");
         }
 
     }
