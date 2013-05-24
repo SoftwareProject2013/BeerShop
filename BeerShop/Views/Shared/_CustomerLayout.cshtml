@@ -46,21 +46,23 @@
           <a class="brand" href="#">Project name</a>
           <div class="nav-collapse">
             <ul class="nav">
-                
-                    {
-
+                @if (User.IsInRole("Admin"))
+                {
                 @Html.Navigation()
                 }
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-                    
-                            @if (Request.IsAuthenticated)
+                @if(User.IsInRole("Customer"))
+                {
+                    <li>@Html.ActionLink("My Basket", "Details", "Baskets")</li>
+                    <li>@Html.ActionLink("My Order", "Index", "Orders")</li>
+                    <li>@Html.ActionLink("Edit Account", "EditCustomer", "Users")</li>
+                }
+                
+  
+                            @if (User.IsInRole("Admin") || User.IsInRole("Customer"))
                             {
                                 <li>@Html.ActionLink("Log Out", "LogOut", "Users")</li>
-                                <li>@Html.ActionLink("Edit Account", "EditCustomer", "Users")</li>
-                                <li>@Html.ActionLink("My Basket", "Details", "Baskets")</li>
-                                <li>@Html.ActionLink("My Order", "Index", "Orders")</li>
+                                
+                 
                             }
                             else
                             {

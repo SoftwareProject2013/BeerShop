@@ -15,7 +15,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /CategoryItems/
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
@@ -23,7 +23,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /CategoryItems/Details/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id = 0)
         {
             CategoryItem categoryitem = db.CategoryItems.Find(id);
@@ -36,7 +36,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /CategoryItems/Create
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var categoriesList = db.Categories;
@@ -49,6 +49,7 @@ namespace BeerShop.Controllers
         // POST: /CategoryItems/Create
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(ModelViewCategoryItem MVcategoryItem)
         {
             int categoryID = int.Parse(MVcategoryItem.selectedCategoryItem);
@@ -68,7 +69,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /CategoryItems/Edit/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id = 0)
         {
 
@@ -90,6 +91,7 @@ namespace BeerShop.Controllers
         // POST: /CategoryItems/Edit/5
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(ModelViewCategoryItem MVcategoryItem)
         {
             int categoryID = int.Parse(MVcategoryItem.selectedCategoryItem);
@@ -109,7 +111,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /CategoryItems/Delete/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id = 0)
         {
             CategoryItem categoryitem = db.CategoryItems.Find(id);
@@ -122,7 +124,7 @@ namespace BeerShop.Controllers
 
         //
         // POST: /CategoryItems/Delete/5
-
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -131,7 +133,7 @@ namespace BeerShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

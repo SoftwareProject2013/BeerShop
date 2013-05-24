@@ -17,7 +17,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Users/
-
+        [Authorize(Roles="Admin")]
         public ActionResult Index()
         {
             return View(db.Users.ToList());
@@ -25,11 +25,11 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Users/Details/5
-
+        
         public ActionResult Details(int id = 0)
         {
             User user = db.Users.Find(id);
-            if (user == null)
+            if (user == null || user.email != User.Identity.Name || !User.IsInRole("Admin"))
             {
                 return HttpNotFound();
             }
@@ -41,18 +41,15 @@ namespace BeerShop.Controllers
 
         public ActionResult CreateCustomer()
         {
+            
             Customer c = new Customer();
-            //add session basket
             return View(c);
         }
 
-        //
         // POST: /Users/CreateCustomer
-        //user na customera, user jest abstrakcyjna klasą 
         [HttpPost]
         public ActionResult CreateCustomer(Customer c)
         {
-            //asign session basket
             Basket b = new Basket();
             c.basket = b;
             db.Baskets.Add(b);
@@ -69,7 +66,7 @@ namespace BeerShop.Controllers
                 c.passwordSalt = crypto.Salt;
                 db.Users.Add(c);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -118,14 +115,12 @@ namespace BeerShop.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
-.Select(v => v.ErrorMessage + " " + v.Exception));
             return View(user);
         }
 
         //
         // GET: /Users/Lock/5
-        
+        [Authorize(Roles="Admin")]
         public ActionResult Lock(int id = 0)
         {
             User user = db.Users.Find(id);
@@ -146,7 +141,7 @@ namespace BeerShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles="Admin")]
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
@@ -211,11 +206,11 @@ namespace BeerShop.Controllers
                     string roles = "";
                     if (user is Customer)
                     {
-                        roles = "Customer";
+                        roles += "Customer";
                     }
                     else
                     {
-                        roles = "Admin";
+                        roles += "Admin";
                     }
                     FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
                       1,

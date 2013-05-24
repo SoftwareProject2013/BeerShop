@@ -190,7 +190,7 @@ namespace BeerShop.Controllers
         }
         //
         // GET: /Baskets/
-
+        [Authorize(Roles="Admin")]
         public ActionResult Index()
         {
             return View(db.Baskets.ToList());
@@ -202,21 +202,27 @@ namespace BeerShop.Controllers
         public ActionResult Details(int id = 0)
         {
             Customer user;
-            var z = User.Identity.Name;
-            if (User.Identity.Name != null)
-                user = (Customer) (from u in db.Users
-                        where u.email == User.Identity.Name
-                        select u).First();
-            else
+            try
             {
-                return HttpNotFound();
+                if (User.Identity.Name != null)
+                    user = (Customer)(from u in db.Users
+                                      where u.email == User.Identity.Name
+                                      select u).First();
+                else
+                {
+                    return HttpNotFound();
+                }
+                Basket basket = user.basket;
+                if (basket == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(basket);
             }
-            Basket basket = user.basket;
-            if (basket == null)
+            catch(Exception ex)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Home", new { message = "You are not allowed to do that" });
             }
-            return View(basket);
         }
 
         //
@@ -246,15 +252,16 @@ namespace BeerShop.Controllers
         //
         // GET: /Baskets/Edit/5
 
-        public ActionResult Edit(int id = 0)
-        {
-            Basket basket = db.Baskets.Find(id);
-            if (basket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(basket);
-        }
+        //[Authorize(
+        //public ActionResult Edit(int id = 0)
+        //{
+        //    Basket basket = db.Baskets.Find(id);
+        //    if (basket == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(basket);
+        //}
 
         //
         // POST: /Baskets/Edit/5
@@ -299,6 +306,13 @@ namespace BeerShop.Controllers
 
         // POST: /Baskets/Create
 
+       // [HttpPost]
+        [Authorize(Roles="Customer")]
+        public ActionResult CreateOrder(Basket basket)
+        {   
+            
+            return RedirectToAction("Create", "Orders");
+        }
 
         protected override void Dispose(bool disposing)
         {

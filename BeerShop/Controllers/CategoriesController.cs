@@ -15,7 +15,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Categories/
-
+        [Authorize(Roles="Admin")]
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
@@ -23,7 +23,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Categories/Details/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id = 0)
         {
             Category category = db.Categories.Find(id);
@@ -36,7 +36,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Categories/Create
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +46,7 @@ namespace BeerShop.Controllers
         // POST: /Categories/Create
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Category category)
         {
             if (ModelState.IsValid)
@@ -60,7 +61,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Categories/Edit/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id = 0)
         {
             Category category = db.Categories.Find(id);
@@ -75,6 +76,7 @@ namespace BeerShop.Controllers
         // POST: /Categories/Edit/5
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
@@ -88,7 +90,7 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Categories/Delete/5
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id = 0)
         {
             Category category = db.Categories.Find(id);
@@ -103,6 +105,7 @@ namespace BeerShop.Controllers
         // POST: /Categories/Delete/5
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
@@ -110,7 +113,7 @@ namespace BeerShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin")]
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
