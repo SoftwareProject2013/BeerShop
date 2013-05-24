@@ -11,7 +11,7 @@ namespace BeerShop.Models
         [Key]
         public int BasketID { set; get; }
 
-        public ICollection<OrderItem> orderItems { set; get; }
+        public virtual ICollection<OrderItem> orderItems { set; get; }
 
         public Basket() {
             this.orderItems =  new List<OrderItem>() { };
