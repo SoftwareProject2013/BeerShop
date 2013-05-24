@@ -1,53 +1,63 @@
 ﻿@model BeerShop.Models.Basket
-
-
-<table>
+<table class="table table-striped">
     <tr>
-        <td>
+        <th>
             Item
-        </td>
-        <td>
-             Stock count
-        </td>
-        <td>
-             Amount in basket
-        </td>
-        <td>
+        </th>
+        <th>
+            Stock count
+        </th>
+        <th>
+            Amount in basket
+        </th>
+        <th>
             Price per one item
-        </td>
-        <td>
+        </th>
+        <th>
             Price sum
-        </td>
-
-        <td>
-        </td>
-        
+        </th>
+        <th>
+        </th>
     </tr>
-
-@foreach (var orderItem in Model.orderItems) {
+    @foreach (var orderItem in Model.orderItems)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.item.stockCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.item.Price)
+            </td>
+            <td>
+                @(orderItem.sum(true))
+            </td>
+            <td>
+                <button class="btn btn-small" type="button">@Html.ActionLink("-1", "DecrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+                <button class="btn btn-small" type="button">@Html.ActionLink("+1", "IncrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+                <button class="btn btn-small" type="button">@Html.ActionLink("Remove", "RemoveItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+            </td>
+        </tr>
+    }
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => orderItem.item.name)
         </td>
         <td>
-             @Html.DisplayFor(modelItem => orderItem.item.stockCount)
         </td>
         <td>
-             @Html.DisplayFor(modelItem => orderItem.amount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => orderItem.item.Price)
+            <b>Overal sum:</b>
         </td>
         <td>
-            @(orderItem.sum(true))
+            <b>@(Model.sum())</b>
         </td>
         <td>
-            @Html.ActionLink("-1", "DecrementItem", new { basketId=Model.BasketID , ordItemId=orderItem.OrderItemID })
-            @Html.ActionLink("+1", "IncrementItem", new { basketId=Model.BasketID , ordItemId=orderItem.OrderItemID })
-            @Html.ActionLink("Remove", "RemoveItem", new { basketId=Model.BasketID , ordItemId=orderItem.OrderItemID })
         </td>
-        
     </tr>
-}
-
 </table>
