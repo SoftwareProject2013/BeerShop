@@ -70,25 +70,23 @@ namespace BeerShop.Controllers
         {
             //Change status, createDate and adding the current price of the item to the OrderItem list 
             order.status = Order.pending;
-               
+
+            Customer loggedCustomer= (Customer)(from u in db.Users
+                                                        where u.email == User.Identity.Name
+                                                        select u).First();
+            //modify user
+            order.customer = loggedCustomer;
 
             //modify orderItem list
             order.orderItems = new List<OrderItem>();
-            order.orderItems.Add(db.OrderItems.Find(2));//order.orderItems.Add(db.Baskets.Find(2).orderItems.ElementAt<OrderItem>(2));
-
-            //modify user
-            order.customer = (Customer)db.Users.Find(1);
-
-            //Add prices
-            foreach (OrderItem oI in order.orderItems)
-            {
+            foreach (OrderItem oI in loggedCustomer.basket.orderItems) {
                 oI.price = oI.item.Price;
+                order.orderItems.Add(oI);
             }
-            
+
             if (ModelState.IsValid)
             {
                 db.Orders.Add(order);
-                //db.Entry(order.orderItems.First<OrderItem>()).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("EditOrder", "Users", new { id = order.customer.UserID });
             }
@@ -102,10 +100,10 @@ namespace BeerShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            //get current order
             //SelectList sl = new SelectList(new List<string>() { "pending", "processing", "dispached", "delivered", "canceled" });
             //ViewBag.SelectList = sl;
 
+            //get current order
             Order order = db.Orders.Find(id);
             TempData["Something"] = order.orderItems;
             if (order == null)
@@ -121,45 +119,67 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult Edit(Order order)
         {
-            order.customer = (Customer) db.Users.Find(order.customer.UserID);
+            order.customer = (Customer)(from u in db.Users
+                                                        where u.email == User.Identity.Name
+                                                        select u).First();
+
             order.orderItems = (ICollection<OrderItem>) TempData["Something"];
+            //if the modelState is not valid, we save it again
             TempData["Something"] = order.orderItems;
             if (!ModelState.IsValid)
             {
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
+                MailSender mS = new MailSender();
+                string body = "Your order status has changed!: ";
+                string status;
+                switch(order.status){
+                    case 1: status = "pending";
+                        break;
+                    case 2: status = "processing";
+                        break;
+                    case 3: status = "dispached";
+                        break;
+                    case 4: status = "delivered";
+                        break;
+                    case 5: status = "canceled";
+                        break;
+                    default: status = "wtf";
+                        break;
+                }
+
+                mS.SendMail(User.Identity.Name, body + status);
                 return RedirectToAction("Index");
             }
-            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
-                                               .Select(v => v.ErrorMessage + " " + v.Exception));
+            //String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage + " " + v.Exception));
             return View(order);
         }
+
+        //We dont allow to delete the Orders
 
         //
         // GET: /Orders/Delete/5
+        //public ActionResult Delete(int id = 0)
+        //{
+        //    Order order = db.Orders.Find(id);
+        //    if (order == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(order);
+        //}
 
-        public ActionResult Delete(int id = 0)
-        {
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return View(order);
-        }
-
-        //
-        // POST: /Orders/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            //delete orderitem and basket?
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        ////
+        //// POST: /Orders/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    //delete orderitem and basket?
+        //    Order order = db.Orders.Find(id);
+        //    db.Orders.Remove(order);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
@@ -222,12 +242,17 @@ namespace BeerShop.Controllers
             order.customer.basket.orderItems = new List<OrderItem>();
             order.status = Order.processing;
             order.createdDate = DateTime.UtcNow;
-            
+            order.customer.basket = new Basket();
+
+            MailSender mS = new MailSender();
+            string body = "Your order is done!";
+            mS.SendMail(User.Identity.Name, body);
+
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return Index();
+            return RedirectToAction("Index");
         }
 
         public ActionResult bootstrap()

@@ -53,7 +53,7 @@
 </p>
 <p>
    @* @Html.ActionLink("Create New", "Create") *@
-    <input type="button" id="Createnew" value="Create" runat="server" onclick="location.href='@Url.Action("Create")'"/>
+    <input type="button" class="btn btn-info" id="Createnew" value="Create" runat="server" onclick="location.href='@Url.Action("Create")'"/>
       <input type="button"  value="By name" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })'"/>
       <input type="button"  value="By Price" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.PriceSort })'"/>
   @*  @Html.ActionLink("By name", "Index", new { sortOrder = ViewBag.NameSortParm })

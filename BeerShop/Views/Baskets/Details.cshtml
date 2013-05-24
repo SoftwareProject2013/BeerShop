@@ -4,20 +4,20 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
+<h2>My Basket</h2>
+<br />
 <fieldset>
     <legend>Basket @Model.BasketID</legend>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.BasketID }) |
-    @Html.ActionLink("Back to List", "Index")
-    @Html.ActionLink("Continue Shopping", "Index", "Items");
+    
 </p>
 
 @{Html.RenderPartial("DetailsWidget",@Model);}
 
-<p>
-Overal sum: @(Model.sum())
+<div align="right">
+    @Html.ActionLink("Continue Shopping", "Index", "Items", null, new { @class = "btn" })
+    or
     @Html.ActionLink("Proceed to order", "Create", "Orders", null, new { @class = "btn" })
-</p>
+</div>
+<br />

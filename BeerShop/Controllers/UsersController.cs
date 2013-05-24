@@ -50,29 +50,35 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult CreateCustomer(Customer c)
         {
-            Basket b = new Basket();
-            c.basket = b;
-            db.Baskets.Add(b);
-            db.SaveChanges();
-            if( db.Users.FirstOrDefault(u => u.email == c.email) != null )
+            if (!c.isAdult())
             {
-                return View(c);
-            }
-            if (ModelState.IsValid)
-            {
-                var crypto = new SimpleCrypto.PBKDF2();
-                var encryptPass = crypto.Compute(c.password);
-                c.password = encryptPass;
-                c.passwordSalt = crypto.Salt;
-                db.Users.Add(c);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("", "Sorry! You have to be over 18");
             }
             else
             {
-                db.Baskets.Remove(b);
+                Basket b = new Basket();
+                c.basket = b;
+                db.Baskets.Add(b);
                 db.SaveChanges();
-            }
+                if (db.Users.FirstOrDefault(u => u.email == c.email) != null)
+                {
+                    return View(c);
+                }
+                if (ModelState.IsValid)
+                {
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    var encryptPass = crypto.Compute(c.password);
+                    c.password = encryptPass;
+                    c.passwordSalt = crypto.Salt;
+                    db.Users.Add(c);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    db.Baskets.Remove(b);
+                    db.SaveChanges();
+                }
             
             return View(c);
         }
@@ -84,16 +90,17 @@ namespace BeerShop.Controllers
         public ActionResult EditCustomer(int id = 0)
         {
             Customer user;
-            if(User.Identity.Name != null)
-                         user = (Customer) (from u in db.Users
-                        where u.email == User.Identity.Name
-                        select u).First();
+            if (User.Identity.Name != null)
+                user = (Customer)(from u in db.Users
+                                  where u.email == User.Identity.Name
+                                  select u).First();
             else
-                 user = (Customer) db.Users.Find(id);
+                user = (Customer)db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
+            TempData["Something"] = user.basket;
             return View(user);
         }
 
@@ -103,7 +110,9 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult EditCustomer(Customer user)
         {
-            user.basket = db.Baskets.Find(user.basket.BasketID);
+            user.basket = (Basket)TempData["Something"];
+            TempData["Something"] = user.basket;
+            //user.basket.orderItems.Add(db.OrderItems.Find(3));
             //is orderlist null?¿?¿?¿?
             if (ModelState.IsValid)
             {

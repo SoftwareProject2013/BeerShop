@@ -59,14 +59,7 @@
             @Html.ValidationMessageFor(model => model.address)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.birth)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.birth)
-            @Html.ValidationMessageFor(model => model.birth)
-        </div>
-
+        @Html.HiddenFor(model => model.birth)
         @Html.HiddenFor(model => model.basket.BasketID)
 
         <p>

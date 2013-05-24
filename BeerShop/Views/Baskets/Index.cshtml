@@ -4,9 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Index of Baskets</h2>
 
-<table>
+<table class="table table-striped">
     <tr>
         <th>Id</th>
         <th>Sum price</th>
@@ -22,12 +22,11 @@
             @(item.sum())
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BasketID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BasketID }) 
+            <button class="btn btn-small" type="button">@Html.ActionLink("Edit", "Edit", new { id=item.BasketID })</button>
+            <button class="btn btn-small" type="button">@Html.ActionLink("Details", "Details", new { id=item.BasketID })</button>
         </td>
     </tr>
 }
 
 
 </table>
-@Html.ActionLink("Add goods to basket example link", "Add", new { basketId=1, itemId=1,amount=2 })
