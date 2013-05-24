@@ -49,7 +49,8 @@
     </div>
     <div>
         @Html.ActionLink("Modify basket", "Edit", "Baskets", new { id = Model.customer.basket.BasketID }, null)
-        @Html.ActionLink("Continue", "Payment", new { id = Model.OrderID }) @*do the payment*@
+        @*do the payment*@
+        @Html.ActionLink("Continue", "Confirmation", new { id = Model.OrderID }) 
         @*        back (modify adress data)   *@
     </div>
 </fieldset>

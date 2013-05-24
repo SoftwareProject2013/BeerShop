@@ -90,16 +90,17 @@ namespace BeerShop.Controllers
         public ActionResult EditCustomer(int id = 0)
         {
             Customer user;
-            if(User.Identity.Name != null)
-                         user = (Customer) (from u in db.Users
-                        where u.email == User.Identity.Name
-                        select u).First();
+            if (User.Identity.Name != null)
+                user = (Customer)(from u in db.Users
+                                  where u.email == User.Identity.Name
+                                  select u).First();
             else
-                 user = (Customer) db.Users.Find(id);
+                user = (Customer)db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
+            TempData["Something"] = user.basket;
             return View(user);
         }
 
@@ -109,7 +110,9 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult EditCustomer(Customer user)
         {
-            user.basket = db.Baskets.Find(user.basket.BasketID);
+            user.basket = (Basket)TempData["Something"];
+            TempData["Something"] = user.basket;
+            //user.basket.orderItems.Add(db.OrderItems.Find(3));
             //is orderlist null?¿?¿?¿?
             if (ModelState.IsValid)
             {
