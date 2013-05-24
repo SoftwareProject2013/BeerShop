@@ -123,6 +123,25 @@ namespace BeerShop.Controllers
             {
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
+                MailSender mS = new MailSender();
+                string body = "Your order status has changed!: ";
+                string status;
+                switch(order.status){
+                    case 1: status = "pending";
+                        break;
+                    case 2: status = "processing";
+                        break;
+                    case 3: status = "dispached";
+                        break;
+                    case 4: status = "delivered";
+                        break;
+                    case 5: status = "canceled";
+                        break;
+                    default: status = "wtf";
+                        break;
+                }
+
+                mS.SendMail(User.Identity.Name, body + status);
                 return RedirectToAction("Index");
             }
             //String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage + " " + v.Exception));
@@ -217,7 +236,11 @@ namespace BeerShop.Controllers
             order.status = Order.processing;
             order.createdDate = DateTime.UtcNow;
             order.customer.basket = new Basket();
-            
+
+            MailSender mS = new MailSender();
+            string body = "Your order is done!";
+            mS.SendMail(User.Identity.Name, body);
+
             if (order == null)
             {
                 return HttpNotFound();

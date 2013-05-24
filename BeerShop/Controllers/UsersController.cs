@@ -50,34 +50,38 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult CreateCustomer(Customer c)
         {
-            Basket b = new Basket();
-            c.basket = b;
-            db.Baskets.Add(b);
-            db.SaveChanges();
-            if( db.Users.FirstOrDefault(u => u.email == c.email) != null )
+            if (!c.isAdult())
             {
-                return View(c);
-            }
-            if (ModelState.IsValid)
-            {
-                var crypto = new SimpleCrypto.PBKDF2();
-                var encryptPass = crypto.Compute(c.password);
-                c.password = encryptPass;
-                c.passwordSalt = crypto.Salt;
-                db.Users.Add(c);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("", "Sorry! You have to be over 18");
             }
             else
             {
-                db.Baskets.Remove(b);
+                Basket b = new Basket();
+                c.basket = b;
+                db.Baskets.Add(b);
                 db.SaveChanges();
+                if (db.Users.FirstOrDefault(u => u.email == c.email) != null)
+                {
+                    return View(c);
+                }
+                if (ModelState.IsValid)
+                {
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    var encryptPass = crypto.Compute(c.password);
+                    c.password = encryptPass;
+                    c.passwordSalt = crypto.Salt;
+                    db.Users.Add(c);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    db.Baskets.Remove(b);
+                    db.SaveChanges();
+                }
+                //var errors = ModelState.Values.SelectMany(v => v.Errors);
+                //String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage + " " + v.Exception));
             }
-            //var errors = ModelState.Values.SelectMany(v => v.Errors);
-            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
-                                                           .Select(v => v.ErrorMessage + " " + v.Exception));
-            Console.WriteLine(messages);
-
             return View(c);
         }
 
