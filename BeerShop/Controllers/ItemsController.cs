@@ -16,6 +16,11 @@ namespace BeerShop.Controllers
     {
         private BeerShopContext db = new BeerShopContext();
         private bool isWOrker = false;
+
+        public ActionResult BootstrapIndex()
+        {
+            return RedirectToAction("Index", "Items");
+        }
         //
         // GET: /Items/
 
