@@ -1,0 +1,63 @@
+﻿@model BeerShop.Models.Basket
+<table class="table table-striped">
+    <tr>
+        <th>
+            Item
+        </th>
+        <th>
+            Stock count
+        </th>
+        <th>
+            Amount in basket
+        </th>
+        <th>
+            Price per one item
+        </th>
+        <th>
+            Price sum
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var orderItem in Model.orderItems)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.item.stockCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.item.Price)
+            </td>
+            <td>
+                @(orderItem.sum(true))
+            </td>
+            <td>
+                <button class="btn btn-small" type="button">@Html.ActionLink("-1", "DecrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+                <button class="btn btn-small" type="button">@Html.ActionLink("+1", "IncrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+                <button class="btn btn-small" type="button">@Html.ActionLink("Remove", "RemoveItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+            <b>Overal sum:</b>
+        </td>
+        <td>
+            <b>@(Model.sum())</b>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,83 @@
+﻿@model BeerShop.Models.Order
+@{
+    ViewBag.Title = "Confirmation";
+}
+<h4>
+    This is the information about you, your deliver address and your payment data</h4>
+<br />
+<fieldset>
+    <legend>User</legend>
+    @Html.Label("Complete name")
+    @Html.DisplayFor(model => model.customer.firstName)
+    @Html.DisplayFor(model => model.customer.lastName)
+    @Html.LabelFor(model => model.customer.email)
+    @Html.DisplayFor(model => model.customer.email)
+    @Html.LabelFor(model => model.customer.phone)
+    @Html.DisplayFor(model => model.customer.phone)
+    <br />
+</fieldset>
+<fieldset>
+    <legend>Address</legend>
+    @Html.LabelFor(model => model.customer.address)
+    @Html.DisplayFor(model => model.customer.address)
+</fieldset>
+<fieldset>
+    <legend>Payment</legend>
+    @*Payment data info*@
+</fieldset>
+<br />
+<h4>
+    Those are the items you are buying</h4>
+
+<fieldset>
+    <legend>Item</legend>
+    <div>
+        <table>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var oI in Model.orderItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => oI.item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.price)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <b>@ViewBag.totalPrice</b>
+                </td>
+            </tr>
+        </table>
+    </div>
+</fieldset>
+    <div>
+        @Html.ActionLink("Finish", "Finish", new { id=Model.OrderID })
+@*      back (modify adress data)
+        back (basket)  
+        back (payment) *@
+    </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerShop", "BeerShop\BeerShop.csproj", "{29DE69E4-C845-47C6-85D6-D0A2AD08D177}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "BeerShop.Azure1", "BeerShop.Azure1\BeerShop.Azure1.ccproj", "{0FE25B13-9CF0-489B-B04B-13EC59E9C448}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{29DE69E4-C845-47C6-85D6-D0A2AD08D177}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29DE69E4-C845-47C6-85D6-D0A2AD08D177}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29DE69E4-C845-47C6-85D6-D0A2AD08D177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE25B13-9CF0-489B-B04B-13EC59E9C448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE25B13-9CF0-489B-B04B-13EC59E9C448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE25B13-9CF0-489B-B04B-13EC59E9C448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE25B13-9CF0-489B-B04B-13EC59E9C448}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
