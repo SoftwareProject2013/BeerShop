@@ -6,7 +6,8 @@
 <fieldset>
     <h4>
         Order details</h4>
-    <table>
+    <br />
+    <table class="table table-striped">
         <tr>
             <th>
                 Order ID
@@ -25,8 +26,6 @@
             </th>
             <th>
                 Delivered Date
-            </th>
-            <th>
             </th>
         </tr>
         <tr>
@@ -50,6 +49,8 @@
                           break;
                       case 5: @:canceled
                           break;
+                      case 6: @:paying
+                          break;
                       default: @:wtf
                           break;
                   }
@@ -59,94 +60,119 @@
                 @Html.DisplayFor(model => model.createdDate)
             </td>
             <td>
-                @Html.DisplayFor(model => model.dispachedDate)
+                @if (Model.dispachedDate.Date == new DateTime(9999, 12, 31))
+                { 
+                    @:Not Dispached Yet
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.dispachedDate)
+                }
             </td>
             <td>
-                @Html.DisplayFor(model => model.deliveredDate)
+                @if (Model.deliveredDate.Date == new DateTime(9999, 12, 31))
+                { 
+                    @:Not Delivered Yet
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.deliveredDate)
+                }
             </td>
         </tr>
     </table>
 </fieldset>
-<hr width=75%"/>
-<br />
-            <fieldset>
-                <h4>
-                    User details</h4>
-                <br />
-                @Html.Label("Complete name")
-                @Html.DisplayFor(model => model.customer.firstName)
-                @Html.DisplayFor(model => model.customer.lastName)
-                @Html.LabelFor(model => model.customer.email)
-                @Html.DisplayFor(model => model.customer.email)
-                @Html.LabelFor(model => model.customer.phone)
-                @Html.DisplayFor(model => model.customer.phone)
-                @Html.LabelFor(model => model.customer.birth)
-                @Html.DisplayFor(model => model.customer.birth)
-                <br />
-            </fieldset>
-            <hr width=75%"/>
-            <fieldset>
-                <h4>
-                    Delivery details</h4>
-                <br />
-                @Html.LabelFor(model => model.customer.address)
-                @Html.DisplayFor(model => model.customer.address)
-            </fieldset>
-            <hr width=75%"/>
-            <fieldset>
-                <h4>
-                    Payment details</h4>
-                <br />
-                @*Payment data info*@
-            </fieldset>
-            <hr width=75%"/>
+<hr width="75%" />
+<fieldset>
+    <div class="row">
+        <div class="span6">
+            <h4>
+                User details</h4>
             <br />
-            <fieldset>
-                <h4>
-                    Purchase details</h4>
-                <div>
-                    <table>
-                        <tr>
-                            <th>
-                                Item
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th>
-                            </th>
-                        </tr>
-                        @foreach (var oI in Model.orderItems)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(model => oI.item.name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(model => oI.amount)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(model => oI.price)
-                                </td>
-                            </tr>
-                        }
-                        <tr>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                                <b>@ViewBag.totalPrice</b>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </fieldset>
-            <hr width=75%"/>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            <strong>Complete name: </strong>
+            @Html.DisplayFor(model => model.customer.firstName)
+            @Html.DisplayFor(model => model.customer.lastName)
+            <br />
+            <strong>eMail: </strong>
+            @Html.DisplayFor(model => model.customer.email)
+            <br />
+            <strong>Phone Number:</strong>
+            @Html.DisplayFor(model => model.customer.phone)
+            <br />
+            <strong>Date of Birth:</strong>
+            @Html.DisplayFor(model => model.customer.birth)
+            <br />
+        </div>
+        <div class="span6">
+            <h4>
+                Delivery details</h4>
+            <br />
+            <strong>address:</strong>
+            @Html.DisplayFor(model => model.customer.address)
+            <hr width="75%" />
+            <h4>
+                Payment details</h4>
+            <br />
+            <p class="text-info">
+                You can view your paypal payment acount in the next link
+            <button class="btn">
+                <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit">Log in</a></button></p>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <hr width="75%" />
+    <h4>
+        Purchase details</h4>
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price per item
+                </th>
+                <th>
+                    Price sum
+                </th>
+            </tr>
+            @foreach (var oI in Model.orderItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => oI.item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.price)
+                    </td>
+                    <td>
+                        @(oI.sum(true))
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                <strong>Overal sum:</strong>
+                </td>
+                <td>
+                    <strong>@ViewBag.totalPrice</strong>
+                </td>
+            </tr>
+        </table>
+    </div>
+</fieldset> 
+    <div align="right">
+        @Html.ActionLink("Back", "Index", null,  new { @class = "btn " })
+    </div>
+    <br />

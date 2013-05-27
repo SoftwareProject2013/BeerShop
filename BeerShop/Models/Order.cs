@@ -16,6 +16,7 @@ namespace BeerShop.Models
         public static readonly int dispached = 3;
         public static readonly int delivered = 4;
         public static readonly int canceled = 5;
+        public static readonly int paying = 6;
 
         [Key]
         public int OrderID { set; get; }

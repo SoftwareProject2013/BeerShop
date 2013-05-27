@@ -12,6 +12,7 @@ namespace BeerShop.Models
        SmtpClient client;
        private string From = "beershop12345@gmail.com";
        private string password = "1234qwerty";
+       //Password for Paypal "1q2w3e4rTY"
        public MailSender()
         {
             client = new SmtpClient("smtp.gmail.com", 587)

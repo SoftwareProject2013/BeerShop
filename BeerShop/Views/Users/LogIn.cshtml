@@ -8,17 +8,24 @@
     
     <fieldset>
         <div>
-            <legend>Login Form</legend>
-            <div>@Html.LabelFor(u => u.email)</div>
-            <div>@Html.TextBoxFor(u => u.email)
-                @Html.ValidationMessageFor(u => u.email)
+            <div class="editor-label">
+            <br />
+            <strong>eMail:</strong>
+            <div class="editor-field">
+            @Html.TextBoxFor(u => u.email)
+            @Html.ValidationMessageFor(u => u.email)
             </div>
-            <div>@Html.LabelFor(u => u.password)</div>
+            <div class="editor-label">
+           <br />
+            <strong>Password:</strong>
+            </div class="editor-field">
             <div>@Html.PasswordFor(u => u.password)
                 @Html.ValidationMessageFor(u => u.password)
             </div>
         </div>
     </fieldset>
-    <input type="submit" value="Log In" />
+    <br />
+    <button type="submit" class="btn btn-primary">
+        Log in</button>
  
 }

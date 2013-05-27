@@ -1,61 +1,45 @@
 ﻿@model BeerShop.Models.User
-
 @{
     ViewBag.Title = "Details";
 }
-
-<h2>Details</h2>
-
+<h2>
+    User Details</h2>
 <fieldset>
     <legend>User</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.firstName)
-    </div>
+    <br />
+    <strong>Complete Name:</strong>
     <div class="display-field">
         @Html.DisplayFor(model => model.firstName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.lastName)
-    </div>
-    <div class="display-field">
         @Html.DisplayFor(model => model.lastName)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.email)
-    </div>
+   <br />
+    <strong>eMail:</strong>
     <div class="display-field">
         @Html.DisplayFor(model => model.email)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.phone)
-    </div>
+    <br />
+    <strong>Phone Number:</strong>
     <div class="display-field">
         @Html.DisplayFor(model => model.phone)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.address)
-    </div>
+    <br />
+    <strong>Address:</strong>
     <div class="display-field">
         @Html.DisplayFor(model => model.address)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.birth)
-    </div>
+    <br />
+    <strong>Date of Birth:</strong>
     <div class="display-field">
         @Html.DisplayFor(model => model.birth)
     </div>
-
+    <br />
+    <strong>Is Locked?:</strong>
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.locked)
+        @Html.DisplayNameFor(model => model.locked)
     </div>
 </fieldset>
-<p>
-    @Html.ActionLink("Edit", "EditCustomer", new { id=Model.UserID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+    <div align="right">
+        @Html.ActionLink("Back", "Index", null, new { @class = "btn " })
+    </div>
+    <br />
