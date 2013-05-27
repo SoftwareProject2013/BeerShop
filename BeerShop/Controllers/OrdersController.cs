@@ -130,7 +130,7 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id = 0)
         {
-            //SelectList sl = new SelectList(new List<string>() { "pending", "processing", "dispached", "delivered", "canceled" });
+            //SelectList sl = new SelectList(new List<string>() { "1. pending", "2. processing", "3. dispached", "4. delivered", "5. canceled" ,"6. paying" });
             //ViewBag.SelectList = sl;
 
             //get current order
@@ -150,8 +150,24 @@ namespace BeerShop.Controllers
         public ActionResult Edit(Order order)
         {
             order.customer = (Customer)(from u in db.Users
-                                        where u.email == User.Identity.Name
+                                        where u.UserID == order.customer.UserID
                                         select u).First();
+
+            if (order.status == 3)
+            {
+                order.dispachedDate = DateTime.Now;
+            }
+
+            if (order.status == 4)
+            {
+                order.deliveredDate = DateTime.Now;
+            }
+
+            if (order.status == 5 || order.status == 2)
+            {
+                order.dispachedDate = DateTime.MaxValue;
+                order.deliveredDate = DateTime.MaxValue;
+            }
 
             order.orderItems = (ICollection<OrderItem>)TempData["Something"];
             //if the modelState is not valid, we save it again
@@ -348,7 +364,8 @@ namespace BeerShop.Controllers
             }
             order.customer.basket.orderItems = new List<OrderItem>();
             order.status = Order.processing;
-            order.createdDate = DateTime.UtcNow;
+            order.createdDate = DateTime.UtcNow
+;
             order.customer.basket = new Basket();
 
             MailSender mS = new MailSender();
