@@ -4,8 +4,10 @@
 @foreach (var c in Model)
 {
     
-   <ul style="text-align:justify">
+
+   <li class = "disable">
     @Html.ActionLink(c.name, "Index", new { page = 1, categoryType = c.category.name, category = c.name })
-   </ul>
+    </li>
+
     
 }

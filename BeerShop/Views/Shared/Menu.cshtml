@@ -2,15 +2,22 @@
 @{
     ViewBag.Title = "Menu";
 }
-    
-<h2>Menu</h2>
-<table>
+
+
+<ul class="nav nav-list">
+
 @foreach(var c in Model)
 {
-    <tr>
+    <h1>
+    <li class="nav-header">
     @Html.DisplayFor(Modelitem => c.name)
-    </tr>
-    {Html.RenderPartial("_ItemsCategory",c.categories);}     
+    </li>
+    </h1>
+    {Html.RenderPartial("_ItemsCategory",c.categories);}   
+  
 }
-</table>
+</ul>
+
+
+
 
