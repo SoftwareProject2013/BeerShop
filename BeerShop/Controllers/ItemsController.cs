@@ -15,7 +15,7 @@ namespace BeerShop.Controllers
     public class ItemsController : Controller
     {
         private BeerShopContext db = new BeerShopContext();
-        private bool isWOrker = false;
+        
 
         public ActionResult BootstrapIndex()
         {
@@ -24,7 +24,7 @@ namespace BeerShop.Controllers
         //
         // GET: /Items/
 
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, string categoryType, string category, bool? clearDictionary, string message="")
         {
 
             
@@ -112,6 +112,7 @@ namespace BeerShop.Controllers
                 case "Name desc":
                     items = items.OrderByDescending(i => i.name);
                     break;
+     
                 case "Price":
                     items = items.OrderByDescending(i => i.Price);
                     break;
@@ -123,7 +124,7 @@ namespace BeerShop.Controllers
                     break;
             }
 
-
+            ViewBag.message = message;
             int PageSize = 7;
             int pagenumber = (page ?? 1);           
             return View(items.ToPagedList(pagenumber, PageSize));
@@ -160,6 +161,8 @@ namespace BeerShop.Controllers
             }
 
                 itemHelper.selectedCommentID = editableCommentID;
+                
+                ViewBag.message = message;
 
 
             return View(itemHelper);
@@ -217,7 +220,7 @@ namespace BeerShop.Controllers
 
         private static string GetItemPicture(String name)
         {
-            string url = "https://www.google.com/search?hl=pl&site=imghp&tbm=isch&source=hp&biw=1366&bih=614&q="+ "beer" + name + "&gs_l=img.3..0j0i24l4.3057.4575.0.4609.10.6.0.4.4.0.174.760.0j6.6.0...0.0...1ac.1.12.img.R03isTqrCTk";
+            string url = "https://www.google.com/search?hl=pl&site=imghp&tbm=isch&source=hp&biw=1366&bih=641&q=" + "beer+" + name +"&og=beer+"+ name ;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             string imgUrl = "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg";
@@ -346,8 +349,7 @@ namespace BeerShop.Controllers
                 return RedirectToAction("Index");
             
         }
-        [Authorize(Roles="Admin")]
-        [HttpPost, ActionName("Delete")]
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

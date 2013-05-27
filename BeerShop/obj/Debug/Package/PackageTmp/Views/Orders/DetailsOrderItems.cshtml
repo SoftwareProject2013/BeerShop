@@ -1,0 +1,70 @@
+﻿@model BeerShop.Models.Order
+@{
+    ViewBag.Title = "Order items";
+}
+<fieldset>
+    <legend>Item</legend>
+    <div>
+        <p class="lead">
+            Those are the items you are buying. If you want to add or delete some items or modify
+            their quantity, push 'Modify Basket' button below</p>
+        <br />
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price per item
+                </th>
+                <th>
+                    Price sum
+                </th>
+            </tr>
+            @foreach (var oI in Model.orderItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => oI.item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => oI.price)
+                    </td>
+                    <td>
+                        @(oI.sum(true))
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                <strong>Overal sum:</strong>
+                </td>
+                <td>
+                    <strong>@ViewBag.totalPrice</strong>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div align="left">
+     @Html.ActionLink("Modify basket", "Details", "Baskets", new { @class = "btn" })
+     </div>
+    <div align="right">
+       
+        @Html.ActionLink("Back", "EditOrder", "Users", new { id = Model.customer.UserID }, new { @class = "btn " })
+        @Html.ActionLink("Continue", "Confirmation", new { id = Model.OrderID }, new { @class = "btn btn-primary" }) 
+    </div>
+    <br />
+</fieldset>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

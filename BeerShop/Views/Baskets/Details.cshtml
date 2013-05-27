@@ -12,6 +12,9 @@
 
 @{Html.RenderPartial("DetailsWidget",@Model);}
 
+<div style="float:left;">
+@Html.ActionLink("Clear basket", "clearBasket", "Baskets", null, new { @class = "btn" })
+</div>
 <div align="right">
     @Html.ActionLink("Continue Shopping", "Index", "Items", null, new { @class = "btn" })
     
@@ -21,4 +24,5 @@
         @Html.ActionLink("Proceed to order", "Create", "Orders", null, new { @class = "btn btn-primary" })
     }
 </div>
+
 <br />

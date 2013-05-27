@@ -1,0 +1,2 @@
+D:\Beer\BeerShop\BeerShop.Azure\bin\Release\ServiceConfiguration.cscfg
+D:\Beer\BeerShop\BeerShop.Azure\bin\Release\ServiceDefinition.csdef

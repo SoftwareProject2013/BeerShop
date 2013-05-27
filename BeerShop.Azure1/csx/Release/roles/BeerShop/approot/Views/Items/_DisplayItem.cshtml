@@ -1,0 +1,69 @@
+﻿@model BeerShop.Models.Item
+
+@helper ShortDescription(string description)
+{
+    if(description == null)
+    {
+    
+    }
+    else if (description.Length > 20){
+    @(description.Substring(0, 17) + " ... " ) ;
+                                  }
+    else
+    {
+        @description;
+    }
+                                 
+}
+@helper helperURL(string myurl)
+{
+    if (myurl != null)
+    {
+        @myurl
+    }
+
+}
+<tr>
+<div>
+        <td>
+            @if (Model.imageURL != null)
+            {
+            <img src=@helperURL(Model.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
+            }
+            else
+            {
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
+            }
+        </td>
+        <td>
+            @Html.ActionLink(Model.name, "Details", new { id = Model.ItemID }) 
+        </td>
+        <td>
+            @ShortDescription(Model.description)
+            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.stockCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.Price)
+        </td>
+ </div>
+        <td>
+ 
+       @if (Model.isStillOnSale == false )
+       {
+           <p>Product unavaliable</p>
+       }
+       @if (User.IsInRole("Admin"))
+       {
+           @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID })           
+       }
+       else
+       {
+            {Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.ItemID, 0));}
+       }
+       
+
+        </td>
+    </tr>

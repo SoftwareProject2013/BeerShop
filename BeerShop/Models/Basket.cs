@@ -32,9 +32,12 @@ namespace BeerShop.Models
             {
                 throw (new Exception("not enought product on stock"));
             }
-            
-            orderItems.Add(orderItem);
-        }
+            OrderItem oI = orderItems.FirstOrDefault(o => o.item == orderItem.item);
+            if (oI != null)
+                oI.amount += orderItem.amount;
+            else
+                orderItems.Add(orderItem);
+        }   
 
         public void clearBasket()
         {

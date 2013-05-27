@@ -2,40 +2,12 @@
 @{
     ViewBag.Title = "Details";
 }
-@if (Model == null)
-{
-    <div>
-        No orders in the list
-    </div>
-}
-else
-{
-    <div>
-        <br />
-        <fieldset>
-            <h4>
-                Order details</h4>
+<br />
+<fieldset>
+    <h4>
+        Order details</h4>
     <br />
     <table class="table table-striped">
-                <tr>
-                    <th>
-                        Order ID
-                    </th>
-                    <th>
-                        Full name
-                    </th>
-                    <th>
-                        Status
-                    </th>
-                    <th>
-                        Created Date
-                    </th>
-                    <th>
-                        Dispached Date
-                    </th>
-                    <th>
-                        Delivered Date
-                    </th>
         <tr>
             <th>
                 Order ID
@@ -55,39 +27,56 @@ else
             <th>
                 Delivered Date
             </th>
-                </tr>
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => model.OrderID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.customer.firstName)
-                        @Html.DisplayFor(model => model.customer.lastName)
-                    </td>
-                    <td>
-                        @{int st = Model.status; switch (st)
-                          {
-                              case 1: @:pending
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.customer.firstName)
+                @Html.DisplayFor(model => model.customer.lastName)
+            </td>
+            <td>
+                @{int st = Model.status; switch (st)
+                  {
+                      case 1: @:pending
+<<<<<<< HEAD
+                        break;
+                      case 2: @:processing
+                    break;
+                      case 3: @:dispached
+                    break;
+                      case 4: @:delivered
+                     break;
+                      case 5: @:canceled
+                    break;
+                      case 6: @:paying
+                    break;
+                      default: @:wtf
+                    break;
+                  } 
+=======
                           break;
-                              case 2: @:processing
+                      case 2: @:processing
                           break;
-                              case 3: @:dispached
+                      case 3: @:dispached
                           break;
-                              case 4: @:delivered
+                      case 4: @:delivered
                           break;
-                              case 5: @:canceled
+                      case 5: @:canceled
                           break;
                       case 6: @:paying
                           break;
-                              default: @:wtf
+                      default: @:wtf
                           break;
-                          }
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.createdDate)
-                    </td>
-                    <td>
+                  }
+>>>>>>> cac514d01d7a6e4b86b596ac130e1e67622bfee4
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.createdDate)
+            </td>
+            <td>
                 @if (Model.dispachedDate.Date == new DateTime(9999, 12, 31))
                 { 
                     @:Not Dispached Yet
@@ -96,8 +85,8 @@ else
                 {
                     @Html.DisplayFor(model => model.dispachedDate)
                 }
-                    </td>
-                    <td>
+            </td>
+            <td>
                 @if (Model.deliveredDate.Date == new DateTime(9999, 12, 31))
                 { 
                     @:Not Delivered Yet
@@ -106,10 +95,10 @@ else
                 {
                     @Html.DisplayFor(model => model.deliveredDate)
                 }
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
+            </td>
+        </tr>
+    </table>
+</fieldset>
 <hr width="75%" />
 <fieldset>
     <div class="row">
@@ -143,10 +132,13 @@ else
             <br />
             <p class="text-info">
                 You can view your paypal payment acount in the next link
-            <button class="btn">
-                <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit">Log in</a></button></p>
+                <button class="btn">
+                    <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit">Log in</a></button></p>
+<<<<<<< HEAD
+=======
         </div>
-    </div>
+>>>>>>> cac514d01d7a6e4b86b596ac130e1e67622bfee4
+        </div>
 </fieldset>
 <fieldset>
     <hr width="75%" />
@@ -178,10 +170,10 @@ else
                         @Html.DisplayFor(model => oI.amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => oI.price)
+                        $@Html.DisplayFor(model => oI.price)
                     </td>
                     <td>
-                        @(oI.sum(true))
+                        @(oI.sum(true).ToString("c"))
                     </td>
                 </tr>
             }
@@ -191,17 +183,16 @@ else
                 <td>
                 </td>
                 <td>
-                <strong>Overal sum:</strong>
+                    <strong>Overal sum:</strong>
                 </td>
                 <td>
-                    <strong>@ViewBag.totalPrice</strong>
+                    <strong>@ViewBag.totalPrice.ToString("c")</strong>
                 </td>
             </tr>
         </table>
     </div>
-</fieldset> 
-    <div align="right">
-        @Html.ActionLink("Back", "Index", null,  new { @class = "btn " })
-    </div>
-    <br />
-
+</fieldset>
+<div align="right">
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn " })
+</div>
+<br />

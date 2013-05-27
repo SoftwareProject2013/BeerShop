@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BeerShop.Models.Basket>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index of Baskets</h2>
+
+<table class="table table-striped">
+    <tr>
+        <th>Id</th>
+        <th>Sum price</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BasketID)
+        </td>
+        <td>
+            @(item.sum())
+        </td>
+        <td>
+            <button class="btn btn-small" type="button">@Html.ActionLink("Edit", "Edit", new { id=item.BasketID })</button>
+            <button class="btn btn-small" type="button">@Html.ActionLink("Details", "Details", new { id=item.BasketID })</button>
+        </td>
+    </tr>
+}
+
+
+</table>

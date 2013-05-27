@@ -89,6 +89,7 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Customer")]
         public ActionResult EditCustomer(int id = 0)
         {
+            
             Customer user = (Customer)(from u in db.Users
                                   where u.email == User.Identity.Name
                                   select u).First();
@@ -107,6 +108,10 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Customer, Admin")]
         public ActionResult EditCustomer(Customer user)
         {
+            if(db.Users.FirstOrDefault(u=>u.email == user.email) != null)
+            {
+                ModelState.AddModelError("", "that email is already taken");
+            }
             user.basket = (Basket)TempData["Something"];
             TempData["Something"] = user.basket;
 
@@ -208,6 +213,11 @@ namespace BeerShop.Controllers
                 User user= isValid(customer.email, customer.password);
                 if (user != null)
                 {
+                    if (user.locked == true)
+                    {
+                        ModelState.AddModelError("", "You are not able to logIn you account is Locked");
+                        return View();
+                    }
                     FormsAuthentication.SetAuthCookie(customer.email, false);
                     string roles = "";
                     if (user is Customer)

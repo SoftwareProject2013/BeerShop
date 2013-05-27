@@ -21,10 +21,11 @@ namespace BootstrapMvcSample
             routes.MapNavigationRoute<HomeController>("Items", c => c.Contact()).
                 AddChildRoute<ItemsController>("Show items list", c => c.BootstrapIndex()).
                 AddChildRoute<ItemsController>("Add new item", c => c.Create());
-            routes.MapNavigationRoute<OrdersController>("Users info", c => c.bootstrap()).
+            routes.MapNavigationRoute<OrdersController>("Management", c => c.bootstrap()).
                 AddChildRoute<OrdersController>("Show orders", c => c.Index()).
                 AddChildRoute<UsersController>("Show users", c => c.Index())
-                .AddChildRoute<BasketsController>("Show basket", c => c.Index());
+                .AddChildRoute<BasketsController>("Show basket", c => c.Index())
+                .AddChildRoute<OrdersController>("PayPal account", c => c.PayPalRedirect());
 
 
         }

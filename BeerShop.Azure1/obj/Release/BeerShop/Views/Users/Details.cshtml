@@ -1,0 +1,45 @@
+﻿@model BeerShop.Models.User
+@{
+    ViewBag.Title = "Details";
+}
+<h2>
+    User Details</h2>
+<fieldset>
+    <legend>User</legend>
+    <br />
+    <strong>Complete Name:</strong>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.firstName)
+        @Html.DisplayFor(model => model.lastName)
+    </div>
+   <br />
+    <strong>eMail:</strong>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+    <br />
+    <strong>Phone Number:</strong>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phone)
+    </div>
+    <br />
+    <strong>Address:</strong>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.address)
+    </div>
+    <br />
+    <strong>Date of Birth:</strong>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.birth)
+    </div>
+    <br />
+    <strong>Is Locked?:</strong>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.locked)
+    </div>
+</fieldset>
+
+    <div align="right">
+        @Html.ActionLink("Back", "Index", null, new { @class = "btn " })
+    </div>
+    <br />

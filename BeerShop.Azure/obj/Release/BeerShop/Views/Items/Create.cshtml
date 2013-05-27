@@ -1,0 +1,70 @@
+﻿@model BeerShop.Models.ItemCategoryHelper
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Item</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.item.name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.item.name)
+            @Html.ValidationMessageFor(model => model.item.name)
+        </div>
+
+      
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.item.stockCount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.item.stockCount)
+            @Html.ValidationMessageFor(model => model.item.stockCount)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.item.Price)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.item.Price)
+            @Html.ValidationMessageFor(model => model.item.Price)
+        </div>
+
+          <div class="editor-label">
+            @Html.LabelFor(model => model.item.description)
+        </div>
+       
+         <div class="editor-field">
+            @Html.TextAreaFor(model => model.item.description)
+            @Html.ValidationMessageFor(model => model.item.description)
+            
+        </div>
+        
+        @foreach (var i in ViewBag.typesList as Dictionary<string, SelectList>)
+        {
+        <div class="editor-field">
+            @Html.Label(i.Key)
+            @Html.DropDownListFor(model => model.categoryTypeCategoryDictionary[i.Key], i.Value as SelectList)
+         
+        </div>
+        }
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
