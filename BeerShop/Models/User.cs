@@ -42,12 +42,13 @@ namespace BeerShop.Models
 
         public bool locked { get; set; }
 
+        public string fullName()
+        {
+            return firstName + lastName;
+        }
         public bool isAdult()
         {
-            if (DateTime.Now.Year - this.birth.Year < 18)
-                return false;
-            else
-                return true;
+            return (DateTime.Now.Year - birth.Year) > 18;
         }
 
     }

@@ -125,20 +125,14 @@ namespace BeerShop.Controllers
 
 
             int PageSize = 7;
-            int pagenumber = (page ?? 1);
-
-            if (User.IsInRole("Admin"))
-            {
-                ViewBag.PermissionLevel = Worker.masterPermission;
-            }
-            
+            int pagenumber = (page ?? 1);           
             return View(items.ToPagedList(pagenumber, PageSize));
 
         }
 
         //
         // GET: /Items/Details/5
-        public ActionResult Details(int id = 0, string message ="")
+        public ActionResult Details(int id = 0, string message ="", int editableCommentID=0)
         {
             Item item = db.Items.Find(id);
             if (item == null)
@@ -164,10 +158,10 @@ namespace BeerShop.Controllers
                 }
                 itemHelper.categoryTypeCategoryDictionary.Add(categoryType.name, itemCategory);
             }
-            if ( message != null && message.Length > 0)
-            {
-                ViewBag.Message = message;
-            }
+
+                itemHelper.selectedCommentID = editableCommentID;
+
+
             return View(itemHelper);
         }
 
@@ -181,6 +175,11 @@ namespace BeerShop.Controllers
                 foreach (var categoryType in db.Categories)
                 {
                     SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name");
+                    var catItemNoSelected = new CategoryItem();
+                    catItemNoSelected.CategoryItemID = -1;
+                    catItemNoSelected.name = "no selected";
+                    categoryType.categories.Add(catItemNoSelected);
+                
                     categoriesDictionary.Add(categoryType.name, SelectCategoryList);
                 }
 
@@ -258,18 +257,18 @@ namespace BeerShop.Controllers
             foreach (var categoryType in db.Categories)
             {
                 string selectedValue = "";
+                var catItemNoSelected = new CategoryItem();
+                catItemNoSelected.CategoryItemID = -1;
+                catItemNoSelected.name = "no selected";
+                categoryType.categories.Add(catItemNoSelected);
                 try
                 {
                     selectedValue = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).name;
                 }
                 catch (Exception e)
                 {
-                    selectedValue = "no selected";
+                    selectedValue = catItemNoSelected.name;
                 }
-                var catItemNoSelected = new CategoryItem();
-                catItemNoSelected.CategoryItemID = -1;
-                catItemNoSelected.name = "no selected";
-                categoryType.categories.Add(catItemNoSelected);
                 SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name", selectedValue);
                 categoriesDictionary.Add(categoryType.name, SelectCategoryList);
             }
@@ -279,6 +278,7 @@ namespace BeerShop.Controllers
             return View(itemHelper);
     
         }
+
 
 
         //

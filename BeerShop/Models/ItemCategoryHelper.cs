@@ -19,6 +19,7 @@ namespace BeerShop.Models
       public Dictionary<string, string> categoryTypeCategoryDictionary { set; get; }
       public string localHelper { set; get; }
       public Comment comment { set; get; }
+      public int selectedCommentID { set; get; }
       public string TextShort { get { return item.description.Substring(0, 30) + " ... "; } }
     }
 }

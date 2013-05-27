@@ -48,11 +48,13 @@ namespace BeerShop.Controllers
         // POST: /Comments/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(Comment comment)
+        public ActionResult Edit(Comment commentNew)
         {
+            Comment comment = db.Comments.FirstOrDefault(c => c.CommentID == commentNew.CommentID);
             comment.date = DateTime.UtcNow;
-            comment.item = db.Items.Where(i => i.comments.FirstOrDefault(c => c.CommentID == comment.CommentID) != null).ToList()[0];
-            if (comment.content.Length > 0  && comment.author != null && comment.item != null)
+            comment.content = commentNew.content;
+           
+            if ((comment.content.Length > 0  && comment.author != null && comment.item != null && (User.Identity.Name == comment.author.email || User.IsInRole("Admin") )))
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();

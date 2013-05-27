@@ -41,17 +41,24 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Customer, Admin")]
         public ActionResult Details(int id = 0)
         {
-            Order order = db.Orders.Find(id);
+            Order order;
+            if(id != 0)
+                order = db.Orders.Find(id);
+            else
+            {
+                order = db.Orders.FirstOrDefault(o => o.customer.email == User.Identity.Name);
+            }
+            if (order == null)
+            {
+                return View();
+            }
             double totalPrice = 0;
             foreach (OrderItem oI in order.orderItems)
             {
                 totalPrice += oI.price * oI.amount;
             }
             ViewBag.totalPrice = totalPrice;
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
+            
             return View(order);
         }
 
