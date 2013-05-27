@@ -17,7 +17,7 @@ namespace BeerShop.Models
 
         public string imageURL { set; get; }
 
-        [DataType(DataType.Text)]
+        [DataType(DataType.MultilineText)]
         public string description { set; get; }
 
         [Range(0, int.MaxValue)]

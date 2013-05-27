@@ -2,30 +2,34 @@
 @{
     ViewBag.Title = "Order - Edit user data";
 }
-<h4>
+<p class="lead">
     This is the information we have about you, if it is not correct, you can modify
-    it in "your acount" section</h4>
+    it in "your acount" section</p>
 <br />
 @Html.HiddenFor(model => model.UserID)
-@Html.Label("Complete name")
+<strong>Complete name:</strong>
 @Html.DisplayFor(model => model.firstName)
 @Html.DisplayFor(model => model.lastName)
-@Html.LabelFor(model => model.email)
+<br />
+<strong>eMail:</strong>
 @Html.DisplayFor(model => model.email)
-@Html.LabelFor(model => model.phone)
+
+<br /><strong>Phone number:</strong>
 @Html.DisplayFor(model => model.phone)
 <br />
-<h4>
-    We have this address direction saved, is it correct? if not you should modify. Remember:
-    this address is where your items are going to be delivered.</h4>
 <br />
+<br />
+<p class="text-info">
+    We have this address direction saved, is it correct? if not you should modify.<br />
+    <strong>Remember: this address is where your items are going to be delivered.</strong></p>
+    <br />
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>User</legend>
-        @Html.Label("Address:")
+        <label><strong>Address:  </strong></label>
         @Html.EditorFor(model => model.address)
         @Html.ValidationMessageFor(model => model.address)
         @Html.HiddenFor(model => model.UserID)
@@ -37,17 +41,17 @@
         @Html.HiddenFor(model => model.locked)
         @Html.HiddenFor(model => model.password)
         @Html.HiddenFor(model => model.orders)
-        @foreach (var item in Model.orders) { 
+        @foreach (var item in Model.orders)
+        { 
             @Html.HiddenFor(modelItem => item.OrderID)
         }
         @Html.HiddenFor(model => model.basket.BasketID)
 
-
-
-@*        @Html.HiddenFor(model => model.basket)*@
-        <p>
-            <input type="submit" value="Continue" />
-        </p>
+        <br />
+        <br />
+<div align="right">
+            <button type="submit" class="btn btn-primary">Continue</button>
+        </div>
     </fieldset>
 }
 @section Scripts {

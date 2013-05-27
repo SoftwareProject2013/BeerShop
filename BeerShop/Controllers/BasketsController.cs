@@ -198,21 +198,33 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Baskets/Details/5
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Customer, Admin")]
         public ActionResult Details(int id = 0)
         {
-            Customer user;
+            User loggedCustomer;
             try
             {
                 if (User.Identity.Name != null)
-                    user = (Customer)(from u in db.Users
+                {
+                    loggedCustomer = (from u in db.Users
                                       where u.email == User.Identity.Name
                                       select u).First();
+                    ViewBag.loggedCustomer = loggedCustomer;
+                }
                 else
                 {
                     return HttpNotFound();
                 }
-                Basket basket = user.basket;
+                Basket basket;
+                if (loggedCustomer is Customer)
+                {
+                    basket = ((Customer)loggedCustomer).basket;
+                }
+                else
+                {
+                    basket = db.Baskets.Find(id);
+                }
                 if (basket == null)
                 {
                     return HttpNotFound();
@@ -266,17 +278,17 @@ namespace BeerShop.Controllers
         //
         // POST: /Baskets/Edit/5
 
-        [HttpPost]
-        public ActionResult Edit(Basket basket)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(basket).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(basket);
-        }
+        //[HttpPost]
+        //public ActionResult Edit(Basket basket)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(basket).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(basket);
+        //}
 
         //
         // GET: /Baskets/Delete/5

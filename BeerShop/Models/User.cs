@@ -33,6 +33,7 @@ namespace BeerShop.Models
         [DataType(DataType.PhoneNumber)]
         public string phone { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string address { get; set; }
 
         [Required]

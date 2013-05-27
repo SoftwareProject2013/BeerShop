@@ -25,11 +25,11 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Users/Details/5
-        
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id = 0)
         {
             User user = db.Users.Find(id);
-            if (user == null || user.email != User.Identity.Name || !User.IsInRole("Admin"))
+            if (user == null )
             {
                 return HttpNotFound();
             }
@@ -86,16 +86,12 @@ namespace BeerShop.Controllers
 
         //
         // GET: /Users/EditCustomer/5
-
+        [Authorize(Roles = "Customer")]
         public ActionResult EditCustomer(int id = 0)
         {
-            Customer user;
-            if (User.Identity.Name != null)
-                user = (Customer)(from u in db.Users
+            Customer user = (Customer)(from u in db.Users
                                   where u.email == User.Identity.Name
                                   select u).First();
-            else
-                user = (Customer)db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -108,12 +104,12 @@ namespace BeerShop.Controllers
         // POST: /Users/EditCustomer/5
 
         [HttpPost]
+        [Authorize(Roles = "Customer, Admin")]
         public ActionResult EditCustomer(Customer user)
         {
             user.basket = (Basket)TempData["Something"];
             TempData["Something"] = user.basket;
-            //user.basket.orderItems.Add(db.OrderItems.Find(3));
-            //is orderlist null?¿?¿?¿?
+
             if (ModelState.IsValid)
             {
                 db.Entry((Customer)user).State = EntityState.Modified;
@@ -142,11 +138,11 @@ namespace BeerShop.Controllers
                 user.locked = true;
             }
 
-            db.Entry((Customer)user).State = EntityState.Modified;
+            db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        [Authorize(Roles="Admin")]
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
@@ -157,6 +153,7 @@ namespace BeerShop.Controllers
         //
         // GET: /Users/EditOrder/5
 
+        [Authorize(Roles = "Customer")]
         public ActionResult EditOrder(int id = 0)
         {
             Customer user = (Customer)db.Users.Find(id);
@@ -167,30 +164,34 @@ namespace BeerShop.Controllers
         // POST: /Users/EditOrder/5
 
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public ActionResult EditOrder(Customer user)
         {
-
-            user.basket = db.Baskets.Find(user.basket.BasketID);
-            var query = from o in db.Orders
-                        where o.customer.UserID == user.UserID
-                        select o;
-
-            foreach (var item in query)
+            if (user.address != null)
             {
-                user.orders.Add(item);
-            }
-            if (!ModelState.IsValid)
-            {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                user.basket = db.Baskets.Find(user.basket.BasketID);
+                var query = from o in db.Orders
+                            where o.customer.UserID == user.UserID
+                            select o;
 
-                var query2 = from o in db.Orders
-                             where o.customer.UserID == user.UserID
-                             select o;
-                return RedirectToAction("DetailsOrderItems", "Orders", new { id = query2.OrderByDescending(item => item.OrderID).First().OrderID });
+                foreach (var item in query)
+                {
+                    user.orders.Add(item);
+                }
+                if (!ModelState.IsValid)
+                {
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    var query2 = from o in db.Orders
+                                 where o.customer.UserID == user.UserID
+                                 select o;
+                    return RedirectToAction("DetailsOrderItems", "Orders", new { id = query2.OrderByDescending(item => item.OrderID).First().OrderID });
+                }
+                String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
+                                                               .Select(v => v.ErrorMessage + " " + v.Exception));
             }
-            String messages = String.Join(Environment.NewLine, ModelState.Values.SelectMany(v => v.Errors)
-                                                           .Select(v => v.ErrorMessage + " " + v.Exception));
+            ModelState.AddModelError("", "Sorry! You address is not valid.");
             return View(user);
         }
 
@@ -240,7 +241,7 @@ namespace BeerShop.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Customer, Admin")]
         public ActionResult LogOut()
         {
 
