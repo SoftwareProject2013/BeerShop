@@ -2,52 +2,57 @@
 @{
     ViewBag.Title = "Edit";
 }
-<table>
-    <tr>
-        <th>
-            Order ID
-        </th>
-        <th>
-            Full name
-        </th>
-        <th>
-            Created Date
-        </th>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayFor(model => model.OrderID)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.customer.firstName)
-            @Html.DisplayFor(model => model.customer.lastName)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.createdDate)
-        </td>
-    </tr>
-</table>
-
+<h2>
+    Edit order details</h2>
+<br />
+<div class="row">
+    <div class="span6">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Order ID
+                </th>
+                <th>
+                    Full name
+                </th>
+                <th>
+                    Created Date
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.customer.firstName)
+                    @Html.DisplayFor(model => model.customer.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.createdDate)
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>Item</legend>
-        <h2>
-            Edit order details</h2>
-        <br />
         @Html.HiddenFor(model => model.OrderID)
         @Html.HiddenFor(model => model.customer.UserID)
         @Html.HiddenFor(model => model.createdDate)
         @Html.HiddenFor(model => model.orderItems)
-
         <div class="editor-label">
-            @Html.LabelFor(model => model.status)
-            <h4>Add '1' for "pending", '2' for "processing",'3' for "dispached",'4' for "delivered", or '5' for "canceled"</h4>
+            <br />
+            <strong>Status:</strong>
+            <p class="text-info">
+                Add '1' for "pending", '2' for "processing",'3' for "dispached",'4' for "delivered",
+                or '5' for "canceled" or '6' for "paying"</p>
         </div>
         <div class="editor-field">
-@*            @{string st = "pending";}
+            @*            @{string st = "pending";}
             @Html.DropDownList(st, ViewBag.SelectList as SelectList)
             @{switch (st)
               {
@@ -61,6 +66,8 @@
                           break;
                   case "canceled": Model.status = 5;
                          break;
+                  case "paying": Model.status = 6;
+                         break;
                   default: Model.status = -1;
                              break;
               }
@@ -70,22 +77,25 @@
             @*@Html.HiddenFor(model => model.orderItems)*@
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.dispachedDate)
+            <br />
+            <strong>Dispached Date:</strong>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.dispachedDate)
             @Html.ValidationMessageFor(model => model.dispachedDate)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.deliveredDate)
+            <br />
+            <strong>Delivered Date:</strong>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.deliveredDate)
             @Html.ValidationMessageFor(model => model.deliveredDate)
         </div>
-        <p>
-            <input type="submit" value="Continue" />
-        </p>
+            <div align="right">
+           <button type="submit" class="btn btn-primary">Continue</button>
+           <br />
+        </div>
     </fieldset>
 }
 @section Scripts {

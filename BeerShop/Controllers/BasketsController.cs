@@ -52,7 +52,7 @@ namespace BeerShop.Controllers
                     feedback = "You are not logged in";
                 }
             }
-            return RedirectToAction("Details", "Items", new { id = item.ItemID, message = feedback });
+            return RedirectToAction("Index", "Items", new { id = item.ItemID, message = feedback });
               
         }
          // GET: /Baskets/Add?basketId=X&itemId=Y&amount=Z
@@ -188,6 +188,32 @@ namespace BeerShop.Controllers
             }
             return item;
         }
+
+        [Authorize(Roles = "Customer")]
+        public ActionResult clearBasket()
+        {
+            try
+            {
+                User loggedCustomer = null;
+                loggedCustomer = (from u in db.Users
+                                  where u.email == User.Identity.Name
+                                  select u).First();
+                ViewBag.loggedCustomer = loggedCustomer;
+
+
+                ((Customer)loggedCustomer).basket.clearBasket();
+                db.Entry(((Customer)loggedCustomer).basket).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", "Basket");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Home", new { message = "Canno't remove basket" + ex.Message });
+            }
+            
+                
+            
+        }
         //
         // GET: /Baskets/
         [Authorize(Roles="Admin")]
@@ -236,6 +262,7 @@ namespace BeerShop.Controllers
                 return RedirectToAction("Index", "Home", new { message = "You are not allowed to do that" });
             }
         }
+
 
         //
         // GET: /Baskets/Create

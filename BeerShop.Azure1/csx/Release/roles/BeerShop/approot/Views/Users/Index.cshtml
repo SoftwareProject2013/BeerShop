@@ -3,32 +3,30 @@
     ViewBag.Title = "Index";
 }
 <h2>
-    Index</h2>
-<p>
-    @Html.ActionLink("Create New", "CreateCustomer")
-</p>
-<table>
+    User Index</h2>
+<br />
+<table class="table table-striped">
     <tr>
         <th>
-            | @Html.DisplayNameFor(model => model.firstName)
+            Type
         </th>
         <th>
-            | @Html.DisplayNameFor(model => model.lastName)
+            Complete Name
         </th>
         <th>
-            | @Html.DisplayNameFor(model => model.email)
+            eMail
         </th>
         <th>
-            | @Html.DisplayNameFor(model => model.phone)
+            Phone Number
         </th>
         <th>
-            | @Html.DisplayNameFor(model => model.address)
+            Address
         </th>
         <th>
-            | @Html.DisplayNameFor(model => model.birth)
+            Date of birth
         </th>
         <th>
-            | @Html.DisplayNameFor(model => model.locked) |
+            is lock?
         </th>
         <th>
         </th>
@@ -37,9 +35,17 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => user.firstName)
+                @if (user is BeerShop.Models.Customer)
+                {
+                    @:Customer
+                }
+                else
+                {
+                    @:Worker
+                                }
             </td>
             <td>
+                @Html.DisplayFor(modelItem => user.firstName)
                 @Html.DisplayFor(modelItem => user.lastName)
             </td>
             <td>
@@ -56,20 +62,23 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => user.locked)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditCustomer", new { id = user.UserID }) |
-                @Html.ActionLink("Details", "Details", new { id = user.UserID }) |
                 @{if (user.locked == true)
                   {
-                    @Html.ActionLink("Unlock", "Lock", new { id = user.UserID })
+                    <button class="btn btn-small" type="button">@Html.ActionLink("Unlock", "Lock", new { id = user.UserID })</button>
                   }
                   else
                   {
-                    @Html.ActionLink("Lock", "Lock", new { id = user.UserID })
+                    <button class="btn btn-small" type="button">@Html.ActionLink("Lock", "Lock", new { id = user.UserID })</button>
                   }
-                 }
+                }
+            </td>
+            <td>
+                <button class="btn btn-small btn-primary" type="button">@Html.ActionLink("Details", "Details", new { id = user.UserID })</button>
             </td>
         </tr>
     }
 </table>
+<div align="right">
+    @Html.ActionLink("Back", "Index", "home", null, new { @class = "btn" })
+</div>
+<br />

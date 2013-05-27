@@ -317,11 +317,11 @@ namespace BeerShop.Controllers
             redirecturl += "&currency=DKK";
 
             //Failed return page url
-            //redirecturl += "&notify_url=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "PaypalNotify", id = order.OrderID });
+            redirecturl += "&notify_url=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "PaypalNotify", id = order.OrderID });
 
             //Success return page url
-            //redirecturl += "&return=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "Index"});
-            redirecturl += "&return=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "Finish", id = order.OrderID });
+            redirecturl += "&return=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "Index"});
+            //redirecturl += "&return=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "Finish", id = order.OrderID });
 
             //Failed return page url
             redirecturl += "&cancel_return=" + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Baskets", action = "Details", id = order.customer.basket.BasketID });
@@ -336,7 +336,7 @@ namespace BeerShop.Controllers
             //return RedirectToAction("Index");
         }
 
-        public ActionResult Finish(int id = 0)
+        public void Finish(int id = 0)
         {
             //get current order
             Order order = db.Orders.Find(id);
@@ -353,17 +353,17 @@ namespace BeerShop.Controllers
 
             MailSender mS = new MailSender();
             string body = "Your order is finish!";
-            mS.SendMail(User.Identity.Name, order.OrderID + ": " + body + "\n\n "
+            mS.SendMail(order.customer.email, "Order #" +order.OrderID + ": " + body + "\n\n "
                      + "http://" + Request.Url.Authority + Url.RouteUrl(new { controller = "Orders", action = "Details", id = order.OrderID }));
 
             db.Entry(order).State = EntityState.Modified;
             db.SaveChanges();
 
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            return RedirectToAction("Index");
+            //if (order == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return RedirectToAction("Index");
         }
 
         public ActionResult PaypalNotify(int id = 0)
@@ -413,6 +413,11 @@ namespace BeerShop.Controllers
         public ActionResult bootstrap()
         {
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult PayPalRedirect()
+        {
+            return Redirect("https://www.sandbox.paypal.com/us/cgi-bin/webscr?cmd=_login-submit");
         }
 
     }
