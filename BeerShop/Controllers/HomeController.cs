@@ -29,13 +29,19 @@ namespace BeerShop.Controllers
                 var encryptPass = crypto.Compute(admin.password);
                 admin.password = encryptPass;
                 admin.passwordSalt = crypto.Salt;
+               
 
                 db.Users.Add(admin);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home", new { message = "Admin created email: Admin@gmail.com password: admin1" });
             }
             ViewBag.Message = message;
-            return View();
+            List<Item> list = db.Items.ToList();
+            int li = list.Count;
+            Random random = new Random();
+            int randomNumber = random.Next(0,li-1 );
+            ViewBag.SpecialOffer = list[randomNumber];
+            return View(db.Items.Take(1));
         }
 
         public ActionResult About()
