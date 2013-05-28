@@ -4,13 +4,14 @@
 }
 <h2>
     Edit Category</h2>
-    <br />
+<br />
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <div>
+        @Html.HiddenFor(model => model.CategoryID);
             <div class="editor-label">
                 <label>
                     <strong>Name:</strong>
@@ -22,7 +23,7 @@
             </div>
             <br />
             <div>
-                <button class="btn">@Html.ActionLink("Back", "Index", "Home")</button>
+                @Html.ActionLink("Back", "Index", "Home", new { @class = "btn" })
                 <button type="submit" class="btn btn-primary">
                     Create</button>
             </div>

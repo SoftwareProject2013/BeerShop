@@ -14,7 +14,7 @@
     <div class="row-fluid">
         <div class="span3">
             <br />
-            <button class="btn">@Html.ActionLink("Back to List", "Index")</button>
+            <a href="@Url.Action("Index")" runat="server" class="btn"  >back to the list</a>
             <br />
             <br />
             @if (Model.item.imageURL != null)
@@ -59,9 +59,11 @@
                         }
                         @if (User.IsInRole("Admin"))
                         {
-                            <button class="btn">@Html.ActionLink("Edit", "Edit", new { id = Model.item.ItemID })
-                            </button>          
-                            <button class="btn">@Html.ActionLink("Delete", "Delete", new { id = Model.item.ItemID })</button>
+                            
+                            
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.item.ItemID }, new { @class = "btn" })
+                                 
+                            @Html.ActionLink("Delete", "Delete", new { id = Model.item.ItemID }, new { @class = "btn" })
                             <br />
                             <br />
                         }
