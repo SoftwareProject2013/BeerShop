@@ -83,26 +83,26 @@ namespace BeerShop.Controllers
             if (loggedCustomer.basket.orderItems.Count != 0)
             {
                 //remove other orders without been finished
-                var pendingOrders = from o in db.Orders
-                                    where o.customer.UserID == loggedCustomer.UserID
-                                    && o.status == Order.pending
-                                    select o;
+                //var pendingOrders = from o in db.Orders
+                //                    where o.customer.UserID == loggedCustomer.UserID
+                //                    && o.status == Order.pending
+                //                    select o;
 
-                foreach (Order o in pendingOrders)
-                {
-                    db.Orders.Remove(o);
-                }
+                //foreach (Order o in pendingOrders)
+                //{
+                //    db.Orders.Remove(o);
+                //}
+                //db.SaveChanges();
 
                 //modify user
                 order.customer = loggedCustomer;
-
                 //Change status, createDate 
                 order.status = Order.pending;
                 order.createdDate = DateTime.UtcNow;
 
                 //Set rest of the dates to null (for us: maxValue for DateTime type)
-                order.dispachedDate = DateTime.MaxValue;
-                order.deliveredDate = DateTime.MaxValue;
+                order.dispachedDate = DateTime.MaxValue.Date;
+                order.deliveredDate = DateTime.MaxValue.Date;
 
                 //adding the items from the basket with the current price of the item to the OrderItem list
                 order.orderItems = new List<OrderItem>();

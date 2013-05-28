@@ -10,30 +10,34 @@
 }
 
 <h2>Comments</h2>
-<table>
+
+<table class="table table-striped">
 
 @foreach (var item in Model.commentsList)
 {
 <tr>
     @if (Model.selectedComment == item.CommentID)
     {
-    <td>
+        <td class="span7">
        @{Html.RenderPartial("_CommentEdit", item); }
        </td>
+        <td class="span3">
+        </td>
     }else
     {
-        <td>
+        <td class="span7">
         @{ Html.RenderPartial("_CommentDisplay", item); }
         </td>
         if (User.IsInRole("Admin") || User.Identity.Name == item.author.email)
         {
-            <td>
-            @Html.ActionLink("Edit Comment", "Details", new { id = item.item.ItemID , editableCommentID = item.CommentID })               
+            <td class="span3">
+            <button class="btn btn-small">@Html.ActionLink("Edit Comment", "Details", new { id = item.item.ItemID , editableCommentID = item.CommentID })</button>         
             </td>
         }
     }         
     </tr>
 }
 </table>
+
 
 

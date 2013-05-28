@@ -33,7 +33,7 @@ namespace BeerShop.Controllers
             comment.item = db.Items.FirstOrDefault(i => i.ItemID == itemHelper.item.ItemID );
             comment.date = DateTime.UtcNow;
             comment.author = db.Users.FirstOrDefault(u => u.email == User.Identity.Name);
-            if (comment.content.Length >0 && comment.author != null &&  comment.item != null)
+            if (comment.content != null && comment.author != null &&  comment.item != null)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
