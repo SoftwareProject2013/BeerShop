@@ -24,83 +24,90 @@
         <div class="span9">
             <h2>
                 Ours Beers</h2>
-            <p>
-                @foreach (var i in Session["categoryFilter"] as Dictionary<string, List<string>>)
-                {
-                    foreach (var k in i.Value)
-                    {
-       
-                    @Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k }) 
-                    }
-                }
-            </p>
             @* @Html.ActionLink("Create New", "Create") *@
             @if (User.IsInRole("Admin"))
             {
                 <input type="button" class="btn btn-primary" id="Createnew" value="Add new one" runat="server" onclick="location.href='@Url.Action("Create")'"/>
             }
             <br />
-            <div align="right">
-                <p>
-                    Order by:
-                    <input type="button" class="btn btn-small" value="By name" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })'"/>
-                    <input type="button" class="btn btn-small" value="By Price" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.PriceSort })'"/>
-                </p>
-            </div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>
-                        Image
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Description
-                    </th>
-                    <th>
-                        Amount
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                    <th>
-                        Add to Basket
-                    </th>
-                </tr>
-                @foreach (var item in Model)
-                {
-                    { Html.RenderPartial("_DisplayItem", item); }
-                }
-            </table>
-            <div align="right">
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-                of @Model.PageCount
-                @if (Model.HasPreviousPage)
-                {
-                    @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
-                    @Html.Raw(" ");
-                    @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
-                }
-                else
-                {
-                    @:<<
+            <br />
+            <div class="row-fluid">
+                <div class="span8">
+                    <p>
+                        <em>Selected categories:</em>
+                        @foreach (var i in Session["categoryFilter"] as Dictionary<string, List<string>>)
+                        {
+                            foreach (var k in i.Value)
+                            {
+       
+                            <strong>@Html.ActionLink(k, "Index", new { page = 1, categoryType = i.Key, category = k })</strong> @:/
+                                                            }
+                        }
+                    </p>
+                </div>
+                <div class="span4">
+                    <div align="right">
+                        <p>
+                            Order by:
+                            <input type="button" class="btn btn-small" value="By name" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })'"/>
+                            <input type="button" class="btn btn-small" value="By Price" runat="server" onclick="location.href='@Url.Action("Index", new { sortOrder = ViewBag.PriceSort })'"/>
+                        </p>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Add to Basket
+                        </th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        { Html.RenderPartial("_DisplayItem", item); }
+                    }
+                </table>
+                <div align="right">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                    of @Model.PageCount
+                    @if (Model.HasPreviousPage)
+                    {
+                        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+                        @Html.Raw(" ");
+                        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+                    }
+                    else
+                    {
+                        @:<<
                             @Html.Raw(" ");
-                    @:< Prev
-                                        }
-                @if (Model.HasNextPage)
-                {
-                    @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
-                    @Html.Raw(" ");
-                    @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
-                }
-                else
-                {
-                    @:Next >
+                        @:< Prev
+                                                                            }
+                    @if (Model.HasNextPage)
+                    {
+                        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+                        @Html.Raw(" ");
+                        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+                    }
+                    else
+                    {
+                        @:Next >
                             @Html.Raw(" ")
-                    @:>>
-                                        }
+                        @:>>
+                                                                            }
+                </div>
             </div>
         </div>
     </div>
-</div>
