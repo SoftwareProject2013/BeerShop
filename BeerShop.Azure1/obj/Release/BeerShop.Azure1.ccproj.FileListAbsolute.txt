@@ -197,6 +197,7 @@ D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Shared\_CustomerLayo
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Shared\_html5shiv.cshtml
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Shared\_ItemsCategory.cshtml
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Shared\_LoginPartial.cshtml
+D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Shared\_SearchingBeerForm.cshtml
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Shared\_validationSummary.cshtml
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Users\ChangePassword.cshtml
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Views\Users\CreateCustomer.cshtml

@@ -5,80 +5,91 @@
 }
 
 <h2>CreateWorker</h2>
-
-@using (Html.BeginForm()) {
+<bt />
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Worker</legend>
-
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.firstName)
+        <legend>User</legend>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="editor-label">
+                    <label>
+                        <strong>First Name: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.firstName)
+                    @Html.ValidationMessageFor(model => model.firstName)
+                </div>
+                <div class="editor-label">
+                    <label>
+                        <strong>Last Name: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.lastName)
+                    @Html.ValidationMessageFor(model => model.lastName)
+                </div>
+                <div class="editor-label">
+                    <label>
+                        <strong>eMail: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.email)
+                    @Html.ValidationMessageFor(model => model.email)
+                </div>
+                <div class="editor-label">
+                    <label>
+                        <strong>Password: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.password)
+                    @Html.ValidationMessageFor(model => model.password)
+                </div>
+            </div>
+            <div class="span6">
+                <div class="editor-label">
+                    <label>
+                        <strong>Phone Number: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.phone)
+                    @Html.ValidationMessageFor(model => model.phone)
+                </div>
+                <div class="editor-label">
+                    <label>
+                        <strong>Address: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.address)
+                    @Html.ValidationMessageFor(model => model.address)
+                </div>
+                <div class="editor-label">
+                    <label>
+                        <strong>Date of birth: </strong>
+                    </label>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.birth)
+                    @Html.ValidationMessageFor(model => model.birth)
+                </div>
+                <br />
+                <br />
+                <div align = "left">
+                    @Html.ActionLink("Back", "Index", "Home", new { @class = "btn" })
+                    <button type="submit" class="btn btn-primary">
+                        Create account</button>
+                </div>
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.firstName)
-            @Html.ValidationMessageFor(model => model.firstName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.lastName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.lastName)
-            @Html.ValidationMessageFor(model => model.lastName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.email)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.email)
-            @Html.ValidationMessageFor(model => model.email)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.password)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.password)
-            @Html.ValidationMessageFor(model => model.password)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.phone)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.phone)
-            @Html.ValidationMessageFor(model => model.phone)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address)
-            @Html.ValidationMessageFor(model => model.address)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.birth)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.birth)
-            @Html.ValidationMessageFor(model => model.birth)
-        </div>
-
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

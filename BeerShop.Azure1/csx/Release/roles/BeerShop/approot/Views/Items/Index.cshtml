@@ -1,19 +1,15 @@
 ﻿@model PagedList.IPagedList<BeerShop.Models.Item>
 
-
+<h2 class="text-error">@ViewBag.message</h2>
 <div id="everything" runat="server" style="float:left; width:800px;height:700px; padding-left:10px">
 @{
    @* ViewBag.Title = "Index"; *@
 }
 
-@using (Html.BeginForm())
-{
-    //wyszukiwarka 
-    <p>
+
     
-    Find by name : @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { style = "width: 100px" }) 
-    <input type="submit" value="Search" /></p>
-}
+ 
+@{Html.RenderPartial("_SearchingBeerForm");}
 <h2>Index</h2>
 
 

@@ -40,20 +40,20 @@
                 @{int st = Model.status; switch (st)
                   {
                       case 1: @:pending
-                          break;
+                        break;
                       case 2: @:processing
-                          break;
+                    break;
                       case 3: @:dispached
-                          break;
+                    break;
                       case 4: @:delivered
-                          break;
+                     break;
                       case 5: @:canceled
-                          break;
+                    break;
                       case 6: @:paying
-                          break;
+                    break;
                       default: @:wtf
-                          break;
-                  }
+                    break;
+                  } 
                 }
             </td>
             <td>
@@ -150,10 +150,10 @@
                         @Html.DisplayFor(model => oI.amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => oI.price)
+                        $@Html.DisplayFor(model => oI.price)
                     </td>
                     <td>
-                        @(oI.sum(true))
+                        @(oI.sum(true).ToString("c"))
                     </td>
                 </tr>
             }
@@ -166,7 +166,7 @@
                     <strong>Overal sum:</strong>
                 </td>
                 <td>
-                    <strong>@ViewBag.totalPrice</strong>
+                    <strong>@ViewBag.totalPrice.ToString("c")</strong>
                 </td>
             </tr>
         </table>

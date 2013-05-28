@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BeerShop.Azure1" generation="1" functional="0" release="0" Id="b9645365-561f-4c76-871a-7e04de25643b" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BeerShop.Azure1" generation="1" functional="0" release="0" Id="e73cb32f-0f1b-42eb-9e2a-b3dacc1ed35e" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="BeerShop.Azure1Group" generation="1" functional="0" release="0">
       <componentports>
@@ -70,9 +70,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="fffd33a5-b3c4-44c4-9d83-6740f46347f8" ref="Microsoft.RedDog.Contract\ServiceContract\BeerShop.Azure1Contract@ServiceDefinition">
+    <implementation Id="310c7610-3fca-4cc9-ac0f-86b91673e52d" ref="Microsoft.RedDog.Contract\ServiceContract\BeerShop.Azure1Contract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="e78ef6f4-d3b0-4997-978a-a2e2cb49d061" ref="Microsoft.RedDog.Contract\Interface\BeerShop:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="8a9409b7-0260-48b7-a745-e2f512b8b739" ref="Microsoft.RedDog.Contract\Interface\BeerShop:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/BeerShop.Azure1/BeerShop.Azure1Group/BeerShop:Endpoint1" />
           </inPort>
