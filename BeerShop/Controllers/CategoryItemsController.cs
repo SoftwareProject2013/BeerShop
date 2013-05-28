@@ -94,15 +94,17 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(ModelViewCategoryItem MVcategoryItem)
         {
+            CategoryItem cI = db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == MVcategoryItem.categoryItem.CategoryItemID);
             int categoryID = int.Parse(MVcategoryItem.selectedCategoryItem);
             Category category = db.Categories.FirstOrDefault(c => c.CategoryID == categoryID);
-            MVcategoryItem.categoryItem.category = category;
-
-            if (category != null && MVcategoryItem.categoryItem != null)
+            cI.category = category;
+            cI.name = MVcategoryItem.categoryItem.name;
+        
+            if (cI != null)
             {
-                db.CategoryItems.Add(MVcategoryItem.categoryItem);
-                category.categories.Add(MVcategoryItem.categoryItem);
+                db.Entry(cI).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

@@ -26,8 +26,8 @@
                         @Html.DisplayFor(modelItem => item.name)
                     </td>
                     <td>
-                        <button class="btn btn-small" type="button">@Html.ActionLink("Edit", "Edit", new { id = item.CategoryID })</button>
-                        <button class="btn btn-small" type="button">@Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })</button>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-small" })
+                      @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-small" })
                     </td>
                 </tr>
             }
