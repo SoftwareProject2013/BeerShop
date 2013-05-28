@@ -41,8 +41,8 @@
             <div class="span12" class="post">
                 <h2 class="title">
                     Special offer</h2>
-                <p>
-                    <strong>50% on the @ViewBag.SpecialOffer.name . 3 days left !</strong></p>
+                <p class="text-warning">
+                    <strong><em>50% on the @ViewBag.SpecialOffer.name . 3 days left !</em></strong></p>
                 <div class="row" style="padding-left: 35px">
                     <div class="span4">
                         <img src=@ViewBag.SpecialOffer.imageURL style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
@@ -64,8 +64,8 @@
             <div class="span12" class="post">
                 <h2 class="title" align="right">
                     Beer of the month</h2>
-                <p align="right">
-                    <strong>This month our selection is the Albani Odense Pilsner. Come and try! </strong>
+                <p align="right" class="text-warning">
+                    <strong><em>This month our selection is the @ViewBag.BeerMonth.name. Come and try!</em> </strong>
                     <div class="row" style="padding-left: 35px">
                         <div class="span7">
                             <div class="meta">
