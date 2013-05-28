@@ -1,28 +1,26 @@
 ﻿@model BeerShop.Models.Basket
-
 @{
     ViewBag.Title = "Details";
 }
-
-<h2>My Basket</h2>
+<h2>
+    My Basket</h2>
 <br />
 <fieldset>
     <legend>Basket @Model.BasketID</legend>
 </fieldset>
-
-@{Html.RenderPartial("DetailsWidget",@Model);}
-
-<div style="float:left;">
-@Html.ActionLink("Clear basket", "clearBasket", "Baskets", null, new { @class = "btn" })
-</div>
+@{Html.RenderPartial("DetailsWidget", @Model);}
+@if (ViewBag.loggedCustomer is BeerShop.Models.Customer)
+{ 
+    <div style="float: left;">
+        @Html.ActionLink("Clear basket", "clearBasket", "Baskets", null, new { @class = "btn" })
+    </div>
+}
 <div align="right">
     @Html.ActionLink("Continue Shopping", "Index", "Items", null, new { @class = "btn" })
-    
     @if (ViewBag.loggedCustomer is BeerShop.Models.Customer)
     { 
         @:or
         @Html.ActionLink("Proceed to order", "Create", "Orders", null, new { @class = "btn btn-primary" })
     }
 </div>
-
 <br />

@@ -339,8 +339,10 @@ namespace BeerShop.Controllers
                 db.Entry(item).Collection(i => i.categories).Load();
 
                 item.categories.ToList().ForEach(cat => item.categories.Remove(cat));
+                db.Entry(item).Collection(i => i.comments).Load();
                 var comments = db.Comments;
-                foreach (var c in item.comments)
+                List<Comment> commentList = item.comments.ToList();
+                foreach (var c in commentList)
                 {
                     comments.Remove(c);
                 }

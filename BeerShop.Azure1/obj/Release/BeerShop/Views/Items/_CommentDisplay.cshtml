@@ -1,15 +1,12 @@
 ﻿@model BeerShop.Models.Comment
-
-    <tr>
-        <td>
+            <div>
+            <strong>Autor:</strong>
             @Html.DisplayFor(modelItem => Model.author.firstName)
-        </td>
-
-        <td>
-            @Html.DisplayFor(modelItem => Model.content)
-        </td>
-        <td>
+            </div>
+            <div>
+            <strong>Date:</strong>
             @Html.DisplayFor(modelItem => Model.date)
-        </td>
-        
-    </tr>
+            </div>
+            <div class="span11">
+            <p class="lead"><small><em>@Html.DisplayFor(modelItem => Model.content)</em></small></p>
+            </div>

@@ -32,17 +32,13 @@
 </head>
 <body>
     <div class="navbar  navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner" >
-            <div class="container large" >
+        <div class="navbar-inner">
+            <div class="container large">
                 </a><a class="brand" href="/">TheBeerShop</a>
                 <div class="nav-collapse collapse navbar-inverse-collapse">
-                <ul class="nav">
-                    </ul>    
-
+                    <ul class="nav">
+                    </ul>
                     <ul class="nav pull-right">
-                            
-
-
                         @if (User.IsInRole("Admin"))
                         {
                             <li>@Html.ActionLink("Create new worker", "CreateWorker", "Users")</li>
@@ -76,16 +72,9 @@
         </div>
     </div>
     <div>
-        
     </div>
     <div class="container">
         @RenderBody()
-    </div>
-<div class="row">
-        <div class="span2"></div>
-        <div style="float: left">
-            </br>TheBeerShop Group 2013
-        </div>
     </div>
     <!-- /container -->
     <!-- Le javascript
@@ -94,7 +83,10 @@
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
-    
 </body>
-
+<foot>
+<div class="row" align="center">
+        </br>TheBeerShop Group 2013
+</div>
+</foot>
 </html>

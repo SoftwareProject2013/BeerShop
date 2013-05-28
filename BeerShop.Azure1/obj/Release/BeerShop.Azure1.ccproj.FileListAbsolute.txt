@@ -42,6 +42,8 @@ D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\font-awesome-ie7.c
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\font-awesome-ie7.min.css
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\font-awesome.css
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\font-awesome.min.css
+D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\images\glyphicons-halflings-white.png
+D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\images\glyphicons-halflings.png
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\PagedList.css
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\Site.css
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png
@@ -103,6 +105,8 @@ D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Global.asax
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\accent.png
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\bullet.png
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\heroAccent.png
+D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\img04.jpg
+D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\img05.jpg
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\orderedList0.png
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\orderedList1.png
 D:\Beer\BeerShop\BeerShop.Azure1\obj\Release\BeerShop\Images\orderedList2.png

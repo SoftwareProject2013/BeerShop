@@ -8,11 +8,11 @@
     <fieldset>
         <legend>Comment</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.comment.content)
-        </div>
+        <strong>Content: </strong>
+        <br />
+        <br />
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.comment.content)
+            @Html.TextAreaFor(model => model.comment.content, new { style = "width: 400px" })
             @Html.ValidationMessageFor(model => model.comment.content)
         </div>
             
@@ -20,7 +20,7 @@
     
 
         <p>
-            <input type="submit" value="AddComment" />
+            <button type="submit" class="btn">Add comment</button>
         </p>
     </fieldset>
 }
