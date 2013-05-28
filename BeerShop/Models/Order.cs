@@ -35,7 +35,7 @@ namespace BeerShop.Models
         public virtual ICollection<OrderItem> orderItems { set; get; } //Item + amountOfItems + priceOfItemInTheMomentOfTheOrder
 
         [Required]
-        [Range(2, 5, ErrorMessage = "Not valid value")]
+        [Range(1, 6, ErrorMessage = "Not valid value")]
         public int status { get; set; }
 
         [Required]

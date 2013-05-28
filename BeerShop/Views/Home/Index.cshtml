@@ -9,89 +9,83 @@
     @myurl
         }
 }
-
-                        
 <div class="container-fluid">
-    <img src="../../Images/img04.jpg" class="img-circle" /><img src="../../Images/img05.jpg" />
     <div class="row-fluid">
-        <div class="span2">
-            @{Html.RenderAction("menu", "Items");}
-            <!--Sidebar content-->
+        <div class="span3">
+            <img src="../../Images/img04.jpg" class="img-circle" />
         </div>
-        <div class="span10">
-                <h1 class="title">
-                    Welcome to The Beer Shop!</h1>
-                <div class="post">
-                 <h2 class="title">
-                        Special offer</h2>
-                <div class="row" style="padding-left:35px">
-                   
+        <div class="span8"  align="center">
+            <img src="../../Images/img05.jpg"  />
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span3">
+            <br />
+            <br />
+            @{Html.RenderPartial("_SearchingBeerForm");}
+            <br />
+            <div class="row-fluid">
+                <div class="span1">
+                </div>
+                <div class="span11">
+                    @{Html.RenderAction("menu", "Items");}
+                </div>
+                <!--Sidebar content-->
+            </div>
+        </div>
+        <div class="span8" >
+            <br />
+            <h1 class="title" align="center">
+                Welcome to <strong>TheBeerShop</strong></h1>
+            <br />
+            <div class="span12" class="post">
+                <h2 class="title">
+                    Special offer</h2>
+                <p>
+                    <strong>50% on the @ViewBag.SpecialOffer.name . 3 days left !</strong></p>
+                <div class="row" style="padding-left: 35px">
                     <div class="span4">
-                        <p>
-                            <strong>50% on the @ViewBag.SpecialOffer.name . 3 days left !</strong></p>
-                        <img src=@ViewBag.SpecialOffer.imageURL style="width:250px;height:250px"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'"</img>
-                    <div class="meta">
-                        <p class="date">
-                            Posted on May 24, 2013 by Admin</p>
+                        <img src=@ViewBag.SpecialOffer.imageURL style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
+                        <div class="meta">
+                            <em>
+                                <p class="date">
+                                    Posted on May 24, 2013 by Admin</p>
+                            </em>
+                        </div>
                     </div>
-                    </div>
-                    <div class="span4">
-                        Description : @ViewBag.SpecialOffer.description
+                    <div class="span8">
+                        <h3>@ViewBag.SpecialOffer.name</h3>
+                        <p align="justify">
+                            Description : @ViewBag.SpecialOffer.description</p>
                     </div>
                 </div>
             </div>
-            <div class="post">
-                <h2 class="title">
+            <br />
+            <div class="span12" class="post">
+                <h2 class="title" align="right">
                     Beer of the month</h2>
-                <div class="row" style="padding-left:35px">
-                <div class="span4">
-                    <p>
-                        <strong>This month our selection is the Albani Odense Pilsner. Come and
-                        try!
-                    </strong></p>
-                    @foreach (BeerShop.Models.Item i in Model)
-                    {
-                        if (i.imageURL != null)
-                        {
-                        <img src=@helperURL(i.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="250" height="250" />
-                        }
-                        else
-                        {
-                        <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg"
-                            width="250" height="250" />
-                        }
-
-                    }
-                    <div class="meta">
-                    <p class="date">
-                        Posted on May 01, 2013 by Admin</p>
-                </div>
+                <p align="right">
+                    <strong>This month our selection is the Albani Odense Pilsner. Come and try! </strong>
+                    <div class="row" style="padding-left: 35px">
+                        <div class="span7">
+                            <div class="meta">
+                                <h3>@ViewBag.BeerMonth.name</h3>
+                                <p align="justify">
+                                    Description : @ViewBag.BeerMonth.description</p>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <img src=@ViewBag.BeerMonth.imageURL style="width:300px;height:300px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.BeerMonth.ItemID })'" />
+                            <div class="meta">
+                                <em>
+                                    <p class="date" align="right">
+                                        Posted on May 24, 2013 by Admin</p>
+                                </em>
+                            </div>
+                        </div>
                     </div>
-                       
-                <div class="span4">
-                        Description : 
-                 </div>
-                </div>
- 
             </div>
             <!--Body content-->
         </div>
     </div>
 </div>
-@*@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
-        </div>
-    </section>
-}*@ 

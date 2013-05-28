@@ -39,9 +39,32 @@ namespace BeerShop.Controllers
             List<Item> list = db.Items.ToList();
             int li = list.Count;
             Random random = new Random();
-            int randomNumber = random.Next(0,li-1 );
-            ViewBag.SpecialOffer = list[randomNumber];
-            return View(db.Items.Take(1));
+            int randomNumber = random.Next(0, li);
+            try
+            {
+                ViewBag.SpecialOffer = list[randomNumber];
+            }
+            catch 
+            {
+                ViewBag.SpecialOffer = new Item ();
+            }
+
+            Random random2 = new Random();
+            int randomNumber2 = random.Next(0, li);
+            while (randomNumber == randomNumber2)
+            {
+                random2 = new Random();
+                randomNumber2 = random.Next(0, li);
+            }
+            try
+            {
+                ViewBag.BeerMonth = list[randomNumber2];
+            }
+            catch
+            {
+                ViewBag.SpecialOffer = new Item();
+            }
+            return View();
         }
 
         public ActionResult About()

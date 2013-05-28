@@ -194,21 +194,18 @@ namespace BeerShop.Controllers
         {
             try
             {
-                User loggedCustomer = null;
-                loggedCustomer = (from u in db.Users
+                Customer loggedCustomer = (Customer) (from u in db.Users
                                   where u.email == User.Identity.Name
                                   select u).First();
-                ViewBag.loggedCustomer = loggedCustomer;
 
-
-                ((Customer)loggedCustomer).basket.clearBasket();
-                db.Entry(((Customer)loggedCustomer).basket).State = EntityState.Modified;
+                loggedCustomer.basket = new Basket();
+                db.Entry(loggedCustomer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", "Basket");
+                return RedirectToAction("Details", "Baskets");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Home", new { message = "Canno't remove basket" + ex.Message });
+                return RedirectToAction("Index", "Home", new { message = "Cannot remove the basket" + ex.Message });
             }
             
                 

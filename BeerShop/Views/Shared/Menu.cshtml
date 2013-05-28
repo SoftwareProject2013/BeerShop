@@ -8,13 +8,13 @@
 
 @foreach(var c in Model)
 {
-    <h1>
+    
     <li class="nav-header">
-    @Html.DisplayFor(Modelitem => c.name)
+    <h4><strong>@Html.DisplayFor(Modelitem => c.name)</strong></h4>
     </li>
-    </h1>
+    
     {Html.RenderPartial("_ItemsCategory",c.categories);}   
-  
+    <br />
 }
 </ul>
 
