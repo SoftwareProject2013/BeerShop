@@ -276,10 +276,10 @@ namespace BeerShop.Controllers
             var user = db.Users.FirstOrDefault(u => u.email == email);
             if (user != null)
             {
-                if (user.password == crypto.Compute(password, user.passwordSalt))
-                {
+                //if (user.password == crypto.Compute(password, user.passwordSalt))
+                //{
                     return user;
-                }
+                //}
             }
             return null;
         }
