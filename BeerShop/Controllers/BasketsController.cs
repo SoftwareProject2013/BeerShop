@@ -135,9 +135,15 @@ namespace BeerShop.Controllers
                 // as validation would else fails.
                 throw new Exception();
             }
-            item.amount++;
-            db.SaveChanges();
-
+            if (item.item.stockCount > item.amount + 1)
+            {
+                item.amount++;
+                db.SaveChanges();
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = basketId, message = "Not enought item on stock" });
+            }
             return RedirectToAction("Details", new { id = basketId });
         }
 
@@ -162,6 +168,10 @@ namespace BeerShop.Controllers
             {
                 item.amount--;
                 db.SaveChanges();
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = basketId, message = "Item amount cannot be below 1" });
             }
 
             return RedirectToAction("Details", new { id = basketId });
@@ -223,7 +233,7 @@ namespace BeerShop.Controllers
         // GET: /Baskets/Details/5
         //[Authorize(Roles = "Admin")]
         [Authorize(Roles = "Customer, Admin")]
-        public ActionResult Details(int id = 0)
+        public ActionResult Details(int id = 0 ,string message ="")
         {
             User loggedCustomer;
             try
@@ -252,6 +262,7 @@ namespace BeerShop.Controllers
                 {
                     return HttpNotFound();
                 }
+                ViewBag.message = message;
                 return View(basket);
             }
             catch(Exception ex)

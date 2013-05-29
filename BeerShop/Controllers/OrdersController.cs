@@ -16,10 +16,14 @@ namespace BeerShop.Controllers
     {
         private BeerShopContext db = new BeerShopContext();
 
+        public ActionResult bootstrapIndex()
+        {
+            return RedirectToAction("Index", "Orders");
+        }
         //
         // GET: /Orders/
         [Authorize(Roles = "Customer, Admin")]
-        public ActionResult Index()
+        public ActionResult Index(int filter =0)
         {
             User loggedCustomer =(from u in db.Users
                                                  where u.email == User.Identity.Name
@@ -31,7 +35,12 @@ namespace BeerShop.Controllers
             }
             else
             {
-                return View(db.Orders.ToList());
+                var ordersList = db.Orders.ToList().AsQueryable();
+                if (filter != 0)
+                {
+                    ordersList = from o in ordersList where o.status == filter select o;
+                }
+                return View(ordersList.ToList());
             }
             //return View(db.Orders.ToList());
         }

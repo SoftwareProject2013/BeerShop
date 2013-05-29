@@ -1,0 +1,39 @@
+﻿@model BeerShop.Models.Order
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Order</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.createdDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.createdDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.dispachedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dispachedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.deliveredDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.deliveredDate)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

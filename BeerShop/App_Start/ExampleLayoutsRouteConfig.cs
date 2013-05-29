@@ -22,7 +22,7 @@ namespace BootstrapMvcSample
                 AddChildRoute<ItemsController>("Show items list", c => c.BootstrapIndex()).
                 AddChildRoute<ItemsController>("Add new item", c => c.Create());
             routes.MapNavigationRoute<OrdersController>("Management", c => c.bootstrap()).
-                AddChildRoute<OrdersController>("Show orders", c => c.Index()).
+                AddChildRoute<OrdersController>("Show orders", c => c.bootstrapIndex()).
                 AddChildRoute<UsersController>("Show users", c => c.Index())
                 .AddChildRoute<BasketsController>("Show basket", c => c.Index())
                 .AddChildRoute<OrdersController>("PayPal account", c => c.PayPalRedirect());

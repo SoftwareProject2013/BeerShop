@@ -1,0 +1,42 @@
+﻿@model BeerShop.Models.Item
+@{
+    ViewBag.Title = "Delete";
+}
+<h2>
+    Delete</h2>
+<h3>
+    Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>Item</legend>
+    <div class="row-fluid">
+        <div class="span3">
+            <strong>Name:</strong>
+            <div class="display-field">
+                <p class="lead">@Html.DisplayFor(model => model.name)</p>
+            </div>
+            <strong>Stock:</strong>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.stockCount)
+            </div>
+            <strong>Price:</strong>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Price)
+            </div>
+        </div>
+        <div class="span8">
+        <br /> 
+            <strong>Description:</strong>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.description)
+            </div>
+        </div>
+</fieldset>
+<br />  
+@using (Html.BeginForm())
+{
+    <div align="right">
+        @Html.ActionLink("Back", "Details", "Items", new { id = Model.ItemID }, new { @class = "btn" })
+        <button type="submit" class="btn btn-primary">
+            Delete</button>
+    </div>
+}

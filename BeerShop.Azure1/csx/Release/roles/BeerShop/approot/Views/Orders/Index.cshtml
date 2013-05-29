@@ -22,7 +22,23 @@ else
             Full name
         </th>
         <th>
-            Status
+           
+                    <div class="dropdown">
+    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+    Status
+    <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li>@Html.ActionLink("pending", "Index", new { filter = 1 })</li>
+    
+        <li>@Html.ActionLink("processing", "Index", new { filter = 2 })</li>
+        <li>@Html.ActionLink("dispatched", "Index", new { filter = 3 })</li>
+        <li>@Html.ActionLink("delivered", "Index", new { filter = 4 })</li>
+        <li>@Html.ActionLink("cancel", "Index", new { filter = 5 })</li>
+        <li>@Html.ActionLink("paying", "Index", new { filter = 6 })</li>
+        <li>@Html.ActionLink("all", "Index", new { filter = 0 })</li>
+    </ul>
+    </div>
         </th>
         <th>
             Created Date

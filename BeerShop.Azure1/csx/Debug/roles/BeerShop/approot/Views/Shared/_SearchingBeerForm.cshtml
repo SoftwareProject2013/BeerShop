@@ -1,0 +1,9 @@
+﻿@using (Html.BeginForm("Index", "Items"))
+{
+                            
+    @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "span8 search-query" })
+                          
+    <button type="submit" class="btn btn-small"> Search</button>
+                            
+                               
+}

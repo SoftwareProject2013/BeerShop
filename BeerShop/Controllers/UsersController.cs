@@ -74,6 +74,7 @@ namespace BeerShop.Controllers
                         c.passwordSalt = crypto.Salt;
                         db.Users.Add(c);
                         db.SaveChanges();
+                        AuthenticateUser(c.email, c);
                         return RedirectToAction("Index", "Home");
                     }
                     else

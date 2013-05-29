@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BeerShop.Models.User>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>
+    User Index</h2>
+<br />
+<table class="table table-striped">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Complete Name
+        </th>
+        <th>
+            eMail
+        </th>
+        <th>
+            Phone Number
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Date of birth
+        </th>
+        <th>
+            is lock?
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>
+                @if (user is BeerShop.Models.Customer)
+                {
+                    @:Customer
+                }
+                else
+                {
+                    @:Worker
+                                                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.firstName)
+                @Html.DisplayFor(modelItem => user.lastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.birth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.locked)
+                @{if (user.locked == true)
+                  {
+                    @Html.ActionLink("Unlock", "Lock", new { id = user.UserID }, new { @class = "btn btn-small" })
+                  }
+                  else
+                  {
+                    @Html.ActionLink("Lock", "Lock", new { id = user.UserID }, new { @class = "btn btn-small" })
+                  }
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = user.UserID }, new { @class = "btn btn-small btn-primary" })
+            </td>
+        </tr>
+    }
+</table>
+<div align="right">
+    @Html.ActionLink("Back", "Index", "home", null, new { @class = "btn" })
+</div>
+<br />

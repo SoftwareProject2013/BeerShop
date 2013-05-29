@@ -267,11 +267,11 @@ namespace BeerShop.Controllers
                 categoryType.categories.Add(catItemNoSelected);
                 try
                 {
-                    selectedValue = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).name;
+                    selectedValue = item.categories.FirstOrDefault(c => c.category.name.Equals(categoryType.name)).CategoryItemID.ToString();
                 }
                 catch (Exception e)
                 {
-                    selectedValue = catItemNoSelected.name;
+                    selectedValue = catItemNoSelected.CategoryItemID.ToString();
                 }
                 SelectList SelectCategoryList = new SelectList(categoryType.categories, "CategoryItemID", "name", selectedValue);
                 categoriesDictionary.Add(categoryType.name, SelectCategoryList);
@@ -300,11 +300,13 @@ namespace BeerShop.Controllers
                     db.Entry(itemTMP).Collection(i => i.categories).Load();
 
                     itemTMP.categories.ToList().ForEach(cat => itemTMP.categories.Remove(cat));
-
+                    db.SaveChanges();
                     foreach (var selectedCategory in itemHelper.categoryTypeCategoryDictionary)
                     {
                         if (selectedCategory.Value.Equals("-1"))
+                        {
                             continue;
+                        }
                         int selectedCategoryID = int.Parse(selectedCategory.Value);
                         db.CategoryItems.FirstOrDefault(c => c.CategoryItemID == selectedCategoryID).items.Add(itemHelper.item);
                     }

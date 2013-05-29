@@ -1,0 +1,18 @@
+﻿@model BeerShop.Models.ViewModelItemIDAmount
+<div>
+    @using (Html.BeginForm("AddOrderItem", "Baskets"))
+    {
+    
+        <fieldset>
+            @Html.HiddenFor(model => model.itemID)
+            Choose amount
+            <div>
+                @Html.EditorFor(model => model.amount)
+            </div>
+            <div >
+                <button type="submit" class="btn btn-primary">
+                    Add to basket</button>
+            </div>
+        </fieldset> 
+    }
+</div>

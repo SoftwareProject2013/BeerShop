@@ -1,0 +1,38 @@
+﻿@model BeerShop.Models.Comment
+@{
+    ViewBag.Title = "Edit";
+}
+<h4>
+    Editing...</h4>
+@using (Html.BeginForm("Edit", "Comments"))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Comment</legend>
+        @Html.HiddenFor(model => model.CommentID)
+        @Html.HiddenFor(model => model.author)
+        <strong>Content: </strong>
+        <br />
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.content, new { style = "width: 400px" })
+            @Html.ValidationMessageFor(model => model.content)
+        </div>
+        <div class="row-fluid">
+            <div class="span3">
+                <strong>Date: </strong>
+                @Html.DisplayFor(model => model.date)
+                @Html.ValidationMessageFor(model => model.date)
+            </div>
+            <div class="span8" align="right">
+                <p>
+                   @Html.ActionLink("Back to Comments", "Details", "Items", new { id = Model.item.ItemID }, new { @class = "btn" })
+                    <button type="submit" class="btn">Modify</button>
+                </p>
+            </div>
+        </div>
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

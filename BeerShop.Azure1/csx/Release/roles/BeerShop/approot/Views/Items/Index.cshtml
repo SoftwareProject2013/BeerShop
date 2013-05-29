@@ -11,6 +11,8 @@
             <br />
             @{Html.RenderPartial("_SearchingBeerForm");}
             <br />
+            @Html.ActionLink("Clear all", "Index", null , new { @class = "btn" })
+            <br />
             <div class="row-fluid">
                 <div class="span1">
                 </div>
@@ -19,7 +21,7 @@
                 </div>
                 <!--Sidebar content-->
             </div>
-            @Html.ActionLink("Clear all", "Index", new { page = Model.PageNumber, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, clearDictionary = true }, new { @class = "btn" })
+            
         </div>
         <div class="span9">
             <h2>

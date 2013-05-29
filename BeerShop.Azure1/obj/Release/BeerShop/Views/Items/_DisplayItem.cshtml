@@ -29,12 +29,12 @@
         <td class="span1" style="vertical-align:middle">
             @if (Model.imageURL != null)
             {
-                <img src=@helperURL(Model.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" style="width:100%" />
+                <img src=@helperURL(Model.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" style="width:100%" onclick="location.href='@Url.Action("details", "items", new { id = @Model.ItemID })'" />
             }
             else
             {
                 <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg"
-                    width="70" height="50" />
+                    width="70" height="50" onclick="location.href='@Url.Action("details", "items", new { id = @Model.ItemID })'"/>
             }
         </td>
         <td class="span2" style="vertical-align:middle">
@@ -58,7 +58,7 @@
         }
         @if (User.IsInRole("Admin"))
         {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID }, new { @class="btn btn-small"})           
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID }, new { @class = "btn btn-small" })           
         }
         else
         {
