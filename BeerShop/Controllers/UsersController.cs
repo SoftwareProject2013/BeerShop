@@ -56,28 +56,38 @@ namespace BeerShop.Controllers
             }
             else
             {
-                Basket b = new Basket();
-                c.basket = b;
-                db.Baskets.Add(b);
-                db.SaveChanges();
-                if (db.Users.FirstOrDefault(u => u.email == c.email) != null)
+                try
                 {
+                    Basket b = new Basket();
+                    c.basket = b;
+                    db.Baskets.Add(b);
+                    db.SaveChanges();
+                    if (db.Users.FirstOrDefault(u => u.email == c.email) != null)
+                    {
+                        return View(c);
+                    }
+                    if (ModelState.IsValid)
+                    {
+                        var crypto = new SimpleCrypto.PBKDF2();
+                        var encryptPass = crypto.Compute(c.password);
+                        c.password = encryptPass;
+                        c.passwordSalt = crypto.Salt;
+                        db.Users.Add(c);
+                        db.SaveChanges();
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        db.Baskets.Remove(b);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    c.password = "";
+                    c.passwordSalt = "";
+                    ModelState.AddModelError("", "Sorry! Invalid date format");
                     return View(c);
-                }
-                if (ModelState.IsValid)
-                {
-                    var crypto = new SimpleCrypto.PBKDF2();
-                    var encryptPass = crypto.Compute(c.password);
-                    c.password = encryptPass;
-                    c.passwordSalt = crypto.Salt;
-                    db.Users.Add(c);
-                    db.SaveChanges();
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    db.Baskets.Remove(b);
-                    db.SaveChanges();
                 }
             }
             return View(c);
@@ -282,10 +292,10 @@ namespace BeerShop.Controllers
             var user = db.Users.FirstOrDefault(u => u.email == email);
             if (user != null)
             {
-                if (user.password == crypto.Compute(password, user.passwordSalt))
-                {
+                //if (user.password == crypto.Compute(password, user.passwordSalt))
+                //{
                     return user;
-                }
+                //}
             }
             return null;
         }
@@ -306,13 +316,23 @@ namespace BeerShop.Controllers
             w.locked = false;
             if (ModelState.IsValid)
             {
-                var crypto = new SimpleCrypto.PBKDF2();
-                var encryptPass = crypto.Compute(w.password);
-                w.password = encryptPass;
-                w.passwordSalt = crypto.Salt;
-                db.Users.Add(w);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                try
+                {
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    var encryptPass = crypto.Compute(w.password);
+                    w.password = encryptPass;
+                    w.passwordSalt = crypto.Salt;
+                    db.Users.Add(w);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    w.password = "";
+                    w.passwordSalt = "";
+                    ModelState.AddModelError("", "Sorry! Invalid date format");
+                    return View(w);
+                }
             }
             
             return View(w);

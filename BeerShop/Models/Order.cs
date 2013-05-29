@@ -25,10 +25,10 @@ namespace BeerShop.Models
         [DataType(DataType.DateTime)]
         public DateTime createdDate { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime dispachedDate { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime deliveredDate { get; set; }
 
         //[Required]

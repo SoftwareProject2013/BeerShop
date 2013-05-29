@@ -19,7 +19,7 @@ namespace BeerShop.Models
         public virtual User author { set; get; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime date { get; set; }
 
         [Required]
