@@ -38,7 +38,7 @@ namespace BeerShop.Controllers
             }
             try
             {
-                ViewBag.BeerMonth = list[randomNumber2];
+                ViewBag.BeerMonth = list[3];
             }
             catch
             {
