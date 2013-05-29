@@ -25,12 +25,12 @@
                 @Html.ValidationMessageFor(u => u.password)
             </div>
         </div>
-    </fieldset>
+    
     <br />
     <div>
-        @Html.ActionLink("Back", "Index", "Home", new { @class = "btn" })
+        <a href="/" class="btn">Back</a>
         <button type="submit" class="btn btn-primary">
             Log in</button>
     </div>
- 
+ </fieldset>
 }

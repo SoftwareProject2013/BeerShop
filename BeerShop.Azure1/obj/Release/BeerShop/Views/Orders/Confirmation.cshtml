@@ -59,10 +59,10 @@
                         @Html.DisplayFor(model => oI.amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => oI.price)
+                        $@Html.DisplayFor(model => oI.price)
                     </td>
                     <td>
-                        @(oI.sum(true))
+                        @(oI.sum(true).ToString("c"))
                     </td>
                 </tr>
             }
@@ -75,7 +75,7 @@
                 <strong>Overal sum:</strong>
                 </td>
                 <td>
-                    <strong>@ViewBag.totalPrice</strong>
+                    <strong>@ViewBag.totalPrice.ToString("c")</strong>
                 </td>
             </tr>
         </table>

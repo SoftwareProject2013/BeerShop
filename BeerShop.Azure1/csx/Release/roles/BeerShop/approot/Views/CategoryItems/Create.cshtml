@@ -1,39 +1,42 @@
 ﻿@model BeerShop.Models.ModelViewCategoryItem
-
 @{
     ViewBag.Title = "Create";
 }
-
-<h2>Create</h2>
-
-@using (Html.BeginForm()) {
+<h2>
+    Create Subcategory</h2>
+    <br />
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>CategoryItem</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.categoryItem.name)
+        <div>
+            <div class="editor-label">
+                <label>
+                    <strong>Name:</strong>
+                </label>
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.categoryItem.name)
+                @Html.ValidationMessageFor(model => model.categoryItem.name)
+            </div>
+            <div class="editor-label">
+                <label>
+                    <strong>Select Category:</strong>
+                </label>
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.selectedCategoryItem, ViewBag.selectCategoryItemList as SelectList)
+            </div>
+            <br />
+            <div>
+            @Html.ActionLink("Back", "Index", "Home", new { @class = "btn" })
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.categoryItem.name)
-            @Html.ValidationMessageFor(model => model.categoryItem.name)
-        </div>
-        <div class="editor-label">
-            Select type:
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.selectedCategoryItem, ViewBag.selectCategoryItemList as SelectList)
-        </div>
-        <p>
-            <input type="submit" value="Create" />
-        </p>
     </fieldset>
+    
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

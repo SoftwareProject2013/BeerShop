@@ -2,9 +2,11 @@
 @{
     ViewBag.Title = "Details";
 }
+
 <h2>
     User Details</h2>
 <fieldset>
+
     <legend>User</legend>
     <br />
     <strong>Complete Name:</strong>
@@ -35,7 +37,7 @@
     <br />
     <strong>Is Locked?:</strong>
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.locked)
+        @Html.DisplayFor(model => model.locked)
     </div>
 </fieldset>
 

@@ -1,11 +1,10 @@
 ﻿html {
-    background-color: #e2e2e2;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
+    /*background-image: url(../../Images/depositphotos_2552463-Beer-background.jpg);*/
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
@@ -93,6 +92,10 @@ h5, h6 {
 
 /* main layout
 ----------------------------------------------------------*/
+.container
+{
+    
+}
 .content-wrapper {
     margin: 0 auto;
     max-width: 960px;

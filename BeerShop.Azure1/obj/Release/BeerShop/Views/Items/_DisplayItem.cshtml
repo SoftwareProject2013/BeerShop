@@ -1,69 +1,68 @@
 ﻿@model BeerShop.Models.Item
-
 @helper ShortDescription(string description)
-{
-    if(description == null)
     {
-    
+    if (description == null)
+    {
+
     }
-    else if (description.Length > 20){
-    @(description.Substring(0, 17) + " ... " ) ;
-                                  }
+    else if (description.Length > 175)
+    {
+    @(description.Substring(0, 170) + " ... ") ;
+    }
     else
     {
-        @description;
+    @description;
     }
                                  
 }
 @helper helperURL(string myurl)
-{
+    {
     if (myurl != null)
     {
-        @myurl
+    @myurl
     }
 
 }
+
 <tr>
-<div>
-        <td>
+    <div>
+        <td class="span1" style="vertical-align:middle">
             @if (Model.imageURL != null)
             {
-            <img src=@helperURL(Model.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
+                <img src=@helperURL(Model.imageURL) alt= "http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" style="width:100%" />
             }
             else
             {
-                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" width="70" height="50" />
+                <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg"
+                    width="70" height="50" />
             }
         </td>
-        <td>
-            @Html.ActionLink(Model.name, "Details", new { id = Model.ItemID }) 
+        <td class="span2" style="vertical-align:middle">
+            <p class="lead"><small>@Html.ActionLink(Model.name, "Details", new { id = Model.ItemID })</small></p>
         </td>
-        <td>
-            @ShortDescription(Model.description)
-            
+        <td class="span4" >
+            <p align="justify">@ShortDescription(Model.description)</p>
         </td>
-        <td>
+        <td class="span1" style="vertical-align:middle">
             @Html.DisplayFor(modelItem => Model.stockCount)
         </td>
-        <td>
+        <td class="span1" style="vertical-align:middle">
             @Html.DisplayFor(modelItem => Model.Price)
         </td>
- </div>
-        <td>
- 
-       @if (Model.isStillOnSale == false )
-       {
-           <p>Product unavaliable</p>
-       }
-       @if (User.IsInRole("Admin"))
-       {
-           @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID })           
-       }
-       else
-       {
-            {Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.ItemID, 0));}
-       }
-       
-
-        </td>
-    </tr>
+    </div>
+    <td class="span3">
+        @if (Model.isStillOnSale == false)
+        {
+            <p>
+                Product unavaliable</p>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ItemID }, new { @class="btn btn-small"})           
+        }
+        else
+        {
+            { Html.RenderPartial("_AddToBasket", new BeerShop.Models.ViewModelItemIDAmount(Model.ItemID, 0)); }
+        }
+    </td>
+</tr>

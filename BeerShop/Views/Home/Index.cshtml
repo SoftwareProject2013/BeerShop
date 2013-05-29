@@ -12,14 +12,16 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3">
-            <img src="../../Images/img04.jpg" class="img-circle" />
+            <img src="~/Images/img04.jpg" class="img-circle" />
         </div>
         <div class="span8"  align="center">
-            <img src="../../Images/img05.jpg"  />
+            <img src="/Images/img05.jpg"  />
         </div>
     </div>
     <div class="row-fluid">
         <div class="span3">
+            <br />
+            @Html.ActionLink(" Show me your beer", "Index", "Items")
             <br />
             <br />
             @{Html.RenderPartial("_SearchingBeerForm");}

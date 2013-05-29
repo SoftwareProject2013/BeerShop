@@ -4,11 +4,13 @@
 }
 @if (ViewBag.loggedCustomer is BeerShop.Models.Worker)
 { 
-<h2>Order Index</h2>
+    <h2>
+        Order Index</h2>
 }
 else
 {
-<h2>My Orders</h2>
+    <h2>
+        My Orders</h2>
 }
 <br />
 <table class="table table-striped">
@@ -29,7 +31,7 @@ else
             Dispached Date
         </th>
         <th>
-           Delivered Date
+            Delivered Date
         </th>
         <th>
         </th>
@@ -88,11 +90,11 @@ else
                 }
             </td>
             <td>
-            @if (ViewBag.loggedCustomer is BeerShop.Models.Worker)
-            { 
-                <button class="btn btn-small" type="button">@Html.ActionLink("Edit", "Edit", new { id = item.OrderID })</button>
-            }
-                <button class="btn btn-small btn-primary" type="button">@Html.ActionLink("Details", "Details", new { id = item.OrderID })</button>
+                @if (ViewBag.loggedCustomer is BeerShop.Models.Worker)
+                { 
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderID }, new { @class = "btn btn-small" })
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.OrderID }, new { @class = "btn btn-small btn-primary" })
             </td>
         </tr>
     }

@@ -40,20 +40,20 @@
                 @{int st = Model.status; switch (st)
                   {
                       case 1: @:pending
-                          break;
+                        break;
                       case 2: @:processing
-                          break;
+                    break;
                       case 3: @:dispached
-                          break;
+                    break;
                       case 4: @:delivered
-                          break;
+                     break;
                       case 5: @:canceled
-                          break;
+                    break;
                       case 6: @:paying
-                          break;
+                    break;
                       default: @:wtf
-                          break;
-                  }
+                    break;
+                  } 
                 }
             </td>
             <td>
@@ -115,8 +115,8 @@
             <br />
             <p class="text-info">
                 You can view your paypal payment acount in the next link
-                <button class="btn">
-                    <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit">Log in</a></button></p>
+                
+                    <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit" class="btn">Log in</a></p>
         </div>
         </div>
 </fieldset>
@@ -150,10 +150,10 @@
                         @Html.DisplayFor(model => oI.amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(model => oI.price)
+                        $@Html.DisplayFor(model => oI.price)
                     </td>
                     <td>
-                        @(oI.sum(true))
+                        @(oI.sum(false).ToString("c"))
                     </td>
                 </tr>
             }
@@ -166,7 +166,7 @@
                     <strong>Overal sum:</strong>
                 </td>
                 <td>
-                    <strong>@ViewBag.totalPrice</strong>
+                    <strong>@ViewBag.totalPrice.ToString("c")</strong>
                 </td>
             </tr>
         </table>

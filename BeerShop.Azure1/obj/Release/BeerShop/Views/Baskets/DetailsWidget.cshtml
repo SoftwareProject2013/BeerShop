@@ -32,15 +32,20 @@
                 @Html.DisplayFor(modelItem => orderItem.amount)
             </td>
             <td>
+            
                 @Html.DisplayFor(modelItem => orderItem.item.Price)
             </td>
             <td>
-                @(orderItem.sum(true))
+                @(orderItem.sum(true).ToString("c"))
             </td>
             <td>
-                <button class="btn btn-small" type="button">@Html.ActionLink("-1", "DecrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
-                <button class="btn btn-small" type="button">@Html.ActionLink("+1", "IncrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
-                <button class="btn btn-small" type="button">@Html.ActionLink("Remove", "RemoveItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID })</button>
+                @if (ViewBag.loggedCustomer is BeerShop.Models.Customer)
+                { 
+                  @Html.ActionLink("-1", "DecrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID }, new { @class = "btn btn-small" })
+                @Html.ActionLink("+1", "IncrementItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID }, new { @class = "btn btn-small" })
+                @Html.ActionLink("Remove", "RemoveItem", new { basketId = Model.BasketID, ordItemId = orderItem.OrderItemID }, new { @class = "btn btn-small" })
+
+                }
             </td>
         </tr>
     }
@@ -55,7 +60,7 @@
             <strong>Overal sum:</strong>
         </td>
         <td>
-            <strong>@(Model.sum())</strong>
+            <strong>@(Model.sum().ToString("c"))</strong>
         </td>
         <td>
         </td>
