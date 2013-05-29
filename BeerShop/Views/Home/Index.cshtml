@@ -21,7 +21,7 @@
     <div class="row-fluid">
         <div class="span3">
             <br />
-            @Html.ActionLink(" Show me your beer", "Index", "Items")
+            @Html.ActionLink("Show all beers", "Index", "Items")
             <br />
             <br />
             @{Html.RenderPartial("_SearchingBeerForm");}
@@ -47,7 +47,14 @@
                     <strong><em>50% on the @ViewBag.SpecialOffer.name . 3 days left !</em></strong></p>
                 <div class="row" style="padding-left: 35px">
                     <div class="span4">
-                        <img src=@ViewBag.SpecialOffer.imageURL style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
+                        @if (ViewBag.SpecialOffer != null && @ViewBag.SpecialOffer.imageURL.Length > 0)
+                        {
+                            <img src=@ViewBag.SpecialOffer.imageURL style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
+                        }
+                        else
+                        {
+                            <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
+                        }
                         <div class="meta">
                             <em>
                                 <p class="date">
@@ -77,7 +84,14 @@
                             </div>
                         </div>
                         <div class="span5">
-                            <img src=@ViewBag.BeerMonth.imageURL style="width:300px;height:300px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.BeerMonth.ItemID })'" />
+                            @if (ViewBag.SpecialOffer != null && @ViewBag.SpecialOffer.imageURL.Length > 0)
+                        {
+                            <img src=@ViewBag.BeerMonth.imageURL style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
+                        }
+                        else
+                        {
+                            <img src="http://upload.wikimedia.org/wikipedia/commons/e/e3/NCI_Visuals_Food_Beer.jpg" style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
+                        }
                             <div class="meta">
                                 <em>
                                     <p class="date" align="right">

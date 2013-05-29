@@ -28,15 +28,20 @@ namespace BeerShop.Models
             {
                 throw (new Exception("canno't realise order with amount lower than 1"));
             }
-            if (orderItem.amount > orderItem.item.stockCount)
-            {
-                throw (new Exception("not enought product on stock"));
-            }
-            OrderItem oI = orderItems.FirstOrDefault(o => o.item == orderItem.item);
-            if (oI != null)
-                oI.amount += orderItem.amount;
-            else
-                orderItems.Add(orderItem);
+            
+                OrderItem oI = orderItems.FirstOrDefault(o => o.item == orderItem.item);
+                if (oI != null)
+                {
+                    if ((oI.amount + orderItem.amount) > orderItem.item.stockCount)
+                    {
+                        throw (new Exception("not enought beer on stock try smaller amount"));
+                    }
+                    oI.amount += orderItem.amount;
+                }
+                else
+                    orderItems.Add(orderItem);
+                
+            
         }   
 
         public void clearBasket()

@@ -108,8 +108,7 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Customer, Admin")]
         public ActionResult EditCustomer(Customer user)
         {
-            Customer userOld = (Customer)db.Users.FirstOrDefault(u => u.UserID == user.UserID);
-            if(userOld.email != user.email && ( db.Users.FirstOrDefault(u=>u.email == user.email) != null ))
+            if(db.Users.FirstOrDefault(u=>(u.email == user.email && user.UserID != u.UserID)) != null)
             {
                 ModelState.AddModelError("", "that email is already taken");
             }
@@ -120,6 +119,7 @@ namespace BeerShop.Controllers
             {
                 db.Entry((Customer)user).State = EntityState.Modified;
                 db.SaveChanges();
+                AuthenticateUser(user.email, user);
                 return RedirectToAction("Index", "Home");
             }
             return View(user);
@@ -219,27 +219,7 @@ namespace BeerShop.Controllers
                         ModelState.AddModelError("", "You are not able to logIn you account is Locked");
                         return View();
                     }
-                    FormsAuthentication.SetAuthCookie(customer.email, false);
-                    string roles = "";
-                    if (user is Customer)
-                    {
-                        roles += "Customer";
-                    }
-                    else
-                    {
-                        roles += "Admin";
-                    }
-                    FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-                      1,
-                      customer.email,
-                      DateTime.Now,
-                      DateTime.Now.AddMinutes(20),  
-                      false,
-                      roles,
-                      "/");
-                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
-                                                       FormsAuthentication.Encrypt(authTicket));
-                    Response.Cookies.Add(cookie);
+                    AuthenticateUser(customer.email, user);
                    
                     return RedirectToAction("Index", "Home");
                 }
@@ -250,6 +230,31 @@ namespace BeerShop.Controllers
                 }
             }
             return View();
+        }
+
+        private void AuthenticateUser(String email, User user)
+        {
+            FormsAuthentication.SetAuthCookie(email, false);
+            string roles = "";
+            if (user is Customer)
+            {
+                roles += "Customer";
+            }
+            else
+            {
+                roles += "Admin";
+            }
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+              1,
+              email,
+              DateTime.Now,
+              DateTime.Now.AddMinutes(20),
+              false,
+              roles,
+              "/");
+            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,
+                                               FormsAuthentication.Encrypt(authTicket));
+            Response.Cookies.Add(cookie);
         }
 
         [Authorize(Roles = "Customer, Admin")]

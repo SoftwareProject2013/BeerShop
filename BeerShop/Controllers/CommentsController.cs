@@ -28,7 +28,10 @@ namespace BeerShop.Controllers
         [HttpPost]
         public ActionResult Create(ItemCategoryHelper itemHelper)
         {
-            
+            if (itemHelper.comment.content != null && itemHelper.comment.content.Length < 1)
+            {
+                ModelState.AddModelError("", "Comment should have at least 1 letter");
+            }
             Comment comment = itemHelper.comment;
             comment.item = db.Items.FirstOrDefault(i => i.ItemID == itemHelper.item.ItemID );
             comment.date = DateTime.UtcNow;
@@ -40,7 +43,7 @@ namespace BeerShop.Controllers
                 return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
             }
 
-            return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
+            return RedirectToAction("Details", "Items", new { id = comment.item.ItemID, message = "Problem with comments it should have minimum 1 letter or you are not logged in" });
         }
 
         
@@ -60,7 +63,7 @@ namespace BeerShop.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
             }
-            return RedirectToAction("Details", "Items", new { id = comment.item.ItemID });
+            return RedirectToAction("Details", "Items", new { id = comment.item.ItemID, message = "Problem with comments it should have minimum 1 letter or you are not logged in" });
         }
 
         //

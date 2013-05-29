@@ -31,7 +31,7 @@
         if (User.IsInRole("Admin") || User.Identity.Name == item.author.email)
         {
             <td class="span3">
-            <button class="btn btn-small">@Html.ActionLink("Edit Comment", "Details", new { id = item.item.ItemID , editableCommentID = item.CommentID })</button>         
+            @Html.ActionLink("Edit Comment", "Details", new { id = item.item.ItemID, editableCommentID = item.CommentID }, new { @class = "btn btn-small" })         
             </td>
         }
     }         
