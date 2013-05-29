@@ -67,7 +67,17 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Customer")]
         public ActionResult Create()
         {
+            Customer loggedCustomer = (Customer)(from u in db.Users
+                                                 where u.email == User.Identity.Name
+                                                 select u).First();
+
+            if (loggedCustomer.basket.orderItems.Count == 0)
+            {
+                ModelState.AddModelError("", "Sorry! The basket is empty!");
+                return RedirectToAction("Details", "Baskets", new { id = loggedCustomer.basket.BasketID });
+            }
             return Create(new Order());
+
         }
 
         //
@@ -122,7 +132,7 @@ namespace BeerShop.Controllers
             }
             //modify basket (in Basket controller)
             ModelState.AddModelError("", "Sorry! The basket is empty!");
-            return RedirectToAction("Details", "Baskets", new { id = order.customer.basket.BasketID });
+            return RedirectToAction("Details", "Baskets", new { id = loggedCustomer.basket.BasketID });
         }
 
         //
@@ -157,18 +167,30 @@ namespace BeerShop.Controllers
             {
                 order.dispachedDate = DateTime.Now;
             }
-
-            if (order.status == 4)
+            else
             {
-                order.deliveredDate = DateTime.Now;
-            }
 
-            if (order.status == 5 || order.status == 2)
-            {
-                order.dispachedDate = DateTime.MaxValue;
-                order.deliveredDate = DateTime.MaxValue;
+                if (order.status == 4)
+                {
+                    if (order.dispachedDate == DateTime.MaxValue){
+                        order.dispachedDate = DateTime.Now;
+                    }
+                    order.deliveredDate = DateTime.Now;
+                }
+                else
+                {
+                    if (order.status == 5 || order.status == 2)
+                    {
+                        order.dispachedDate = DateTime.MaxValue;
+                        order.deliveredDate = DateTime.MaxValue;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Sorry! Invalid status value");
+                        return View(order);
+                    }
+                }
             }
-
             order.orderItems = (ICollection<OrderItem>)TempData["Something"];
             //if the modelState is not valid, we save it again
             TempData["Something"] = order.orderItems;

@@ -52,26 +52,6 @@
                 or '5' for "canceled"</p>
         </div>
         <div class="editor-field">
-            @*            @{string st = "pending";}
-            @Html.DropDownList(st, ViewBag.SelectList as SelectList)
-            @{switch (st)
-              {
-                  case "pending": Model.status = 1;
-                        break;
-                  case "processing": Model.status = 2;
-                           break;
-                  case "dispached": Model.status = 3;
-                          break;
-                  case "delivered": Model.status = 4;
-                          break;
-                  case "canceled": Model.status = 5;
-                         break;
-                  case "paying": Model.status = 6;
-                         break;
-                  default: Model.status = -1;
-                             break;
-              }
-            }*@
             @Html.EditorFor(model => model.status)
             @Html.ValidationMessageFor(model => model.status)
             @*@Html.HiddenFor(model => model.orderItems)*@
