@@ -16,7 +16,6 @@ namespace BeerShop.Models
         [DataType(DataType.Password)]
         public string passwordRetype { get; set; }
         [Required]
-        [MinLength(4)]
         [DataType(DataType.Password)]
         public string oldPassword { get; set; }
     }

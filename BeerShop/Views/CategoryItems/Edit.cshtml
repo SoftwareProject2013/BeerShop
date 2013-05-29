@@ -11,6 +11,7 @@
 
     <fieldset>
         <div>
+        @Html.HiddenFor(model => model.categoryItem.CategoryItemID)
             <div class="editor-label">
                 <label>
                     <strong>Name:</strong>
@@ -30,8 +31,8 @@
             </div>
             <br />
             <div>
-            <button class="btn">@Html.ActionLink("Back", "Index", "Home")</button>
-                <button type="submit" class="btn btn-primary">Create</button>
+            @Html.ActionLink("Back", "Index","Home",new { @class = "btn" })
+             <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </div>
     </fieldset>

@@ -56,7 +56,7 @@
         </table>
     </div>
     <div align="left">
-     @Html.ActionLink("Modify basket", "Details", "Baskets", new { @class = "btn" })
+     @Html.ActionLink("Modify basket", "Details", "Baskets", new { id = Model.customer.basket.BasketID }, new { @class = "btn" })
      </div>
     <div align="right">
        
