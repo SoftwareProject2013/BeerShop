@@ -108,7 +108,8 @@ namespace BeerShop.Controllers
         [Authorize(Roles = "Customer, Admin")]
         public ActionResult EditCustomer(Customer user)
         {
-            if(db.Users.FirstOrDefault(u=>u.email == user.email) != null)
+            Customer userOld = (Customer)db.Users.FirstOrDefault(u => u.UserID == user.UserID);
+            if(userOld.email != user.email && ( db.Users.FirstOrDefault(u=>u.email == user.email) != null ))
             {
                 ModelState.AddModelError("", "that email is already taken");
             }

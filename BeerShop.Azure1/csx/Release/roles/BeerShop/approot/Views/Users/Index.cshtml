@@ -42,7 +42,7 @@
                 else
                 {
                     @:Worker
-                                }
+                                                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => user.firstName)
@@ -64,16 +64,16 @@
                 @Html.DisplayFor(modelItem => user.locked)
                 @{if (user.locked == true)
                   {
-                    <button class="btn btn-small" type="button">@Html.ActionLink("Unlock", "Lock", new { id = user.UserID })</button>
+                    @Html.ActionLink("Unlock", "Lock", new { id = user.UserID }, new { @class = "btn btn-small" })
                   }
                   else
                   {
-                    <button class="btn btn-small" type="button">@Html.ActionLink("Lock", "Lock", new { id = user.UserID })</button>
+                    @Html.ActionLink("Lock", "Lock", new { id = user.UserID }, new { @class = "btn btn-small" })
                   }
                 }
             </td>
             <td>
-                <button class="btn btn-small btn-primary" type="button">@Html.ActionLink("Details", "Details", new { id = user.UserID })</button>
+                @Html.ActionLink("Details", "Details", new { id = user.UserID }, new { @class = "btn btn-small btn-primary" })
             </td>
         </tr>
     }

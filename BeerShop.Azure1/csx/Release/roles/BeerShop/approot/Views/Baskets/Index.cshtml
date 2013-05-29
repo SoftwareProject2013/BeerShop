@@ -27,7 +27,7 @@
                         @(item.sum())
                     </td>
                     <td>
-                        <button class="btn btn-small" type="button">@Html.ActionLink("Details", "Details", new { id = item.BasketID })</button>
+                       @Html.ActionLink("Details", "Details", new { id = item.BasketID }, new { @class = "btn btn-small" })
                     </td>
                 </tr>
             }

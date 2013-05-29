@@ -115,8 +115,8 @@
             <br />
             <p class="text-info">
                 You can view your paypal payment acount in the next link
-                <button class="btn">
-                    <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit">Log in</a></button></p>
+                
+                    <a href="https://www.sandbox.paypal.com/dk/cgi-bin/webscr?cmd=_login-submit" class="btn">Log in</a></p>
         </div>
         </div>
 </fieldset>
@@ -153,7 +153,7 @@
                         $@Html.DisplayFor(model => oI.price)
                     </td>
                     <td>
-                        @(oI.sum(true).ToString("c"))
+                        @(oI.sum(false).ToString("c"))
                     </td>
                 </tr>
             }

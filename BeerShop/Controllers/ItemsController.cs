@@ -39,6 +39,7 @@ namespace BeerShop.Controllers
             {
                 page = 1;
             }
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.CurrentFilter = searchString;
             var items = db.Items.ToList().AsQueryable();
 
