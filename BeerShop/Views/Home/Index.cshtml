@@ -47,7 +47,7 @@
                     <strong><em>50% on the @ViewBag.SpecialOffer.name . 3 days left !</em></strong></p>
                 <div class="row" style="padding-left: 35px">
                     <div class="span4">
-                        @if (ViewBag.SpecialOffer != null && ViewBag.SpecialOffer != null && ViewBag.SpecialOffer.imageURL.Length > 0)
+                        @if (ViewBag.SpecialOffer != null && ViewBag.SpecialOffer.imageURL != null && ViewBag.SpecialOffer.imageURL.Length > 0)
                         {
                             <img src=@ViewBag.SpecialOffer.imageURL style="width:250px;height:250px;border:2px solid black"; onclick="location.href='@Url.Action("details", "items", new { id = ViewBag.SpecialOffer.ItemID })'" />
                         }
@@ -74,7 +74,7 @@
                 <h2 class="title" align="right">
                     Beer of the month</h2>
                 <p align="right" class="text-warning">
-                    <strong><em>This month our selection is the @ViewBag.BeerMonth.name. Come and try!</em> </strong>
+                    <strong><em>This month our selection is the @ViewBag.BeerMonth.name . Come and try!</em> </strong>
                     <div class="row" style="padding-left: 35px">
                         <div class="span7">
                             <div class="meta">
